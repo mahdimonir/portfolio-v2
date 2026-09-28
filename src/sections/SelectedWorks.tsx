@@ -76,7 +76,10 @@ const BASE_CONFIG = {
 
 const SelectedWorks = () => {
   const db = usePortfolioData();
-  const projects = db.projects;
+  const projects = React.useMemo(() => {
+    const featured = (db.projects || []).filter((p: any) => p.featured === true);
+    return featured.length > 0 ? featured : db.projects;
+  }, [db.projects]);
   const cardsRef = useRef<HTMLElement[]>([]);
   const cardOffsetsRef = useRef<number[]>([]);
   const endOffsetRef = useRef<number>(0);

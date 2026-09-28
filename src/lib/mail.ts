@@ -14,6 +14,62 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
+export async function sendOTPEmail({
+  to,
+  otp,
+  title = "Security Verification",
+  sub = "One-Time Password",
+  purpose = "Use this code to verify your identity and complete your request. It expires in <strong>10 minutes</strong>.",
+}: {
+  to: string;
+  otp: string;
+  title?: string;
+  sub?: string;
+  purpose?: string;
+}) {
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #09090b; color: #f4f4f5; padding: 24px; }
+          .card { background-color: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 32px; max-width: 480px; margin: 0 auto; }
+          .header { border-bottom: 1px solid #27272a; padding-bottom: 16px; margin-bottom: 24px; }
+          .title { font-size: 18px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: -0.02em; margin: 0; }
+          .sub { font-size: 11px; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+          .otp-block { background-color: #09090b; border: 1px solid #3f3f46; border-radius: 8px; padding: 24px; text-align: center; margin: 20px 0; }
+          .otp-code { font-size: 42px; font-weight: 900; letter-spacing: 0.18em; color: #ffffff; font-family: 'Courier New', monospace; }
+          .note { font-size: 12px; color: #71717a; text-align: center; line-height: 1.6; }
+          .footer { font-size: 11px; color: #52525b; text-align: center; margin-top: 24px; text-transform: uppercase; letter-spacing: 0.1em; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="header">
+            <h1 class="title">${title}</h1>
+            <div class="sub">${sub}</div>
+          </div>
+          <p class="note">${purpose}</p>
+          <div class="otp-block">
+            <div class="otp-code">${otp}</div>
+          </div>
+          <p class="note">If you did not request this, please ignore this email. Never share this code with anyone.</p>
+          <div class="footer">MAHDI® — Portfolio Security</div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return transporter.sendMail({
+    from: `"MAHDI® Security" <${smtpUser}>`,
+    to,
+    subject: `[${otp}] — ${title}`,
+    text: `${title}\n\nYour verification code is: ${otp}\n\nThis code expires in 10 minutes. Do not share it with anyone.`,
+    html: htmlContent,
+  });
+}
+
 export async function sendContactNotification({
   firstName,
   lastName,

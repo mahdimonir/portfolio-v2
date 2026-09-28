@@ -33,7 +33,7 @@ const Footer = () => {
   };
 
   return (
-    <footer ref={footerRef} className="bg-black text-white font-sans pt-12 md:pt-20 border-t border-white h-screen flex flex-col">
+    <footer ref={footerRef} className="bg-black text-white font-sans pt-12 md:pt-20 border-t border-white min-h-screen md:h-screen flex flex-col justify-between">
 
       {/* Top Section: Info Grid */}
       <motion.div

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sql } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 import { sendContactNotification } from "@/lib/mail";
 import { jwtVerify } from "jose";
 
@@ -41,17 +41,22 @@ export async function POST(request: NextRequest) {
 
     const senderName = `${firstName.trim()} ${lastName.trim()}`.trim();
 
-    // 1. Save to Neon PostgreSQL database
+    // 1. Save to ContactMessage table via Prisma
     try {
-      await sql`
-        INSERT INTO contact_messages (name, email, subject, message)
-        VALUES (${senderName}, ${email.trim()}, ${subject.trim()}, ${message.trim()})
-      `;
+      await prisma.contactMessage.create({
+        data: {
+          name: senderName,
+          email: email.trim(),
+          subject: subject?.trim() || null,
+          message: message.trim(),
+          read: false,
+        },
+      });
     } catch (dbError) {
       console.error("Database save contact error (non-fatal):", dbError);
     }
 
-    // 2. Send email notification via Gmail SMTP
+    // 2. Dispatch email notification via Gmail SMTP
     try {
       await sendContactNotification({
         firstName: firstName.trim(),
@@ -89,17 +94,86 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const messages = await sql`
-      SELECT id, name, email, subject, message, created_at
-      FROM contact_messages
-      ORDER BY created_at DESC
-      LIMIT 100
-    `;
+    const messages = await prisma.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 100,
+    });
     return NextResponse.json(messages);
-  } catch (error) {
+  } catch (error: any) {
     console.error("GET contact messages error:", error);
     return NextResponse.json(
-      { error: "Failed to retrieve messages" },
+      { error: error?.message || "Failed to retrieve messages" },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH: Mark contact message as read/unread or mark all read
+export async function PATCH(request: NextRequest) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+
+    // Bulk update: Mark all unread as read
+    if (body.allRead) {
+      const result = await prisma.contactMessage.updateMany({
+        where: { read: false },
+        data: { read: true },
+      });
+      return NextResponse.json({
+        success: true,
+        count: result.count,
+        message: "All unread messages marked as read",
+      });
+    }
+
+    const { id, read } = body;
+    if (!id) {
+      return NextResponse.json({ error: "Message ID is required" }, { status: 400 });
+    }
+
+    const updated = await prisma.contactMessage.update({
+      where: { id: Number(id) },
+      data: { read: Boolean(read) },
+    });
+
+    return NextResponse.json({ success: true, message: updated });
+  } catch (error) {
+    console.error("PATCH contact message error:", error);
+    return NextResponse.json(
+      { error: "Failed to update message status" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE: Delete contact message
+export async function DELETE(request: NextRequest) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ error: "Message ID is required" }, { status: 400 });
+    }
+
+    await prisma.contactMessage.delete({
+      where: { id: Number(id) },
+    });
+
+    return NextResponse.json({ success: true, message: "Deleted successfully" });
+  } catch (error) {
+    console.error("DELETE contact message error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete message" },
       { status: 500 }
     );
   }

@@ -1,404 +1,728 @@
 {
-    "name": "Moniruzzaman Mahdi",
-    "firstName": "MAHDI",
-    "title": "Full Stack Developer",
-    "role": "Full Stack Developer",
-    "location": "Chattogram, Bangladesh",
-    "email": "mahdimoniruzzaman@gmail.com",
-    "phone": "+8801876689921",
-    "timezone": "UTC+6",
-    "availability": "Available for freelance & contract work",
-    "responseTime": "Usually replies within 24 hours",
-    "socials": {
-        "github": "https://github.com/mahdimonir",
-        "linkedin": "https://www.linkedin.com/in/moniruzzaman-mahdi/",
-        "twitter": "https://x.com/Mahdimonir2004"
-    },
-    "hero": {
-        "headline": "Driven",
-        "headlineSecond": "by logic",
-        "subheadline": "Building robust software, automating the complex and focused on transforming static systems into intelligent ones.",
-        "availability": "Available for work"
-    },
-    "about": {
-        "label": "Background & Data",
-        "education": {
-            "school": "National University",
-            "degree": "Bachelor of Science",
-            "years": "2024 – Present"
-        },
-        "experience": [
-            {
-                "company": "Freelance & Contract",
-                "role": "Full Stack Developer",
-                "years": "2023 – Present"
-            }
-        ],
-        "focus": ["MVP Development & Rapid Prototyping", "AI-Powered Feature Integration", "Scalable Full-Stack Architecture"]
-    },
-    "projects": [
-        {
-            "id": "01",
-            "slug": "roktolagbe",
-            "title": "RoktoLagbe",
-            "tagline": "Real-Time Emergency Blood Donation & Network Platform",
-            "stack": "Next.js • TypeScript • Node.js • Express • Redis • Cloudinary",
-            "description": "A real-time emergency blood donation network connecting donors with hospitals and organizations for critical response.",
-            "longDescription": "RoktoLagbe is a comprehensive platform designed to streamline blood donation and handle emergency blood requests anywhere in Bangladesh. It bridges the gap between individual donors and institutional managers like hospitals and blood banks. The system features real-time emergency request tracking, donor availability management, organizational inventory management, and a robust verification system for institutional users. Built with a modern tech stack, it provides dedicated dashboards for donors, managers, and administrators, ensuring secure role-specific access, comprehensive analytics, and immediate, life-saving notifications when seconds matter.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1776070970/portfolio/projects/yfwffadnwoalmtbe107y.png",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1776065944/portfolio/projects/scdlsbvsixwszuzseykk.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1776070970/portfolio/projects/yfwffadnwoalmtbe107y.png"
-            ],
-            "links": {
-                "live": "https://roktolagbe-sigma.vercel.app",
-                "code": "https://github.com/mahdimonir/roktolagbe"
-            },
-            "cta": "View Project",
-            "category": "Full Stack Application",
-            "role": "Full Stack Developer",
-            "duration": "1 month",
-            "client": "Open Source / RoktoLagbe",
-            "status": "Completed",
-            "features": [
-                "Real-time Emergency Blood Request Tracking",
-                "Donor Profile & Instant Availability Management",
-                "Institutional Dashboard for Hospitals and Organizations",
-                "Role-based Access Control (Donor, Manager, Admin)",
-                "Secure Manager Verification and Audit System",
-                "Anonymized Public Search for Blood Requests and Donors",
-                "Advanced Analytics and Activity History Logging",
-                "Responsive Web Application with Modern UI"
-            ],
-            "tech": [
-                { "name": "TypeScript", "category": "Frontend" },
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "Framer Motion", "category": "Frontend" },
-                { "name": "Node.js", "category": "Backend" },
-                { "name": "Express.js", "category": "Backend" },
-                { "name": "Cloudinary", "category": "Media" },
-                { "name": "Redis", "category": "Database" }
-            ]
-        },
-        {
-            "id": "02",
-            "slug": "ranknexis",
-            "title": "RankNexis",
-            "tagline": "Strategic Agency Operations Hub & Atomic CMS",
-            "stack": "Next.js 15 • TypeScript • Tailwind CSS • Framer Motion • Cloudinary",
-            "description": "Strategic agency operations hub engineered for dynamic content orchestration, case studies, and operational governance.",
-            "longDescription": "RankNexis is an advanced operational platform designed to bridge high-end software engineering with strategic growth marketing. Built on the Next.js App Router and Prisma, it features a custom-engineered Atomic CMS that enables fluid layout orchestration through a recursive section architecture. The system establishes industry authority via data-dense case studies and a clustered SEO blog strategy, all while maintaining strict design system integrity.\n\nThe administrative infrastructure provides deep-level governance, featuring multi-role access control, granular permission management, and comprehensive audit integrity logs for all high-stakes operations. Integrated telemetry nodes provide real-time server health and marketing intelligence, ensuring the platform functions as a scalable command center for business growth and operational reliability.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/n1uqcwqfssrq37a6kadf.jpg",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/n1uqcwqfssrq37a6kadf.jpg",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/ttbpebj3fxz3gqfr9wot.jpg"
-            ],
-            "links": {
-                "live": "https://www.ranknexis.com",
-                "code": "https://github.com/ranknexis/rank-nexis"
-            },
-            "cta": "View Project",
-            "category": "Agency Ecosystem & CMS",
-            "role": "Full Stack Developer",
-            "duration": "1 month",
-            "client": "RankNexis Agency",
-            "status": "Completed",
-            "features": [
-                "Atomic CMS with Recursive Section Orchestration",
-                "Multi-Role Governance & Audit Integrity Logging",
-                "Strategic Lead Capture & Inquiry Management Node",
-                "Real-Time System Telemetry & Marketing Intelligence",
-                "Clustered SEO Content Architecture & Blog CMS",
-                "Data-Dense Case Studies with Impact Visualization",
-                "Streamlined Careers Portal & Talent Acquisition Sync",
-                "High-Performance Framer Motion UI with Glassmorphism"
-            ],
-            "tech": [
-                { "name": "TypeScript", "category": "Frontend" },
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "Tailwind CSS", "category": "Frontend" },
-                { "name": "Framer Motion", "category": "Frontend" },
-                { "name": "Cloudinary", "category": "Media" },
-                { "name": "Vercel", "category": "DevOps" }
-            ]
-        },
-        {
-            "id": "03",
-            "slug": "protidin-shokal-news-platform",
-            "title": "Protidin Shokal",
-            "tagline": "High-Performance Real-Time News & Publishing Platform",
-            "stack": "Next.js • TypeScript • Node.js • Express • Redis • Cloudinary",
-            "description": "High-performance digital news platform engineered for large-scale editorial operations, fast caching, and SEO publishing.",
-            "longDescription": "Protidin Shokal is a production-grade news and media platform built to handle high-traffic publishing environments similar to leading online newspapers. It combines a powerful Next.js frontend with server-side rendering and incremental static regeneration to ensure blazing-fast load times and maximum SEO visibility.\n\nThe backend leverages Node.js, PostgreSQL, Redis caching, and Elasticsearch to efficiently manage concurrent users, trending content, and instant search queries. A comprehensive editorial dashboard allows reporters, editors, and moderators to collaborate through structured workflows, while integrated advertisement management and analytics tools enable monetization and performance tracking.\n\nDesigned with scalability in mind, the platform supports dynamic categories, live news feeds, multimedia galleries, and interactive user features such as comments and bookmarks.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775030159/portfolio/projects/gswcwjuudrp2zgurrq8p.png",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775030058/portfolio/projects/pnf75dnbqntdrkiawxrf.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775030058/portfolio/projects/w6jcnnyersmnthqenl2m.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775030159/portfolio/projects/gswcwjuudrp2zgurrq8p.png"
-            ],
-            "links": {
-                "live": "https://news-portal-lime.vercel.app",
-                "code": "https://github.com/mahdimonir/protidin-shokal"
-            },
-            "cta": "View Project",
-            "category": "Media & Publishing Platform",
-            "role": "Full Stack Developer",
-            "duration": "26 days",
-            "client": "Protidin Shokal",
-            "status": "Completed",
-            "features": [
-                "SSR & ISR-based High-performance News Delivery",
-                "Redis-powered Caching for Trending Content",
-                "Advanced Editorial Workflow Management System",
-                "Role-based Access (Editor, Reporter, Moderator)",
-                "Elasticsearch-powered Instant Search Engine",
-                "Advertisement & Layout Management System",
-                "SEO Metadata & Structured Data Optimization",
-                "Media Library with Cloudinary Integration"
-            ],
-            "tech": [
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "TypeScript", "category": "Frontend" },
-                { "name": "Framer Motion", "category": "Frontend" },
-                { "name": "Node.js", "category": "Backend" },
-                { "name": "Express.js", "category": "Backend" },
-                { "name": "REST API", "category": "Backend" },
-                { "name": "Cloudinary", "category": "Media" }
-            ]
-        },
-        {
-            "id": "04",
-            "slug": "fruitszone-erp-system",
-            "title": "FruitsZone ERP",
-            "tagline": "Agro-Enterprise Inventory & Business Resource Platform",
-            "stack": "Next.js • TypeScript • Tailwind CSS • Vercel",
-            "description": "Scalable ERP system for fruit and agro businesses, enabling real-time inventory control, sales, and analytics.",
-            "longDescription": "FruitsZone ERP is a production-ready enterprise resource planning system tailored for fruit and agro-based businesses. It digitizes and automates core business operations including inventory management, sales and purchase tracking, supplier and customer handling, and financial reporting.\n\nThe platform provides real-time stock synchronization, ensuring accurate inventory across all operations, while automated invoicing and order management streamline daily workflows. A centralized dashboard offers actionable insights through analytics and reports, helping business owners optimize decision-making and reduce operational inefficiencies.\n\nBuilt with a modern, scalable architecture, the system supports role-based access control, ensuring secure usage for admins, staff, and managers. Its responsive UI ensures seamless usability across devices, making it suitable for both office and on-field operations.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/yyztztjbymzckd09gbmd.png",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/yyztztjbymzckd09gbmd.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/lbd24377o8q28e0nkf3z.png"
-            ],
-            "links": {
-                "live": "https://erp-fruitszone.vercel.app",
-                "code": "https://github.com/mahdimonir/fruitszone-erp"
-            },
-            "cta": "View Project",
-            "category": "Enterprise Resource Planning",
-            "role": "Full Stack Developer",
-            "duration": "1 month",
-            "client": "Fruits Zone Enterprise",
-            "status": "Completed",
-            "features": [
-                "Real-time Inventory & Stock Synchronization",
-                "Sales, Purchase & Order Lifecycle Management",
-                "Supplier & Customer Relationship Management (CRM)",
-                "Automated Invoicing & Billing System",
-                "Analytics Dashboard with Business Insights",
-                "Role-based Access Control (Admin, Vendor)",
-                "Order Tracking & Status Management",
-                "Responsive Dashboard for Multi-device Access"
-            ],
-            "tech": [
-                { "name": "TypeScript", "category": "Frontend" },
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "Tailwind CSS", "category": "Frontend" },
-                { "name": "Vercel", "category": "DevOps" }
-            ]
-        },
-        {
-            "id": "05",
-            "slug": "west-bound-travels",
-            "title": "West Bound Travels",
-            "tagline": "Luxury Eco-Tourism & Houseboat Booking Engine",
-            "stack": "Next.js • TypeScript • Express.js • PostgreSQL • Redis • SSLCommerz",
-            "description": "Luxury houseboat booking platform in Tanguar Haor featuring real-time availability, secure payments, and admin management.",
-            "longDescription": "West Bound Travels delivers a high-end booking experience for eco-luxury houseboat tourism in Sunamganj wetlands. Built with Next.js, TypeScript, Tailwind CSS, PostgreSQL + Prisma, and Express.js, it includes:\n\n• 4 premium houseboats with detailed golden-themed room configurations\n• Concurrent-safe real-time booking engine\n• SSLCommerz payments (bKash, Nagad, credit/debit cards)\n• Email OTP verification & password reset flow\n• User dashboard with booking history & downloadable invoices\n• Admin panel for fleet, destinations, blogs, gallery & static pages\n• Automated transactional emails\n• Cloudinary image management\n• Responsive luxury UI with golden accents\n\nDeployed on Vercel with high-availability cloud infrastructure.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1768443385/portfolio/projects/cnbypwofa342z949b91q.jpg",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1768443385/portfolio/projects/cnbypwofa342z949b91q.jpg",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1768443460/portfolio/projects/zr6wpxn7g1owze6fqhwk.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/vwatk3rghjhcxna1ybfu.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/zvtt2dwgtppejz7hpbqg.jpg",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/nrqpd8qgsldeajtmozxy.png"
-            ],
-            "links": {
-                "live": "https://west-bound-travels.vercel.app",
-                "code": "https://github.com/mahdimonir/west-bound-travels"
-            },
-            "cta": "View Project",
-            "category": "Travel & Hospitality Engine",
-            "role": "Full Stack Developer",
-            "duration": "21 days",
-            "client": "West Bound Travels",
-            "status": "Completed",
-            "features": [
-                "Real-time Houseboat Availability & Booking Engine",
-                "Secure SSLCommerz Payment Gateway (bKash, Nagad, Cards)",
-                "OTP Email Verification (Anti-fraud verification)",
-                "Comprehensive Fleet & Destination CMS Dashboard",
-                "User Profile, Itinerary History & Invoicing",
-                "Automated Transactional Emails & Booking Confirmations",
-                "Responsive Luxury Design with Custom Golden Palettes",
-                "Cloudinary Smart Media Optimization & CDN Delivery"
-            ],
-            "tech": [
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "TypeScript", "category": "Frontend" },
-                { "name": "Tailwind CSS", "category": "Frontend" },
-                { "name": "Express.js", "category": "Backend" },
-                { "name": "Cloudinary", "category": "Media" },
-                { "name": "Redis", "category": "Database" },
-                { "name": "Vercel", "category": "DevOps" }
-            ]
-        },
-        {
-            "id": "06",
-            "slug": "newsx-social-blogging-platform",
-            "title": "Newsx",
-            "tagline": "Interactive Social Publishing & Discussion Platform",
-            "stack": "Next.js • Express.js • MongoDB • TipTap • Cloudinary • Vercel",
-            "description": "Modern social blogging platform featuring rich-text publishing, 5-level nested comments, and real-time notifications.",
-            "longDescription": "Newsx is a production-grade full-stack social blogging application that combines the best of modern web development practices. Built with Next.js and React on the frontend, and a robust Express.js + MongoDB backend, it delivers a fast, responsive, and engaging user experience.\n\nThe platform supports full user authentication with JWT access/refresh tokens, email verification, and secure password reset flows. Users can write beautiful posts using TipTap rich text editor, upload images via Cloudinary, engage through likes/dislikes on posts and comments, and build communities by following other authors.\n\nA standout feature is the deeply nested commenting system (up to 5 levels) and real-time notification system. The admin dashboard provides complete control: suspend users/content, view analytics, and manage the entire platform. Comprehensive account deletion ensures all user data is permanently removed.\n\nThe entire API is fully documented with Swagger UI and deployed as serverless functions on Vercel.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1764440216/portfolio/projects/viyjtx2aadhbgqutho8y.jpg",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764440216/portfolio/projects/viyjtx2aadhbgqutho8y.jpg",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/i2y7rbesdl7eoalmqsl3.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/c07n3rsjl4sqvqlypdty.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/nde8y30rqtdublosaa8n.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/kt8wr7aezjkfdfdixbpc.png"
-            ],
-            "links": {
-                "live": "https://newsx-orpin.vercel.app",
-                "code": "https://github.com/mahdimonir/newsx"
-            },
-            "cta": "View Project",
-            "category": "Social & Content Platform",
-            "role": "Full Stack Developer",
-            "duration": "1 month",
-            "client": "Personal Project",
-            "status": "Completed",
-            "features": [
-                "Full JWT Authentication with Refresh Tokens",
-                "Rich Text Editor (TipTap) + Cloudinary Media",
-                "Deeply Nested Comments (Up to 5 Levels)",
-                "Likes/Dislikes & Community Social Feeds",
-                "Real-Time Notification Delivery System",
-                "Comprehensive Administrative Moderation Dashboard",
-                "Global Full-Text Search across Posts & Users",
-                "Complete GDPR-compliant Account Deletion",
-                "Interactive Swagger API Documentation"
-            ],
-            "tech": [
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "Tailwind CSS", "category": "Frontend" },
-                { "name": "Express.js", "category": "Backend" },
-                { "name": "MongoDB", "category": "Database" },
-                { "name": "Cloudinary", "category": "Media" },
-                { "name": "Vercel", "category": "DevOps" }
-            ]
-        },
-        {
-            "id": "07",
-            "slug": "bd-martify-e-commerce-platform",
-            "title": "BD Martify",
-            "tagline": "Modern Multi-Category Digital Commerce Storefront",
-            "stack": "Next.js • Clerk • MongoDB • Mongoose • Cloudinary • Tailwind CSS",
-            "description": "Full-stack e-commerce storefront with Clerk authentication, persistent cart, order workflows, and admin CRUD controls.",
-            "longDescription": "BD Martify is a modern e-commerce application demonstrating a robust full-stack implementation using the T3 Stack principles. The project leverages Next.js for a highly performant, responsive user experience optimized for both desktop and mobile devices. Clerk is utilized for secure, scalable user authentication and management, providing dedicated user and admin accounts.\n\nThe application features a comprehensive user interface where customers can browse products, utilize a persistent shopping cart, manage their orders, and update their profiles. The back-end is powered by Mongoose for seamless data management and storage in a MongoDB database, handling product data, orders, and user information efficiently. Cloudinary is integrated for image hosting and asset management.\n\nA dedicated admin panel facilitates complete control over the store's inventory, enabling administrators to perform C.R.U.D. operations on products and manage incoming orders.",
-            "image": "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/zoyayzhqtjpq8wjcbqmu.png",
-            "images": [
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764431776/portfolio/projects/enf7a4yw8nkgriuuoddc.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/zoyayzhqtjpq8wjcbqmu.png",
-                "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/qsfb38ajzyefyownz5v7.png"
-            ],
-            "links": {
-                "live": "https://bdmartify.vercel.app",
-                "code": "https://github.com/mahdimonir/bdmartify-nextjs"
-            },
-            "cta": "View Project",
-            "category": "Digital Commerce & Storefront",
-            "role": "Full Stack Developer",
-            "duration": "25 days",
-            "client": "Personal Project",
-            "status": "Completed",
-            "features": [
-                "Responsive & Ultra-Mobile-Friendly Storefront UI",
-                "Secure Seamless Authentication with Clerk",
-                "Comprehensive Admin Inventory CRUD Panel",
-                "Real-time Order Processing & Tracking",
-                "Persistent Shopping Cart Across Sessions",
-                "High-speed Cloudinary Media Hosting & CDN"
-            ],
-            "tech": [
-                { "name": "Next.js", "category": "Frontend" },
-                { "name": "Tailwind CSS", "category": "Frontend" },
-                { "name": "REST API", "category": "Backend" },
-                { "name": "MongoDB", "category": "Database" },
-                { "name": "Cloudinary", "category": "Media" },
-                { "name": "GitHub", "category": "DevOps" },
-                { "name": "Vercel", "category": "DevOps" }
-            ]
-        }
+  "name": "Moniruzzaman Mahdi",
+  "firstName": "MAHDI",
+  "title": "Full Stack Developer",
+  "role": "Full Stack Developer",
+  "location": "Chattogram, Bangladesh",
+  "email": "mahdimoniruzzaman@gmail.com",
+  "phone": "+8801876689921",
+  "timezone": "UTC+6",
+  "availability": "Available for freelance & contract work",
+  "responseTime": "Usually replies within 24 hours",
+  "socials": {
+    "github": "https://github.com/mahdimonir",
+    "linkedin": "https://www.linkedin.com/in/moniruzzaman-mahdi/",
+    "twitter": "https://x.com/Mahdimonir2004"
+  },
+  "hero": {
+    "headline": "Driven",
+    "headlineSecond": "by logic",
+    "subheadline": "Building robust software, automating the complex and focused on transforming static systems into intelligent ones.",
+    "availability": "Available for work"
+  },
+  "about": {
+    "label": "Background & Data",
+    "education": [
+      {
+        "degree": "Bachelor of Science",
+        "institution": "National University",
+        "period": "2024 – On Going",
+        "current": true
+      },
+      {
+        "degree": "Higher Secondary Certificate",
+        "institution": "Mohajanhat Fajlur Rahman School & College",
+        "period": "2021 – 2022",
+        "current": false
+      },
+      {
+        "degree": "Secondary School Certificate",
+        "institution": "Sufia Nuria Fazil Madrasha",
+        "period": "2019 – 2020",
+        "current": false
+      }
     ],
-    "skills": [
-        {
-            "category": "Frontend Engineering",
-            "items": [
-                { "name": "React", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-                { "name": "TypeScript", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-                { "name": "Next.js", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
-                {
-                    "name": "Tailwind CSS",
-                    "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
-                },
-                { "name": "JavaScript", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-                {
-                    "name": "Framer Motion",
-                    "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg"
-                }
-            ]
-        },
-        {
-            "category": "Backend Architecture",
-            "items": [
-                { "name": "Node.js", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-                { "name": "Express.js", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
-                { "name": "NestJS", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" },
-                { "name": "Golang", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" },
-                { "name": "GraphQL", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
-                { "name": "REST API", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" }
-            ]
-        },
-        {
-            "category": "Databases & Storage",
-            "items": [
-                { "name": "PostgreSQL", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
-                { "name": "Prisma", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" },
-                { "name": "MongoDB", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
-                { "name": "Redis", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
-                { "name": "Firebase", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
-                {
-                    "name": "Cloudinary",
-                    "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
-                }
-            ]
-        },
-        {
-            "category": "DevOps & Cloud",
-            "items": [
-                { "name": "Docker", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-                { "name": "Git", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-                { "name": "GitHub", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
-                { "name": "Vercel", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
-                { "name": "Postman", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
-                { "name": "Socket.io", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg" },
-                { "name": "Figma", "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" }
-            ]
-        }
+    "experience": [
+      {
+        "company": "Kodevio Limited",
+        "role": "Full Stack Developer",
+        "period": "Aug 2026 – Present",
+        "location": "Dhaka, Bangladesh",
+        "current": true,
+        "companyUrl": "https://www.kodevio.com",
+        "companyLogo": "https://www.kodevio.com/kodevio.png",
+        "description": "Contributing to real-world web applications by building scalable, production-oriented backend systems and modern frontend interfaces. Working with modular architectures, relational databases, and clean code practices to deliver robust business solutions.",
+        "achievements": [
+          "Backend Development: Architecting modular RESTful APIs using NestJS, Node.js, and TypeScript with secure authentication and clean service boundaries.",
+          "Database Management: Designing relational database schemas and executing type-safe queries using PostgreSQL and Prisma ORM.",
+          "Modern Frontend: Building responsive, high-performance user interfaces and server-side workflows using React and Next.js.",
+          "DevOps & Tooling: Utilizing Docker for containerized development workflows and maintaining environment consistency across deployments."
+        ]
+      },
+      {
+        "company": "Rank Nexis",
+        "role": "Full Stack Developer",
+        "period": "Jan 2026 – Jul 2026",
+        "location": "Chattogram, Bangladesh",
+        "current": false,
+        "companyUrl": "https://www.ranknexis.com",
+        "companyLogo": "https://www.ranknexis.com/logo-d.png",
+        "description": "Designed and delivered custom full-stack web applications and high-performance client websites, focusing on responsive user interfaces, clean component structures, and reliable backend integrations.",
+        "achievements": [
+          "Frontend Development: Built responsive, mobile-first user interfaces using modern React and JavaScript component architecture.",
+          "Full-Stack Integration: Implemented RESTful APIs and connected server-side logic for client tools and web platforms.",
+          "Performance & Code Quality: Ensured clean code practices, optimal page load performance, and seamless cross-browser compatibility across client projects."
+        ]
+      },
+      {
+        "company": "Freelance & Contract",
+        "role": "Full Stack Developer",
+        "period": "2023 – Present",
+        "location": "Remote",
+        "current": true,
+        "companyUrl": null,
+        "companyLogo": null,
+        "description": "Independently delivering end-to-end web solutions for clients across various domains — from MVPs to production-grade platforms.",
+        "achievements": [
+          "Built and deployed 7+ full-stack projects using Next.js, Node.js, PostgreSQL, and MongoDB.",
+          "Managed full project lifecycle from architecture design to client handoff.",
+          "Delivered ERP, e-commerce, news, and social platforms with real-world users."
+        ]
+      }
     ],
-    "quote": {
-        "text": "The function of good software is to make the complex appear to be simple.",
-        "author": "Grady Booch"
+    "courses": [
+      {
+        "title": "MERN Stack Web Development",
+        "institution": "Interactive Cares",
+        "period": "Jul 2024 – Dec 2024",
+        "certificateUrl": "https://interactivecares.com/certificate/22dfcdc6-f5e2-4af3-82e6-bdbab0f04a2d",
+        "completed": true
+      },
+      {
+        "title": "Next Level Web Development",
+        "institution": "Programming Hero",
+        "period": "Nov 2025 – On Going",
+        "certificateUrl": "https://web.programming-hero.com/home/level2",
+        "completed": false
+      },
+      {
+        "title": "System Design",
+        "institution": "Chai aur Code",
+        "period": "Feb 2026 – On Going",
+        "certificateUrl": "https://chaicode.com/cohorts/system-design",
+        "completed": false
+      }
+    ],
+    "focus": [
+      "MVP Development & Rapid Prototyping",
+      "AI-Powered Feature Integration",
+      "Scalable Full-Stack Architecture"
+    ]
+  },
+  "projects": [
+    {
+      "id": "01",
+      "slug": "roktolagbe",
+      "title": "RoktoLagbe",
+      "tagline": "Real-Time Emergency Blood Donation & Network Platform",
+      "stack": "Next.js • TypeScript • Node.js • Express • Redis • Cloudinary",
+      "description": "A real-time emergency blood donation network connecting donors with hospitals and organizations for critical response.",
+      "longDescription": "RoktoLagbe is a comprehensive platform designed to streamline blood donation and handle emergency blood requests anywhere in Bangladesh. It bridges the gap between individual donors and institutional managers like hospitals and blood banks. The system features real-time emergency request tracking, donor availability management, organizational inventory management, and a robust verification system for institutional users. Built with a modern tech stack, it provides dedicated dashboards for donors, managers, and administrators, ensuring secure role-specific access, comprehensive analytics, and immediate, life-saving notifications when seconds matter.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1776070970/portfolio/projects/yfwffadnwoalmtbe107y.png",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1776065944/portfolio/projects/scdlsbvsixwszuzseykk.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1776070970/portfolio/projects/yfwffadnwoalmtbe107y.png"
+      ],
+      "links": {
+        "live": "https://roktolagbe-sigma.vercel.app",
+        "code": "https://github.com/mahdimonir/roktolagbe"
+      },
+      "cta": "View Project",
+      "category": "Full Stack",
+      "role": "Full Stack Developer",
+      "duration": "1 month",
+      "client": "Open Source / RoktoLagbe",
+      "status": "Completed",
+      "featured": true,
+      "features": [
+        "Real-time Emergency Blood Request Tracking",
+        "Donor Profile & Instant Availability Management",
+        "Institutional Dashboard for Hospitals and Organizations",
+        "Role-based Access Control (Donor, Manager, Admin)",
+        "Secure Manager Verification and Audit System",
+        "Anonymized Public Search for Blood Requests and Donors",
+        "Advanced Analytics and Activity History Logging",
+        "Responsive Web Application with Modern UI"
+      ],
+      "tech": [
+        {
+          "name": "TypeScript",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Framer Motion",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg"
+        },
+        {
+          "name": "Node.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+        },
+        {
+          "name": "Express.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        },
+        {
+          "name": "Redis",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "slug": "ranknexis",
+      "title": "RankNexis",
+      "tagline": "Strategic Agency Operations Hub & Atomic CMS",
+      "stack": "Next.js 15 • TypeScript • Tailwind CSS • Framer Motion • Cloudinary",
+      "description": "Strategic agency operations hub engineered for dynamic content orchestration, case studies, and operational governance.",
+      "longDescription": "RankNexis is an advanced operational platform designed to bridge high-end software engineering with strategic growth marketing. Built on the Next.js App Router and Prisma, it features a custom-engineered Atomic CMS that enables fluid layout orchestration through a recursive section architecture. The system establishes industry authority via data-dense case studies and a clustered SEO blog strategy, all while maintaining strict design system integrity.\n\nThe administrative infrastructure provides deep-level governance, featuring multi-role access control, granular permission management, and comprehensive audit integrity logs for all high-stakes operations. Integrated telemetry nodes provide real-time server health and marketing intelligence, ensuring the platform functions as a scalable command center for business growth and operational reliability.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/n1uqcwqfssrq37a6kadf.jpg",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/n1uqcwqfssrq37a6kadf.jpg",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775030736/portfolio/projects/ttbpebj3fxz3gqfr9wot.jpg"
+      ],
+      "links": {
+        "live": "https://www.ranknexis.com",
+        "code": "https://github.com/ranknexis/rank-nexis"
+      },
+      "cta": "View Project",
+      "category": "Platforms & CMS",
+      "role": "Full Stack Developer",
+      "duration": "1 month",
+      "client": "RankNexis Agency",
+      "status": "Completed",
+      "featured": true,
+      "features": [
+        "Atomic CMS with Recursive Section Orchestration",
+        "Multi-Role Governance & Audit Integrity Logging",
+        "Strategic Lead Capture & Inquiry Management Node",
+        "Real-Time System Telemetry & Marketing Intelligence",
+        "Clustered SEO Content Architecture & Blog CMS",
+        "Data-Dense Case Studies with Impact Visualization",
+        "Streamlined Careers Portal & Talent Acquisition Sync",
+        "High-Performance Framer Motion UI with Glassmorphism"
+      ],
+      "tech": [
+        {
+          "name": "TypeScript",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "Framer Motion",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "slug": "protidin-shokal-news-platform",
+      "title": "Protidin Shokal",
+      "tagline": "High-Performance Real-Time News & Publishing Platform",
+      "stack": "Next.js • TypeScript • Node.js • Express • Redis • Cloudinary",
+      "description": "High-performance digital news platform engineered for large-scale editorial operations, fast caching, and SEO publishing.",
+      "longDescription": "Protidin Shokal is a production-grade news and media platform built to handle high-traffic publishing environments similar to leading online newspapers. It combines a powerful Next.js frontend with server-side rendering and incremental static regeneration to ensure blazing-fast load times and maximum SEO visibility.\n\nThe backend leverages Node.js, PostgreSQL, Redis caching, and Elasticsearch to efficiently manage concurrent users, trending content, and instant search queries. A comprehensive editorial dashboard allows reporters, editors, and moderators to collaborate through structured workflows, while integrated advertisement management and analytics tools enable monetization and performance tracking.\n\nDesigned with scalability in mind, the platform supports dynamic categories, live news feeds, multimedia galleries, and interactive user features such as comments and bookmarks.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775030159/portfolio/projects/gswcwjuudrp2zgurrq8p.png",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775030058/portfolio/projects/pnf75dnbqntdrkiawxrf.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775030058/portfolio/projects/w6jcnnyersmnthqenl2m.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775030159/portfolio/projects/gswcwjuudrp2zgurrq8p.png"
+      ],
+      "links": {
+        "live": "https://news-portal-lime.vercel.app",
+        "code": "https://github.com/mahdimonir/protidin-shokal"
+      },
+      "cta": "View Project",
+      "category": "Platforms & CMS",
+      "role": "Full Stack Developer",
+      "duration": "26 days",
+      "client": "Protidin Shokal",
+      "status": "Completed",
+      "featured": true,
+      "features": [
+        "SSR & ISR-based High-performance News Delivery",
+        "Redis-powered Caching for Trending Content",
+        "Advanced Editorial Workflow Management System",
+        "Role-based Access (Editor, Reporter, Moderator)",
+        "Elasticsearch-powered Instant Search Engine",
+        "Advertisement & Layout Management System",
+        "SEO Metadata & Structured Data Optimization",
+        "Media Library with Cloudinary Integration"
+      ],
+      "tech": [
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "TypeScript",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Framer Motion",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg"
+        },
+        {
+          "name": "Node.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+        },
+        {
+          "name": "Express.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+        },
+        {
+          "name": "REST API",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "slug": "fruitszone-erp-system",
+      "title": "FruitsZone ERP",
+      "tagline": "Agro-Enterprise Inventory & Business Resource Platform",
+      "stack": "Next.js • TypeScript • Tailwind CSS • Vercel",
+      "description": "Scalable ERP system for fruit and agro businesses, enabling real-time inventory control, sales, and analytics.",
+      "longDescription": "FruitsZone ERP is a production-ready enterprise resource planning system tailored for fruit and agro-based businesses. It digitizes and automates core business operations including inventory management, sales and purchase tracking, supplier and customer handling, and financial reporting.\n\nThe platform provides real-time stock synchronization, ensuring accurate inventory across all operations, while automated invoicing and order management streamline daily workflows. A centralized dashboard offers actionable insights through analytics and reports, helping business owners optimize decision-making and reduce operational inefficiencies.\n\nBuilt with a modern, scalable architecture, the system supports role-based access control, ensuring secure usage for admins, staff, and managers. Its responsive UI ensures seamless usability across devices, making it suitable for both office and on-field operations.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/yyztztjbymzckd09gbmd.png",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/yyztztjbymzckd09gbmd.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1775024969/portfolio/projects/lbd24377o8q28e0nkf3z.png"
+      ],
+      "links": {
+        "live": "https://erp-fruitszone.vercel.app",
+        "code": "https://github.com/mahdimonir/fruitszone-erp"
+      },
+      "cta": "View Project",
+      "category": "Enterprise & Commerce",
+      "role": "Full Stack Developer",
+      "duration": "1 month",
+      "client": "Fruits Zone Enterprise",
+      "status": "Completed",
+      "featured": true,
+      "features": [
+        "Real-time Inventory & Stock Synchronization",
+        "Sales, Purchase & Order Lifecycle Management",
+        "Supplier & Customer Relationship Management (CRM)",
+        "Automated Invoicing & Billing System",
+        "Analytics Dashboard with Business Insights",
+        "Role-based Access Control (Admin, Vendor)",
+        "Order Tracking & Status Management",
+        "Responsive Dashboard for Multi-device Access"
+      ],
+      "tech": [
+        {
+          "name": "TypeScript",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "slug": "west-bound-travels",
+      "title": "West Bound Travels",
+      "tagline": "Luxury Eco-Tourism & Houseboat Booking Engine",
+      "stack": "Next.js • TypeScript • Express.js • PostgreSQL • Redis • SSLCommerz",
+      "description": "Luxury houseboat booking platform in Tanguar Haor featuring real-time availability, secure payments, and admin management.",
+      "longDescription": "West Bound Travels delivers a high-end booking experience for eco-luxury houseboat tourism in Sunamganj wetlands. Built with Next.js, TypeScript, Tailwind CSS, PostgreSQL + Prisma, and Express.js, it includes:\n\n• 4 premium houseboats with detailed golden-themed room configurations\n• Concurrent-safe real-time booking engine\n• SSLCommerz payments (bKash, Nagad, credit/debit cards)\n• Email OTP verification & password reset flow\n• User dashboard with booking history & downloadable invoices\n• Admin panel for fleet, destinations, blogs, gallery & static pages\n• Automated transactional emails\n• Cloudinary image management\n• Responsive luxury UI with golden accents\n\nDeployed on Vercel with high-availability cloud infrastructure.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1768443385/portfolio/projects/cnbypwofa342z949b91q.jpg",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1768443385/portfolio/projects/cnbypwofa342z949b91q.jpg",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1768443460/portfolio/projects/zr6wpxn7g1owze6fqhwk.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/vwatk3rghjhcxna1ybfu.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/zvtt2dwgtppejz7hpbqg.jpg",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1768443461/portfolio/projects/nrqpd8qgsldeajtmozxy.png"
+      ],
+      "links": {
+        "live": "https://west-bound-travels.vercel.app",
+        "code": "https://github.com/mahdimonir/west-bound-travels"
+      },
+      "cta": "View Project",
+      "category": "Full Stack",
+      "role": "Full Stack Developer",
+      "duration": "21 days",
+      "client": "West Bound Travels",
+      "status": "Completed",
+      "featured": false,
+      "features": [
+        "Real-time Houseboat Availability & Booking Engine",
+        "Secure SSLCommerz Payment Gateway (bKash, Nagad, Cards)",
+        "OTP Email Verification (Anti-fraud verification)",
+        "Comprehensive Fleet & Destination CMS Dashboard",
+        "User Profile, Itinerary History & Invoicing",
+        "Automated Transactional Emails & Booking Confirmations",
+        "Responsive Luxury Design with Custom Golden Palettes",
+        "Cloudinary Smart Media Optimization & CDN Delivery"
+      ],
+      "tech": [
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "TypeScript",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "Express.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        },
+        {
+          "name": "Redis",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "slug": "newsx-social-blogging-platform",
+      "title": "Newsx",
+      "tagline": "Interactive Social Publishing & Discussion Platform",
+      "stack": "Next.js • Express.js • MongoDB • TipTap • Cloudinary • Vercel",
+      "description": "Modern social blogging platform featuring rich-text publishing, 5-level nested comments, and real-time notifications.",
+      "longDescription": "Newsx is a production-grade full-stack social blogging application that combines the best of modern web development practices. Built with Next.js and React on the frontend, and a robust Express.js + MongoDB backend, it delivers a fast, responsive, and engaging user experience.\n\nThe platform supports full user authentication with JWT access/refresh tokens, email verification, and secure password reset flows. Users can write beautiful posts using TipTap rich text editor, upload images via Cloudinary, engage through likes/dislikes on posts and comments, and build communities by following other authors.\n\nA standout feature is the deeply nested commenting system (up to 5 levels) and real-time notification system. The admin dashboard provides complete control: suspend users/content, view analytics, and manage the entire platform. Comprehensive account deletion ensures all user data is permanently removed.\n\nThe entire API is fully documented with Swagger UI and deployed as serverless functions on Vercel.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1764440216/portfolio/projects/viyjtx2aadhbgqutho8y.jpg",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764440216/portfolio/projects/viyjtx2aadhbgqutho8y.jpg",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/i2y7rbesdl7eoalmqsl3.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/c07n3rsjl4sqvqlypdty.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/nde8y30rqtdublosaa8n.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764440215/portfolio/projects/kt8wr7aezjkfdfdixbpc.png"
+      ],
+      "links": {
+        "live": "https://newsx-orpin.vercel.app",
+        "code": "https://github.com/mahdimonir/newsx"
+      },
+      "cta": "View Project",
+      "category": "Full Stack",
+      "role": "Full Stack Developer",
+      "duration": "1 month",
+      "client": "Personal Project",
+      "status": "Completed",
+      "featured": false,
+      "features": [
+        "Full JWT Authentication with Refresh Tokens",
+        "Rich Text Editor (TipTap) + Cloudinary Media",
+        "Deeply Nested Comments (Up to 5 Levels)",
+        "Likes/Dislikes & Community Social Feeds",
+        "Real-Time Notification Delivery System",
+        "Comprehensive Administrative Moderation Dashboard",
+        "Global Full-Text Search across Posts & Users",
+        "Complete GDPR-compliant Account Deletion",
+        "Interactive Swagger API Documentation"
+      ],
+      "tech": [
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "Express.js",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+        },
+        {
+          "name": "MongoDB",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "slug": "bd-martify-e-commerce-platform",
+      "title": "BD Martify",
+      "tagline": "Modern Multi-Category Digital Commerce Storefront",
+      "stack": "Next.js • Clerk • MongoDB • Mongoose • Cloudinary • Tailwind CSS",
+      "description": "Full-stack e-commerce storefront with Clerk authentication, persistent cart, order workflows, and admin CRUD controls.",
+      "longDescription": "BD Martify is a modern e-commerce application demonstrating a robust full-stack implementation using the T3 Stack principles. The project leverages Next.js for a highly performant, responsive user experience optimized for both desktop and mobile devices. Clerk is utilized for secure, scalable user authentication and management, providing dedicated user and admin accounts.\n\nThe application features a comprehensive user interface where customers can browse products, utilize a persistent shopping cart, manage their orders, and update their profiles. The back-end is powered by Mongoose for seamless data management and storage in a MongoDB database, handling product data, orders, and user information efficiently. Cloudinary is integrated for image hosting and asset management.\n\nA dedicated admin panel facilitates complete control over the store's inventory, enabling administrators to perform C.R.U.D. operations on products and manage incoming orders.",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/zoyayzhqtjpq8wjcbqmu.png",
+      "images": [
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764431776/portfolio/projects/enf7a4yw8nkgriuuoddc.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/zoyayzhqtjpq8wjcbqmu.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/qsfb38ajzyefyownz5v7.png"
+      ],
+      "links": {
+        "live": "https://bdmartify.vercel.app",
+        "code": "https://github.com/mahdimonir/bdmartify-nextjs"
+      },
+      "cta": "View Project",
+      "category": "Enterprise & Commerce",
+      "role": "Full Stack Developer",
+      "duration": "25 days",
+      "client": "Personal Project",
+      "status": "Completed",
+      "featured": false,
+      "features": [
+        "Responsive & Ultra-Mobile-Friendly Storefront UI",
+        "Secure Seamless Authentication with Clerk",
+        "Comprehensive Admin Inventory CRUD Panel",
+        "Real-time Order Processing & Tracking",
+        "Persistent Shopping Cart Across Sessions",
+        "High-speed Cloudinary Media Hosting & CDN"
+      ],
+      "tech": [
+        {
+          "name": "Next.js",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "category": "Frontend Engineering",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "REST API",
+          "category": "Backend Architecture",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+        },
+        {
+          "name": "MongoDB",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "category": "Databases & Storage",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        },
+        {
+          "name": "GitHub",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "category": "DevOps & Cloud",
+          "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ]
     }
+  ],
+  "skills": [
+    {
+      "category": "Frontend Engineering",
+      "items": [
+        {
+          "name": "React",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+        },
+        {
+          "name": "TypeScript",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        },
+        {
+          "name": "Next.js",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+        },
+        {
+          "name": "JavaScript",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+        },
+        {
+          "name": "Framer Motion",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original.svg"
+        }
+      ]
+    },
+    {
+      "category": "Backend Architecture",
+      "items": [
+        {
+          "name": "Node.js",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+        },
+        {
+          "name": "Express.js",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+        },
+        {
+          "name": "NestJS",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg"
+        },
+        {
+          "name": "Golang",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
+        }
+      ]
+    },
+    {
+      "category": "Databases & Storage",
+      "items": [
+        {
+          "name": "PostgreSQL",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+        },
+        {
+          "name": "Prisma",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg"
+        },
+        {
+          "name": "MongoDB",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+        },
+        {
+          "name": "Redis",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
+        },
+        {
+          "name": "Firebase",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
+        },
+        {
+          "name": "Cloudinary",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
+        }
+      ]
+    },
+    {
+      "category": "DevOps & Cloud",
+      "items": [
+        {
+          "name": "Docker",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+        },
+        {
+          "name": "Git",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+        },
+        {
+          "name": "GitHub",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+        },
+        {
+          "name": "Vercel",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        },
+        {
+          "name": "Postman",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
+        },
+        {
+          "name": "Socket.io",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg"
+        },
+        {
+          "name": "Figma",
+          "url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+        }
+      ]
+    }
+  ],
+  "quote": {
+    "text": "The function of good software is to make the complex appear to be simple.",
+    "author": "Grady Booch"
+  }
 }

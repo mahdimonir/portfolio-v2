@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCloudinary } from "@/lib/cloudinary";
+import { getCloudinary, deleteFromCloudinary } from "@/lib/cloudinary";
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -57,6 +57,61 @@ export async function POST(request: NextRequest) {
     console.error("Cloudinary upload error:", error);
     return NextResponse.json(
       { error: error?.message || "Failed to upload image to Cloudinary" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const targets: string[] = [];
+
+    // Query param ?url=... or ?publicId=...
+    const { searchParams } = new URL(request.url);
+    const queryUrl = searchParams.get("url") || searchParams.get("publicId");
+    if (queryUrl) targets.push(queryUrl);
+
+    // JSON body { url, urls, publicId }
+    try {
+      const body = await request.json();
+      if (body.url && typeof body.url === "string") targets.push(body.url);
+      if (body.publicId && typeof body.publicId === "string") targets.push(body.publicId);
+      if (Array.isArray(body.urls)) {
+        targets.push(...body.urls.filter((u: any) => typeof u === "string"));
+      }
+    } catch {
+      // Body may be empty if query params were used
+    }
+
+    const uniqueTargets = Array.from(new Set(targets.filter(Boolean)));
+    if (uniqueTargets.length === 0) {
+      return NextResponse.json(
+        { error: "No image URL or publicId provided for deletion" },
+        { status: 400 }
+      );
+    }
+
+    const results = await Promise.all(
+      uniqueTargets.map(async (item) => {
+        try {
+          const res = await deleteFromCloudinary(item);
+          return { target: item, ...res };
+        } catch (err: any) {
+          return { target: item, error: err.message || "Failed to delete" };
+        }
+      })
+    );
+
+    return NextResponse.json({ success: true, results });
+  } catch (error: any) {
+    console.error("Cloudinary delete route error:", error);
+    return NextResponse.json(
+      { error: error?.message || "Failed to delete image from Cloudinary" },
       { status: 500 }
     );
   }

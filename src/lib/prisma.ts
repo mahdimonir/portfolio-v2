@@ -15,12 +15,19 @@ function createPrismaClient(): PrismaClient {
 
   return new PrismaClient({
     adapter,
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
+}
+
+// Invalidate cached client if schema models (like 'user' or 'category') are not yet bound
+if (globalForPrisma.prisma && (!("user" in globalForPrisma.prisma) || !("category" in globalForPrisma.prisma))) {
+  globalForPrisma.prisma = undefined;
 }
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
 
 export default prisma;

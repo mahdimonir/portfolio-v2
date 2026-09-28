@@ -1,33 +1,284 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model Portfolio {
+// ─────────────────────────────────────────
+// USER — single table for auth & portfolio owner identity
+// (Admin + Owner unified: no redundant tables)
+// ─────────────────────────────────────────
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String   // bcrypt hash for dashboard auth
+  
+  // Profile & Portfolio Identity
+  firstName    String   @map("first_name")
+  fullName     String   @map("full_name")
+  title        String
+  role         String
+  location     String
+  phone        String?
+  timezone     String?
+  availability String
+  responseTime String   @map("response_time")
+
+  // Hero Copy
+  heroHeadline       String  @map("hero_headline")
+  heroHeadlineSecond String  @map("hero_headline_second")
+  heroSubheadline    String  @map("hero_subheadline")
+  heroAvailability   String  @map("hero_availability")
+
+  // About & Focus
+  aboutLabel   String   @map("about_label")
+  focus        String[]
+
+  // Socials
+  githubUrl    String   @map("github_url")
+  linkedinUrl  String   @map("linkedin_url")
+  twitterUrl   String?  @map("twitter_url")
+
+  // Quote
+  quoteText    String?  @map("quote_text")
+  quoteAuthor  String?  @map("quote_author")
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relations
+  experiences  Experience[]
+  education    Education[]
+  courses      Course[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────
+// OTP_VERIFICATIONS — critical actions (password reset, etc.)
+// ─────────────────────────────────────────
+model OtpVerification {
   id        Int      @id @default(autoincrement())
-  data      Json     @default("{}")
+  email     String
+  code      String
+  action    String   @default("password_reset")
+  expiresAt DateTime @map("expires_at")
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email, code])
+  @@map("otp_verifications")
+}
+
+// ─────────────────────────────────────────
+// EXPERIENCE — real work history
+// ─────────────────────────────────────────
+model Experience {
+  id           Int      @id @default(autoincrement())
+  company      String
+  role         String
+  period       String
+  location     String?
+  current      Boolean  @default(false)
+  companyUrl   String?  @map("company_url")
+  companyLogo  String?  @map("company_logo")
+  description  String?
+  achievements String[]
+  order        Int      @default(0)
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @map("user_id")
+
+  @@map("experience")
+}
+
+// ─────────────────────────────────────────
+// EDUCATION — full academic history
+// ─────────────────────────────────────────
+model Education {
+  id          Int     @id @default(autoincrement())
+  degree      String
+  institution String
+  period      String
+  current     Boolean @default(false)
+  order       Int     @default(0)
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @map("user_id")
+
+  @@map("education")
+}
+
+// ─────────────────────────────────────────
+// COURSES — certifications & ongoing learning
+// ─────────────────────────────────────────
+model Course {
+  id             Int     @id @default(autoincrement())
+  title          String
+  institution    String
+  period         String
+  certificateUrl String? @map("certificate_url")
+  completed      Boolean @default(false)
+  order          Int     @default(0)
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @map("user_id")
+
+  @@map("courses")
+}
+
+// ─────────────────────────────────────────
+// CATEGORIES — project taxonomy
+// ─────────────────────────────────────────
+model Category {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique
+  label String
+  order Int    @default(0)
+
+  projects Project[]
+
+  @@map("categories")
+}
+
+// ─────────────────────────────────────────
+// TECH STACKS — master registry of all technologies
+// ─────────────────────────────────────────
+model TechStack {
+  id      Int     @id @default(autoincrement())
+  name    String  @unique
+  role    String  // "Frontend" | "Backend" | "Database" | "DevOps" | "Media"
+  iconUrl String? @map("icon_url")
+
+  projectTechs    ProjectTechStack[]
+  skillGroupItems SkillGroupItem[]
+
+  @@map("tech_stacks")
+}
+
+// ─────────────────────────────────────────
+// PROJECTS — normalized, references category & tech_stacks
+// ─────────────────────────────────────────
+model Project {
+  id              Int     @id @default(autoincrement())
+  displayId       String  @unique @map("display_id")
+  slug            String  @unique
+  title           String
+  tagline         String?
+  stack           String
+  description     String
+  longDescription String? @map("long_description")
+  coverImage      String  @map("cover_image")
+  role            String?
+  duration        String?
+  client          String?
+  status          String? @default("Completed")
+  cta             String  @default("View Project")
+  liveUrl         String? @map("live_url")
+  codeUrl         String? @map("code_url")
+  order           Int     @default(0)
+  featured        Boolean @default(false)
+
+  createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  @@map("portfolio")
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int      @map("category_id")
+
+  techStacks ProjectTechStack[]
+  images     ProjectImage[]
+  features   ProjectFeature[]
+
+  @@map("projects")
 }
 
-model Admin {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
+// ─────────────────────────────────────────
+// PROJECT_TECH_STACKS — M2M join: project ↔ tech_stacks
+// ─────────────────────────────────────────
+model ProjectTechStack {
+  id    Int @id @default(autoincrement())
+  order Int @default(0)
 
-  @@map("admins")
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int       @map("project_id")
+  techStack   TechStack @relation(fields: [techStackId], references: [id])
+  techStackId Int       @map("tech_stack_id")
+
+  @@unique([projectId, techStackId])
+  @@map("project_tech_stacks")
 }
 
+// ─────────────────────────────────────────
+// PROJECT_IMAGES — ordered gallery per project
+// ─────────────────────────────────────────
+model ProjectImage {
+  id    Int     @id @default(autoincrement())
+  url   String
+  alt   String?
+  order Int     @default(0)
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int     @map("project_id")
+
+  @@map("project_images")
+}
+
+// ─────────────────────────────────────────
+// PROJECT_FEATURES — ordered feature list per project
+// ─────────────────────────────────────────
+model ProjectFeature {
+  id    Int    @id @default(autoincrement())
+  text  String
+  order Int    @default(0)
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int     @map("project_id")
+
+  @@map("project_features")
+}
+
+// ─────────────────────────────────────────
+// SKILL_GROUPS — sections in the skills display
+// ─────────────────────────────────────────
+model SkillGroup {
+  id    Int    @id @default(autoincrement())
+  label String @unique
+  order Int    @default(0)
+
+  items SkillGroupItem[]
+
+  @@map("skill_groups")
+}
+
+// ─────────────────────────────────────────
+// SKILL_GROUP_ITEMS — M2M join: skill_group ↔ tech_stacks
+// ─────────────────────────────────────────
+model SkillGroupItem {
+  id    Int @id @default(autoincrement())
+  order Int @default(0)
+
+  skillGroup   SkillGroup @relation(fields: [skillGroupId], references: [id], onDelete: Cascade)
+  skillGroupId Int        @map("skill_group_id")
+  techStack    TechStack  @relation(fields: [techStackId], references: [id])
+  techStackId  Int        @map("tech_stack_id")
+
+  @@unique([skillGroupId, techStackId])
+  @@map("skill_group_items")
+}
+
+// ─────────────────────────────────────────
+// CONTACT_MESSAGES — inbound contact form submissions
+// ─────────────────────────────────────────
 model ContactMessage {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
   subject   String?
   message   String
+  read      Boolean  @default(false)
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("contact_messages")
