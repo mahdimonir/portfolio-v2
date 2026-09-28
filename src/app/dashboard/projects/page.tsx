@@ -691,17 +691,17 @@ export default function ProjectsDashboardPage() {
                                         </div>
 
                                         {/* Cover Image & Title */}
-                                        <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black border border-zinc-800 mb-3 group/img">
+                                        <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-black border border-zinc-800 mb-3 group/img flex items-center justify-center">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={p.image}
                                                 alt={p.title}
-                                                className="w-full h-full object-contain transition-transform duration-300 group-hover/img:scale-105"
+                                                className="w-full h-full object-contain"
                                                 onError={(e) => {
                                                     (e.target as HTMLElement).style.display = "none";
                                                 }}
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3 pointer-events-none">
                                                 <div className="text-white font-black text-sm uppercase tracking-tight truncate">
                                                     {p.title}
                                                 </div>
@@ -1335,7 +1335,7 @@ export default function ProjectsDashboardPage() {
                                                         }`}
                                                     >
                                                         {/* Image Stage Preview (fully shows whole image) */}
-                                                        <div className="relative aspect-[16/10] w-full bg-black flex items-center justify-center p-2 border-b border-zinc-800/80 overflow-hidden">
+                                                        <div className="relative aspect-[4/3] w-full bg-black flex items-center justify-center border-b border-zinc-800/80 overflow-hidden">
                                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                                             <img
                                                                 src={imgUrl}
