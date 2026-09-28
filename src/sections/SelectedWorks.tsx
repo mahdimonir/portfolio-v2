@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useCallback, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLenis } from "lenis/react";
 import StarBorder from "@/components/StarBorder";
 import "@/sections/ScrollStack.css";
@@ -12,6 +14,9 @@ interface ScrollStackCardProps {
 }
 
 const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
+  const router = useRouter();
+  const projectSlug = (project as any).slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
   return (
     <StarBorder
       as="div"
@@ -23,16 +28,19 @@ const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
         <div className="id-brand-group">
           <span className="huge-number">{project.id}</span>
           <div className="client-info">
-            <span className="label">{project.title}</span>
+            <span
+              className="label cursor-pointer"
+              onClick={() => router.push(`/projects/${projectSlug}`)}
+            >
+              {project.title}
+            </span>
             <span className="client-name">{project.stack}</span>
           </div>
         </div>
 
         <StarBorder
-          as="a"
-          href={project.links.live}
-          target="_blank"
-          rel="noopener noreferrer"
+          as={Link}
+          href={`/projects/${projectSlug}`}
           className="live-btn-star"
           color="#f6d365, #fda085"
           speed="3s"
@@ -44,8 +52,9 @@ const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
       <div className="content-grid">
         <img
           src={project.image}
-          className="main-image w-full h-auto object-contain"
+          className="main-image cursor-pointer"
           alt={project.title}
+          onClick={() => router.push(`/projects/${projectSlug}`)}
           onLoad={() => window.dispatchEvent(new Event("resize"))}
         />
         <div className="project-description">

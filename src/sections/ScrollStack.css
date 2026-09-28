@@ -91,10 +91,10 @@
 .scroll-stack-card>.inner-content {
   background-color: #000 !important;
   border-radius: 60px !important;
-  padding: 2.5rem !important;
+  padding: 2.25rem 2.5rem !important;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   text-align: left;
   /* Override StarBorder default center text */
 }
@@ -115,7 +115,7 @@
 
 .huge-number {
   font-family: 'Inter', sans-serif;
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: 900;
   line-height: 0.8;
   color: #fff;
@@ -165,28 +165,36 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 2rem;
-  height: min(350px, 40vh);
+  height: min(270px, 34vh);
   flex: 1;
-  align-items: stretch;
+  align-items: center;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .main-image {
   width: 100%;
   height: 100%;
+  max-height: 270px;
   object-fit: cover;
-  border-radius: 40px;
+  object-position: top;
+  border-radius: 36px;
+  min-height: 0;
+  display: block;
 }
 
 .project-description {
   display: flex;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Updated project description text color - more white */
 .project-description p {
-  font-size: 1.3rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.6;
   color: #f8f8f8;
   /* Changed from rgba(255, 255, 255, 0.75) to off-white */
   font-weight: 400;
@@ -239,6 +247,8 @@
   .main-image {
     height: 200px;
     border-radius: 24px;
+    object-fit: cover;
+    object-position: top;
   }
 
   .project-description {
