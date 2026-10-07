@@ -277,7 +277,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject }:
                         </div>
 
                         {/* Main Stage Image */}
-                        <div className="relative aspect-[4/3] max-h-[720px] w-full overflow-hidden bg-black flex items-center justify-center">
+                        <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950 flex items-center justify-center">
                             <AnimatePresence mode="wait">
                                 <motion.img
                                     key={activeImageIndex}
@@ -287,7 +287,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject }:
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.3 }}
-                                    className="w-full h-full object-contain"
+                                    className="w-full h-full object-cover object-top"
                                 />
                             </AnimatePresence>
 
@@ -320,13 +320,13 @@ export default function ProjectDetailView({ project, prevProject, nextProject }:
                                 <button
                                     key={index}
                                     onClick={() => setActiveImageIndex(index)}
-                                    className={`relative rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 w-24 aspect-[4/3] bg-black flex items-center justify-center ${
+                                    className={`relative rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 w-28 sm:w-32 aspect-[16/9] bg-zinc-950 flex items-center justify-center ${
                                         activeImageIndex === index
                                             ? "border-white scale-105 shadow-[0_0_15px_rgba(255,255,255,0.25)]"
                                             : "border-white/10 opacity-60 hover:opacity-100"
                                     }`}
                                 >
-                                    <img src={imgUrl} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-contain" />
+                                    <img src={imgUrl} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover object-top" />
                                 </button>
                             ))}
                         </div>

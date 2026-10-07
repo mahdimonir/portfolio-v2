@@ -167,14 +167,14 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                 {/* Clean Image Stage */}
                                 <Link
                                     href={`/projects/${project.slug}`}
-                                    className="block relative aspect-[4/3] overflow-hidden bg-black border-b border-white/10 flex items-center justify-center"
+                                    className="block relative aspect-[16/9] w-full overflow-hidden bg-zinc-950 border-b border-white/10 group/img"
                                 >
                                     <img
                                         src={project.image}
                                         alt={project.title}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 ease-out"
                                     />
-                                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors pointer-events-none" />
+                                    <div className="absolute inset-0 bg-black/10 group-hover/img:bg-transparent transition-colors pointer-events-none" />
 
                                     {/* Clean ID badge */}
                                     <div className="absolute top-3.5 left-3.5">

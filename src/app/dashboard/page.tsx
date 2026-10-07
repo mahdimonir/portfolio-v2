@@ -644,9 +644,9 @@ export default function DashboardOverviewPage() {
                                     >
                                         {/* Thumbnail + Title + Meta */}
                                         <div className="flex items-center gap-3 min-w-0 flex-1">
-                                            <div className="w-14 h-9 rounded-lg overflow-hidden bg-black border border-zinc-800 shrink-0 flex items-center justify-center p-0.5">
+                                            <div className="w-16 aspect-[16/9] rounded-lg overflow-hidden bg-black border border-zinc-800 shrink-0 flex items-center justify-center">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                <img src={p.image} alt={p.title} className="w-full h-full object-contain" />
+                                                <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                                             </div>
 
                                             <div className="min-w-0 flex-1">

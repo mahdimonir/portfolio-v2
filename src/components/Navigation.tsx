@@ -23,6 +23,7 @@ const navItems: NavItem[] = [
 ];
 
 const socialItems: SocialItem[] = [
+  { label: "3D Portfolio", href: db.socials.portfolio3d || "https://3d.mahdimonir.dev" },
   { label: "GitHub", href: db.socials.github },
   { label: "LinkedIn", href: db.socials.linkedin },
   { label: "Twitter", href: db.socials.twitter },

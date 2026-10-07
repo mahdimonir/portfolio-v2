@@ -691,12 +691,12 @@ export default function ProjectsDashboardPage() {
                                         </div>
 
                                         {/* Cover Image & Title */}
-                                        <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-black border border-zinc-800 mb-3 group/img flex items-center justify-center">
+                                        <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-black border border-zinc-800 mb-3 group/img flex items-center justify-center">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={p.image}
                                                 alt={p.title}
-                                                className="w-full h-full object-contain"
+                                                className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-300"
                                                 onError={(e) => {
                                                     (e.target as HTMLElement).style.display = "none";
                                                 }}
@@ -1258,6 +1258,9 @@ export default function ProjectsDashboardPage() {
                                             <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/25 flex items-center gap-1">
                                                 <Star className="w-2.5 h-2.5 fill-current" /> #1 is Cover
                                             </span>
+                                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-400/10 text-cyan-400 border border-cyan-400/25">
+                                                Standard: 16:9 (1920×1080)
+                                            </span>
                                         </div>
 
                                         {/* Actions: Add URL & Upload File */}
@@ -1316,8 +1319,8 @@ export default function ProjectsDashboardPage() {
                                             <p className="text-xs font-mono uppercase tracking-wider">
                                                 No project images added yet
                                             </p>
-                                            <p className="text-[11px] text-zinc-600 max-w-sm">
-                                                Paste an image URL above or click Upload to attach project screenshots. The first image will automatically serve as the primary cover.
+                                            <p className="text-[11px] text-zinc-500 max-w-sm">
+                                                Standard image frame is 16:9 Widescreen (e.g. 1920×1080 or 1600×900). The first image will automatically serve as the primary cover across all portfolio sections.
                                             </p>
                                         </div>
                                     ) : (
@@ -1334,13 +1337,13 @@ export default function ProjectsDashboardPage() {
                                                                 : "border-zinc-800 hover:border-zinc-700"
                                                         }`}
                                                     >
-                                                        {/* Image Stage Preview (fully shows whole image) */}
-                                                        <div className="relative aspect-[4/3] w-full bg-black flex items-center justify-center border-b border-zinc-800/80 overflow-hidden">
+                                                        {/* Image Stage Preview (fully shows whole image in 16:9 frame) */}
+                                                        <div className="relative aspect-[16/9] w-full bg-black flex items-center justify-center border-b border-zinc-800/80 overflow-hidden">
                                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                                             <img
                                                                 src={imgUrl}
                                                                 alt={`Asset ${imgIdx + 1}`}
-                                                                className="w-full h-full object-contain"
+                                                                className="w-full h-full object-cover object-center"
                                                                 onError={(e) => {
                                                                     (e.target as HTMLElement).style.display = "none";
                                                                 }}

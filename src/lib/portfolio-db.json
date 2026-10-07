@@ -9,10 +9,12 @@
   "timezone": "UTC+6",
   "availability": "Available for freelance & contract work",
   "responseTime": "Usually replies within 24 hours",
+  "portfolio3d": "https://3d.mahdimonir.dev",
   "socials": {
     "github": "https://github.com/mahdimonir",
     "linkedin": "https://www.linkedin.com/in/moniruzzaman-mahdi/",
-    "twitter": "https://x.com/Mahdimonir2004"
+    "twitter": "https://x.com/Mahdimonir2004",
+    "portfolio3d": "https://3d.mahdimonir.dev"
   },
   "hero": {
     "headline": "Driven",

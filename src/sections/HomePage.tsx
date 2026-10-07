@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useSpring, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { Github, Linkedin, Globe, Mail } from "lucide-react";
+import { Github, Linkedin, Globe, Mail, Box } from "lucide-react";
 import db from "@/lib/portfolio-db.json";
 
 // Components
@@ -69,6 +69,7 @@ const AvailabilityBadge = () => (
 
 const SocialStrip = () => {
   const socials = [
+    { label: "3D Portfolio", href: db.socials.portfolio3d || "https://3d.mahdimonir.dev" },
     { label: "GitHub", href: db.socials.github },
     { label: "LinkedIn", href: db.socials.linkedin },
     { label: "Twitter", href: db.socials.twitter },
@@ -140,6 +141,7 @@ const SpinningCTA = () => (
 
 const MobileSocialStrip = () => {
   const socials = [
+    { label: "3D Portfolio", icon: Box, href: db.socials.portfolio3d || "https://3d.mahdimonir.dev" },
     { label: "Github", icon: Github, href: db.socials.github },
     { label: "LinkedIn", icon: Linkedin, href: db.socials.linkedin },
     { label: "Twitter", icon: Globe, href: db.socials.twitter },

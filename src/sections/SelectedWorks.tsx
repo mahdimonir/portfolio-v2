@@ -50,13 +50,17 @@ const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
       </div>
 
       <div className="content-grid">
-        <img
-          src={project.image}
-          className="main-image cursor-pointer"
-          alt={project.title}
+        <div
+          className="main-image-frame cursor-pointer"
           onClick={() => router.push(`/projects/${projectSlug}`)}
-          onLoad={() => window.dispatchEvent(new Event("resize"))}
-        />
+        >
+          <img
+            src={project.image}
+            className="main-image"
+            alt={project.title}
+            onLoad={() => window.dispatchEvent(new Event("resize"))}
+          />
+        </div>
         <div className="project-description">
           <p>{project.description}</p>
         </div>

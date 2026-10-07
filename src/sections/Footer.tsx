@@ -66,6 +66,14 @@ const Footer = () => {
           </h3>
           <div className="flex flex-col gap-2">
             <a
+              href={db.socials.portfolio3d || "https://3d.mahdimonir.dev"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
+            >
+              3D Portfolio ↗
+            </a>
+            <a
               href={`mailto:${db.email}`}
               className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
             >
