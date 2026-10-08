@@ -317,6 +317,7 @@ export default function ProjectsDashboardPage() {
             if (res.ok) {
                 const next = projects.filter((_, i) => i !== index);
                 setProjects(next);
+                router.refresh();
                 toast.info(`Deleted project "${target.title}"`);
             } else {
                 toast.error("Failed to delete project");

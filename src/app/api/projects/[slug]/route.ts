@@ -273,24 +273,51 @@ export async function DELETE(
 
   try {
     const { slug } = await params;
+    const cleanSlug = slug.toLowerCase().trim();
     const existing = await prisma.project.findUnique({
-      where: { slug: slug.toLowerCase() },
+      where: { slug: cleanSlug },
     });
 
-    if (!existing) {
+    let deletedFromDb = false;
+    if (existing) {
+      await prisma.project.delete({
+        where: { id: existing.id },
+      });
+      deletedFromDb = true;
+    }
+
+    // Also remove from fallback portfolio-db.json so it is never resurrected
+    let deletedFromJson = false;
+    try {
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      const filePath = path.join(process.cwd(), "src", "lib", "portfolio-db.json");
+      const raw = await fs.readFile(filePath, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.projects)) {
+        const initialCount = parsed.projects.length;
+        parsed.projects = parsed.projects.filter(
+          (p: any) => p.slug.toLowerCase().trim() !== cleanSlug
+        );
+        if (parsed.projects.length !== initialCount) {
+          deletedFromJson = true;
+          await fs.writeFile(filePath, JSON.stringify(parsed, null, 2), "utf-8");
+        }
+      }
+    } catch (fsErr) {
+      console.warn("Fallback JSON delete sync error:", fsErr);
+    }
+
+    if (!deletedFromDb && !deletedFromJson) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    await prisma.project.delete({
-      where: { id: existing.id },
-    });
-
-    // Revalidate affected pages
+    // Revalidate affected pages and purge in-memory cache
     try {
       invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
-      revalidatePath(`/projects/${slug}`);
+      revalidatePath(`/projects/${cleanSlug}`);
       revalidatePath("/projects/[slug]", "page");
     } catch (revErr) {
       console.warn("Revalidation warning:", revErr);
