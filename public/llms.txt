@@ -1,0 +1,96 @@
+# Moniruzzaman Mahdi — Full Stack Developer & Software Engineer
+
+> High-signal dossier for AI agents, LLM search engines, and automated crawlers.
+> Canonical URL: https://mahdimonir.dev
+> 3D Experience: https://3d.mahdimonir.dev
+> Complete LLM Reference: https://mahdimonir.dev/llms-full.txt
+
+---
+
+## Identity & Professional Overview
+- **Full Name**: Moniruzzaman Mahdi
+- **Brand Name**: MAHDI®
+- **Title**: Full Stack Developer / Software Engineer
+- **Location**: Chattogram & Dhaka, Bangladesh (Available globally for Remote & Contract)
+- **Status**: Available for freelance, contract work, and engineering roles
+- **Direct Email**: mahdimoniruzzaman@gmail.com
+- **GitHub**: https://github.com/mahdimonir
+- **LinkedIn**: https://www.linkedin.com/in/moniruzzaman-mahdi/
+- **Twitter / X**: https://x.com/Mahdimonir2004
+
+---
+
+## Core Philosophy & Engineering Highlights
+- **Headline**: "Driven by logic. Building robust software, automating the complex, and transforming static systems into intelligent ones."
+- **Focus Areas**:
+  - Modular backend architecture & RESTful API engineering
+  - Next-generation React & Next.js full-stack applications with server components
+  - High-performance relational database modeling with PostgreSQL and Prisma ORM
+  - Microservice scaling, containerized development workflows (Docker), and asynchronous caching (Redis)
+  - Cinematic, accessible web experiences with fluid motion and design systems
+
+---
+
+## Technical Stack & Competencies
+- **Languages**: TypeScript, JavaScript (ESNext), SQL, HTML5, CSS3/PostCSS
+- **Frontend**: React 19, Next.js 16 (App Router, Turbopack, Server Actions), Tailwind CSS, Framer Motion, GSAP, Lenis Smooth Scroll
+- **Backend**: Node.js, Express.js, NestJS, RESTful APIs, JWT Authentication
+- **Databases & ORMs**: PostgreSQL, Neon Serverless Postgres, MongoDB, Prisma ORM
+- **Cloud & DevOps**: Docker, Cloudinary CDN, Vercel, Git, GitHub Actions, Redis Caching
+
+---
+
+## Flagship Projects & Case Studies
+1. **RoktoLagbe** (`/projects/roktolagbe`)
+   - *Emergency Blood Donation Network & Real-Time Logistics*
+   - Stack: Next.js • TypeScript • Node.js • Express • Redis • Cloudinary
+   - Highlights: Live donor-to-hospital matching, emergency alerts, role-based institutional access control, real-time availability tracking.
+   - Demo: https://roktolagbe-sigma.vercel.app
+
+2. **RankNexis** (`/projects/ranknexis`)
+   - *Enterprise SEO & Digital Marketing Agency Platform*
+   - Stack: Next.js • Tailwind CSS • Framer Motion • Node.js • Prisma
+   - Highlights: Scalable architecture, performance optimization, multi-service interactive showcases.
+   - Demo: https://ranknexis.com
+
+3. **Protidin Shokal** (`/projects/protidin-shokal`)
+   - *High-Traffic Digital News & Editorial Publishing Engine*
+   - Stack: React • Next.js • PostgreSQL • Prisma • Tailwind CSS
+   - Highlights: Optimized sub-second page loads, editorial CMS workflow, category pagination, dynamic reader engagement.
+   - Demo: https://protidinshokal.com
+
+4. **FruitsZone ERP** (`/projects/fruitszone-erp`)
+   - *Enterprise Resource Planning & Multi-Outlet Inventory System*
+   - Stack: React • Node.js • Express • MongoDB • JWT
+   - Highlights: POS transactions, stock forecasting, ledger reporting, multi-store synchronized inventory.
+
+5. **BD Martify** (`/projects/bd-martify`)
+   - *Modern Multi-Vendor E-Commerce Platform*
+   - Stack: MERN Stack • Redux Toolkit • Stripe Payment Gateway
+   - Highlights: Dynamic catalog filtering, secure checkout pipeline, automated order tracking.
+
+---
+
+## Professional Career History
+- **Kodevio Limited** (Aug 2026 – Present) | Full Stack Developer | Dhaka, Bangladesh
+  - Architecting modular RESTful microservices with NestJS and TypeScript.
+  - Designing relational database schemas and executing type-safe queries with PostgreSQL and Prisma.
+  - Building responsive Next.js web applications and utilizing Docker containers across environments.
+- **Rank Nexis** (Jan 2026 – Jul 2026) | Full Stack Developer | Chattogram, Bangladesh
+  - Delivered custom full-stack web platforms and client web apps with modern React.
+- **Freelance & Contract** (2023 – Present) | Independent Full Stack Engineer | Remote
+  - Designed and delivered 7+ production full-stack systems for global clients.
+
+---
+
+## Academic Background & Certification
+- **Bachelor of Science**: National University (2024 – On Going)
+- **MERN Stack Professional Certification**: Interactive Cares (2024)
+
+---
+
+## Key Site Endpoints
+- **Home / Highlights**: https://mahdimonir.dev
+- **Projects Archive**: https://mahdimonir.dev/projects
+- **Sitemap**: https://mahdimonir.dev/sitemap.xml
+- **Robots**: https://mahdimonir.dev/robots.txt

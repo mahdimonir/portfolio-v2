@@ -12,6 +12,8 @@ interface PageProps {
   }>;
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
@@ -22,17 +24,45 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const projectUrl = `${baseUrl}/projects/${project.slug}`;
+  const techNames = Array.isArray(project.tech)
+    ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name))
+    : [];
+
   return {
     title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
     description: project.description,
+    keywords: [
+      project.title,
+      project.category || "Full Stack",
+      ...techNames,
+      "Case Study",
+      "Software Architecture",
+      "Moniruzzaman Mahdi",
+    ],
+    alternates: {
+      canonical: `/projects/${project.slug}`,
+    },
     openGraph: {
-      title: `${project.title} — Case Study`,
+      type: "article",
+      url: projectUrl,
+      siteName: "Moniruzzaman Mahdi Portfolio",
+      title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
       description: project.description,
-      images: [{ url: project.image }],
+      images: [
+        {
+          url: project.image,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} project screenshot and case study`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} — Case Study`,
+      site: "@Mahdimonir2004",
+      creator: "@Mahdimonir2004",
+      title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
       description: project.description,
       images: [project.image],
     },
@@ -54,12 +84,74 @@ export default async function ProjectPage({ params }: PageProps) {
   const prevProject = (currentIndex > 0 ? projects[currentIndex - 1] : null) as unknown as ProjectData | null;
   const nextProject = (currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null) as unknown as ProjectData | null;
 
+  const projectUrl = `${baseUrl}/projects/${project.slug}`;
+  const techNames = Array.isArray(project.tech)
+    ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name)).join(", ")
+    : project.stack;
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.title,
+    headline: project.tagline || project.title,
+    description: project.description,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+    image: project.image,
+    url: projectUrl,
+    author: {
+      "@type": "Person",
+      name: "Moniruzzaman Mahdi",
+      url: baseUrl,
+    },
+    creator: {
+      "@type": "Person",
+      name: "Moniruzzaman Mahdi",
+    },
+    keywords: techNames,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: baseUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Projects",
+        item: `${baseUrl}/projects`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.title,
+        item: projectUrl,
+      },
+    ],
+  };
+
   return (
-    <ProjectDetailView
-      project={project}
-      prevProject={prevProject}
-      nextProject={nextProject}
-      position={currentIndex + 1}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ProjectDetailView
+        project={project}
+        prevProject={prevProject}
+        nextProject={nextProject}
+        position={currentIndex + 1}
+      />
+    </>
   );
 }

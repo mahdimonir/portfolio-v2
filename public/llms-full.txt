@@ -1,0 +1,144 @@
+# Moniruzzaman Mahdi — Comprehensive Developer & Engineering Archive (Full LLM Specification)
+
+Canonical URL: https://mahdimonir.dev
+Canonical 3D Space: https://3d.mahdimonir.dev
+Author: Moniruzzaman Mahdi
+Role: Full Stack Developer
+Contact: mahdimoniruzzaman@gmail.com | +8801876689921
+Location: Chattogram / Dhaka, Bangladesh
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1. Professional Summary & Bio
+2. Technical Skills Matrix
+3. Work History & Production Roles
+4. Comprehensive Project Portfolios & Case Studies
+5. Education, Degrees & Certifications
+6. Contact & Social Footprint
+
+================================================================================
+1. PROFESSIONAL SUMMARY & BIO
+================================================================================
+Moniruzzaman Mahdi (Brand: MAHDI®) is an accomplished Full Stack Developer specializing in building robust, performant software systems and intuitive digital platforms. With experience spanning modern frontend frameworks (React 19, Next.js 16) and scalable backend engineering (Node.js, Express, NestJS, PostgreSQL, Prisma, MongoDB, Docker), Mahdi focuses on transforming static systems into intelligent, automated workflows.
+
+Mahdi is available for contract engineering, full-stack application development, freelance projects, and technical consulting worldwide.
+
+================================================================================
+2. TECHNICAL SKILLS MATRIX
+================================================================================
+- Frontend Engineering:
+  - React 19, Next.js 16 (App Router, Server Components, Streaming, Server Actions)
+  - TypeScript, JavaScript (ES2024+)
+  - Tailwind CSS, PostCSS, Framer Motion, GSAP, Lenis Smooth Scroll
+  - Modern web semantics, Web Vitals optimization, Accessible UI/UX
+- Backend & Architecture:
+  - Node.js, Express.js, NestJS
+  - RESTful APIs, WebSockets, JWT Authentication, Role-Based Access Control (RBAC)
+  - Microservices, Modular architecture, Asynchronous queuing
+- Databases & Data Stores:
+  - PostgreSQL, Neon Serverless Postgres, Prisma ORM
+  - MongoDB, Mongoose
+  - Redis (caching and pub/sub)
+- DevOps, Tooling & Cloud:
+  - Docker containerization
+  - Cloudinary CDN media pipeline
+  - Git, GitHub Actions CI/CD, Vercel cloud deployments
+  - Node.js runtime profiling and database query optimization
+
+================================================================================
+3. WORK HISTORY & PRODUCTION ROLES
+================================================================================
+Role: Full Stack Developer
+Company: Kodevio Limited (https://www.kodevio.com)
+Duration: Aug 2026 – Present
+Location: Dhaka, Bangladesh
+Key Deliverables:
+- Architected modular RESTful backend services using NestJS, Node.js, and TypeScript.
+- Designed scalable relational database schemas and automated migrations with PostgreSQL and Prisma ORM.
+- Engineered responsive Next.js frontend interfaces with real-time states and server-side workflows.
+- Implemented Dockerized environments for continuous development and deployment consistency.
+
+Role: Full Stack Developer
+Company: Rank Nexis (https://www.ranknexis.com)
+Duration: Jan 2026 – Jul 2026
+Location: Chattogram, Bangladesh
+Key Deliverables:
+- Built custom responsive full-stack applications and high-conversion client platforms.
+- Designed component architecture using modern React and Tailwind CSS.
+- Optimized frontend rendering and page speeds for maximum SEO scores and user engagement.
+
+Role: Full Stack Developer (Contract & Independent)
+Duration: 2023 – Present
+Location: Remote (Global)
+Key Deliverables:
+- Delivered 7+ production-grade web systems across ERP, e-commerce, news, and healthcare domains.
+- Managed full system lifecycles from architectural design to deployment and client handoff.
+
+================================================================================
+4. COMPREHENSIVE PROJECT CASE STUDIES
+================================================================================
+PROJECT 01: RoktoLagbe
+- URL: https://mahdimonir.dev/projects/roktolagbe
+- Live Demo: https://roktolagbe-sigma.vercel.app
+- Codebase: https://github.com/mahdimonir/roktolagbe
+- Category: Full Stack Application
+- Stack: Next.js • TypeScript • Node.js • Express • Redis • Cloudinary
+- Scope: Nationwide real-time emergency blood donation network connecting verified donors, hospitals, and blood banks.
+- Architecture:
+  - Instant donor availability status and geolocation tracking.
+  - Role-based institutional dashboards for medical managers.
+  - Redis-backed notification engine and cached search queries.
+  - Audit logging and hospital credential verification workflow.
+
+PROJECT 02: RankNexis
+- URL: https://mahdimonir.dev/projects/ranknexis
+- Live Demo: https://ranknexis.com
+- Category: Agency & Enterprise Platform
+- Stack: Next.js • Tailwind CSS • Framer Motion • Node.js • Prisma
+- Scope: High-performance enterprise platform for digital marketing, audit reporting, and client onboarding.
+
+PROJECT 03: Protidin Shokal
+- URL: https://mahdimonir.dev/projects/protidin-shokal
+- Live Demo: https://protidinshokal.com
+- Category: Editorial & CMS Engine
+- Stack: React • Next.js • PostgreSQL • Prisma • Tailwind CSS
+- Scope: High-volume digital journalism portal engineered for sub-second page loads and rapid news distribution.
+
+PROJECT 04: FruitsZone ERP
+- URL: https://mahdimonir.dev/projects/fruitszone-erp
+- Category: Enterprise Resource Planning
+- Stack: React • Node.js • Express • MongoDB • JWT
+- Scope: Multi-store inventory tracking, point-of-sale processing, and financial reporting.
+
+PROJECT 05: BD Martify
+- URL: https://mahdimonir.dev/projects/bd-martify
+- Category: E-Commerce
+- Stack: MERN Stack • Redux Toolkit • Stripe
+- Scope: Scalable multi-category e-commerce engine with real-time stock sync and secure checkout.
+
+================================================================================
+5. EDUCATION, DEGREES & CERTIFICATIONS
+================================================================================
+- Bachelor of Science
+  Institution: National University
+  Period: 2024 – On Going
+- MERN Stack Web Development Certificate
+  Institution: Interactive Cares
+  Period: Jul 2024 – Dec 2024
+  Certificate URL: https://interactivecares.com/certificate/22dfcdc6-f5e2-4af3-82e6-bdbab0f04a2d
+- Higher Secondary Certificate (HSC)
+  Institution: Mohajanhat Fajlur Rahman School & College (2021 – 2022)
+- Secondary School Certificate (SSC)
+  Institution: Sufia Nuria Fazil Madrasha (2019 – 2020)
+
+================================================================================
+6. CONTACT & VERIFIED SOCIAL FOOTPRINT
+================================================================================
+- Email: mahdimoniruzzaman@gmail.com
+- Phone: +8801876689921
+- Official Website: https://mahdimonir.dev
+- 3D Portfolio: https://3d.mahdimonir.dev
+- GitHub: https://github.com/mahdimonir
+- LinkedIn: https://www.linkedin.com/in/moniruzzaman-mahdi/
+- X (Twitter): https://x.com/Mahdimonir2004
