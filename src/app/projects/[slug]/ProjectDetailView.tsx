@@ -168,7 +168,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         initial={{ opacity: 0, y: 25 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.1 }}
-                        className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-white mb-6 leading-[0.95]"
+                        className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-white mb-6 leading-[0.95]"
                     >
                         {project.title}
                     </motion.h1>
@@ -177,7 +177,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-lg md:text-2xl text-zinc-300 max-w-4xl font-normal leading-relaxed mb-12 font-serif italic"
+                        className="text-base sm:text-lg md:text-2xl text-zinc-300 max-w-4xl font-normal leading-relaxed mb-12 font-serif italic"
                     >
                         "{project.tagline || project.description}"
                     </motion.p>
@@ -187,7 +187,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.3 }}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-3xl bg-zinc-950/70 border border-white/10 backdrop-blur-md mb-12"
+                        className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-zinc-950/70 border border-white/10 backdrop-blur-md mb-12"
                     >
                         <div>
                             <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1.5 flex items-center gap-1.5">

@@ -147,7 +147,7 @@ const Navigation = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 z-[100] bg-black flex flex-col justify-between px-8 md:px-16 pt-16 pb-10 md:pt-20 md:pb-14"
+            className="fixed inset-0 z-[100] bg-black flex flex-col justify-between px-6 sm:px-8 md:px-16 pt-16 pb-8 md:pt-20 md:pb-14 overflow-y-auto"
           >
             {/* Socials row */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4 pt-10 md:pt-0">
@@ -173,11 +173,11 @@ const Navigation = () => {
             </div>
 
             {/* Nav Links */}
-            <nav className="flex flex-col gap-0">
+            <nav className="flex flex-col gap-0 my-auto py-4">
               {navItems.map((item, i) => (
                 <div
                   key={item.label}
-                  className="overflow-hidden border-b border-white/25 py-3 md:py-4"
+                  className="overflow-hidden border-b border-white/25 py-2.5 sm:py-3 md:py-4"
                 >
                   <motion.a
                     href={item.href}
@@ -189,7 +189,7 @@ const Navigation = () => {
                     exit="closed"
                     className="flex items-baseline justify-between group cursor-pointer"
                   >
-                    <span className="text-5xl md:text-7xl lg:text-8xl font-semibold text-white uppercase tracking-tight leading-none group-hover:translate-x-3 transition-transform duration-300 ease-out">
+                    <span className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold text-white uppercase tracking-tight leading-none group-hover:translate-x-3 transition-transform duration-300 ease-out">
                       {item.label}
                     </span>
                     <span className="text-xs text-white/55 font-mono tracking-widest self-start mt-2">

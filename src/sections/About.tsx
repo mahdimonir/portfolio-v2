@@ -50,18 +50,18 @@ const About = () => {
         </motion.div>
 
         {/* Right Column: The Data List */}
-        <div className="md:col-span-9 lg:col-span-9 flex flex-col gap-8 md:gap-10">
+        <div className="md:col-span-9 lg:col-span-9 flex flex-col gap-5 sm:gap-7 md:gap-10">
 
           {/* 01. EDUCATION */}
-          <motion.div style={{ y: y2, opacity: opacity2 }} className="flex flex-col gap-2">
-            <h3 className="font-sans text-xs md:text-sm font-bold uppercase tracking-wide opacity-100 mb-1">
+          <motion.div style={{ y: y2, opacity: opacity2 }} className="flex flex-col gap-1 sm:gap-2">
+            <h3 className="font-sans text-xs md:text-sm font-bold uppercase tracking-wide opacity-100 mb-0.5 sm:mb-1">
               01. Education
             </h3>
-            <div className="flex flex-col gap-1">
-              <p className="font-sans text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-tight">
+            <div className="flex flex-col gap-0.5 sm:gap-1">
+              <p className="font-sans text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-tight">
                 {latestEdu.institution}
               </p>
-              <p className="font-sans text-xl md:text-2xl lg:text-3xl font-normal text-black/70 leading-tight tracking-tight">
+              <p className="font-sans text-lg sm:text-xl md:text-2xl lg:text-3xl font-normal text-black/70 leading-tight tracking-tight">
                 {latestEdu.degree}
                 <span className="ml-3 text-sm font-mono font-medium text-black/40 tracking-widest uppercase">
                   {latestEdu.period}

@@ -61,7 +61,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="h-screen w-full bg-white text-black font-sans px-4 md:px-8 lg:px-12 overflow-hidden flex items-center justify-center relative">
+    <section className="min-h-screen lg:h-screen w-full bg-white text-black font-sans px-6 md:px-8 lg:px-12 py-16 md:py-20 lg:py-0 flex items-center justify-center relative">
       <motion.div
         className="grid grid-cols-1 lg:grid-cols-12 gap-y-8 lg:gap-x-16 max-w-[1400px] w-full mx-auto"
         variants={containerVariants}

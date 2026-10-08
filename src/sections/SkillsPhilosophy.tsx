@@ -26,7 +26,7 @@ const SkillsPhilosophy = () => {
             <h2 className="text-xs font-bold uppercase tracking-widest">Skills & Philosophy</h2>
           </div>
           <div className="md:col-span-4">
-            <blockquote className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight">
+            <blockquote className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight">
               "{db.quote.text}"
             </blockquote>
             <p className="mt-6">— {db.quote.author}</p>

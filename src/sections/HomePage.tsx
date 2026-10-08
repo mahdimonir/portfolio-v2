@@ -251,7 +251,7 @@ const Index = () => {
                 <div className="z-10 mt-auto mb-6 md:mb-10 max-w-4xl">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
                         {/* 1st Line: MAHDI */}
-                        <h1 className="font-sans font-black text-6xl sm:text-7xl md:text-8xl lg:text-[8.5rem] xl:text-[10.5rem] leading-[0.84] tracking-tighter text-white uppercase text-left select-none">
+                        <h1 className="font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[8.5rem] xl:text-[10.5rem] leading-[0.84] tracking-tighter text-white uppercase text-left select-none">
                             MAHDI
                         </h1>
                     </motion.div>

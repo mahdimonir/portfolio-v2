@@ -85,7 +85,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                             <span className="text-xs font-mono uppercase tracking-[0.25em] text-zinc-500 block mb-3">
                                 // Index & Specifications
                             </span>
-                            <h1 className="text-6xl sm:text-7xl md:text-8xl font-sans font-black uppercase tracking-tighter text-white mb-4 leading-none">
+                            <h1 className="text-5xl sm:text-7xl md:text-8xl font-sans font-black uppercase tracking-tighter text-white mb-4 leading-none">
                                 Projects
                             </h1>
                             <p className="text-zinc-400 max-w-2xl text-sm md:text-base leading-relaxed">
