@@ -20,6 +20,7 @@ import {
     PanelLeftOpen,
     ChevronRight,
 } from "lucide-react";
+import { DashboardLoadingProvider, useDashboardLoading } from "@/context/DashboardLoadingContext";
 
 interface NavItem {
     href: string;
@@ -29,7 +30,31 @@ interface NavItem {
     badgeColor?: string;
 }
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+function DashboardHeaderStatus() {
+    const { isLoading, statusText, lastSaved } = useDashboardLoading();
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-800/80 text-[11px] font-mono text-cyan-300 shadow-sm animate-pulse">
+                <div className="w-2.5 h-2.5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                <span className="truncate max-w-[130px] sm:max-w-[200px]">{statusText || "Syncing..."}</span>
+            </div>
+        );
+    }
+
+    if (lastSaved) {
+        return (
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/60 text-[11px] font-mono text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                <span>Synced</span>
+            </div>
+        );
+    }
+
+    return null;
+}
+
+function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -98,21 +123,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             })
             .catch(() => {});
 
-        // Fetch portfolio for user name & project count
-        fetch("/api/portfolio")
+        // Fetch portfolio for user name & project count (scoped overview for high speed)
+        fetch("/api/portfolio?scope=overview")
             .then((r) => r.json())
             .then((data) => {
                 if (data?.firstName) setUserName(data.firstName.toUpperCase());
-                if (Array.isArray(data?.projects)) setProjectCount(data.projects.length);
+                if (typeof data?.projectCount === "number") {
+                    setProjectCount(data.projectCount);
+                } else if (Array.isArray(data?.projects)) {
+                    setProjectCount(data.projects.length);
+                }
             })
             .catch(() => {});
     }, []);
 
     useEffect(() => {
-        if (authChecked) {
-            loadSidebarData();
-        }
-    }, [authChecked, loadSidebarData]);
+        loadSidebarData();
+    }, [loadSidebarData]);
 
     const handleLogout = async () => {
         try {
@@ -172,14 +199,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             return pathname.startsWith(item.href);
         }) || navItems[0];
 
-    if (!authChecked) {
-        return (
-            <div className="min-h-screen bg-[#09090b] text-zinc-400 flex flex-col items-center justify-center gap-3 font-sans">
-                <div className="w-8 h-8 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">Authenticating Session...</span>
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-white selection:text-black">
@@ -194,10 +213,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Fixed Desktop & Mobile Slideout Sidebar */}
             <aside
                 className={`fixed inset-y-0 left-0 z-50 h-screen bg-[#09090b] border-r border-zinc-800/80 flex flex-col justify-between transition-all duration-300 ease-in-out ${
-                    // Mobile slideout drawer
                     mobileOpen ? "translate-x-0 w-72" : "-translate-x-full"
                 } md:translate-x-0 md:z-40 ${
-                    // Desktop fixed width & overflow:
                     collapsed ? "md:w-20 md:overflow-visible" : "md:w-64 md:overflow-hidden"
                 }`}
             >
@@ -262,7 +279,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             if (collapsed) {
                                 return (
                                     <React.Fragment key={item.href}>
-                                        {/* Desktop Collapsed View: Icon only with tooltip */}
                                         <Link
                                             href={item.href}
                                             title={item.label}
@@ -276,7 +292,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                                 {item.icon}
                                             </span>
 
-                                            {/* Collapsed Badge Indicator */}
                                             {item.badge !== undefined && (
                                                 <span
                                                     className={`absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[9px] font-mono font-bold flex items-center justify-center shadow-md ${
@@ -291,7 +306,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                                 </span>
                                             )}
 
-                                            {/* Hover Floating Tooltip */}
                                             <div className="absolute left-full ml-3 px-3 py-1.5 bg-zinc-900/95 border border-zinc-700/80 text-white text-[11px] font-semibold uppercase tracking-wider rounded-lg whitespace-nowrap shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 pointer-events-none flex items-center gap-2">
                                                 <span>{item.label}</span>
                                                 {item.badge !== undefined && (
@@ -302,7 +316,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                             </div>
                                         </Link>
 
-                                        {/* Mobile Drawer View (full label) */}
                                         <Link
                                             href={item.href}
                                             onClick={() => setMobileOpen(false)}
@@ -334,7 +347,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 );
                             }
 
-                            // Desktop & Mobile Expanded View
                             return (
                                 <Link
                                     key={item.href}
@@ -368,11 +380,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         })}
                     </nav>
                 </div>
-                {/* Lower Section: Status & Actions */}
+
+                {/* Lower Section */}
                 {collapsed && (
                     <div className="p-3 border-t border-zinc-800/80 flex-shrink-0">
                         <div className="hidden md:flex flex-col items-center gap-3 py-2">
-                            {/* Collapsed Logout */}
                             <button
                                 onClick={handleLogout}
                                 title="Log Out"
@@ -388,12 +400,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 )}
             </aside>
 
-            {/* Main Application Container (offset dynamically by fixed sidebar) */}
+            {/* Main Application Container */}
             <div className={`min-h-screen flex flex-col transition-all duration-300 ease-in-out ${collapsed ? "md:pl-20" : "md:pl-64"}`}>
                 {/* Top Command Bar */}
                 <header className="sticky top-0 z-30 w-full bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800/80 px-4 md:px-8 py-3.5 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        {/* Mobile Hamburger Toggle */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
                             className="md:hidden p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800"
@@ -402,7 +413,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
 
-                        {/* Desktop Sidebar Quick Toggle */}
                         <button
                             onClick={toggleCollapse}
                             className="hidden md:flex items-center justify-center p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800/80 transition-colors"
@@ -412,7 +422,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
                         </button>
 
-                        {/* Breadcrumbs */}
                         <div className="flex items-center gap-2.5">
                             {collapsed && (
                                 <Link
@@ -430,8 +439,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </div>
 
-                    {/* Right Actions Bar */}
+                    {/* Right Actions Bar with Sync Indicator */}
                     <div className="flex items-center gap-3">
+                        <DashboardHeaderStatus />
+
                         <a
                             href="/"
                             target="_blank"
@@ -456,5 +467,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <main className="flex-1 min-w-0 w-full p-4 sm:p-6 md:p-8 lg:p-10">{children}</main>
             </div>
         </div>
+    );
+}
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <DashboardLoadingProvider>
+            <DashboardLayoutContent>{children}</DashboardLayoutContent>
+        </DashboardLoadingProvider>
     );
 }

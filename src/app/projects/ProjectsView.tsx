@@ -172,7 +172,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                     className="block relative aspect-[16/9] w-full overflow-hidden bg-zinc-950 border-b border-white/10 group/img"
                                 >
                                     <img
-                                        src={project.image}
+                                        src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
                                         alt={project.title}
                                         className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 ease-out"
                                     />
@@ -244,6 +244,17 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                                         title="Source Code"
                                                     >
                                                         <Github className="w-3.5 h-3.5" />
+                                                    </a>
+                                                )}
+                                                {project.links.api && !project.links.live && (
+                                                    <a
+                                                        href={project.links.api}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-cyan-950/70 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-900/80 text-xs font-bold uppercase tracking-wider transition-colors"
+                                                    >
+                                                        <span>API Docs</span>
+                                                        <ExternalLink className="w-3 h-3" />
                                                     </a>
                                                 )}
                                                 {project.links.live && (

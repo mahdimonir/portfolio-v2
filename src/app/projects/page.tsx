@@ -8,16 +8,29 @@ export const dynamic = "force-dynamic";
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
 
 export const metadata: Metadata = {
-  title: "Projects & Architecture | Moniruzzaman Mahdi",
+  title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
   description:
-    "Explore the complete portfolio of web applications, scalable full-stack architectures, and production-ready platforms built by Moniruzzaman Mahdi.",
+    "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Moniruzzaman Mahdi.",
+  keywords: [
+    "Full Stack Projects",
+    "Next.js Applications",
+    "NestJS Microservices",
+    "SaaS MVP Architecture",
+    "Enterprise ERP Systems",
+    "Custom CMS Platforms",
+    "Golang Backend",
+    "PERN Stack Projects",
+    "MERN Stack Projects",
+    "Software Architecture Case Studies",
+    "Moniruzzaman Mahdi",
+  ],
   alternates: {
     canonical: "/projects",
   },
   openGraph: {
-    title: "Projects & Architecture | Moniruzzaman Mahdi",
+    title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
     description:
-      "Explore the complete portfolio of web applications, scalable full-stack architectures, and production-ready platforms built by Moniruzzaman Mahdi.",
+      "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Moniruzzaman Mahdi.",
     url: `${baseUrl}/projects`,
     type: "website",
     images: [
@@ -31,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Projects & Architecture | Moniruzzaman Mahdi",
+    title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
     description:
-      "Explore the complete portfolio of web applications, scalable full-stack architectures, and production-ready platforms built by Moniruzzaman Mahdi.",
+      "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL.",
     images: ["/opengraph-image"],
   },
 };

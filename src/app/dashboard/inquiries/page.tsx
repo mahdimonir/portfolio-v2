@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
+import { DashboardInquiriesSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     MessageSquare,
     Mail,
@@ -160,14 +161,7 @@ export default function InquiriesDashboardPage() {
     }, [filteredMessages, safeCurrentPage, pageSize]);
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Inquiries Inbox...
-                </span>
-            </div>
-        );
+        return <DashboardInquiriesSkeleton />;
     }
 
     return (

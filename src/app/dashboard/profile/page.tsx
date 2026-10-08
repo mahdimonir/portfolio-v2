@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { DashboardFormSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     User,
     Mail,
@@ -34,6 +35,7 @@ export interface ProfileData {
         github: string;
         linkedin: string;
         twitter: string;
+        portfolio3d?: string;
     };
     hero: {
         headline: string;
@@ -55,7 +57,7 @@ export default function ProfileDashboardPage() {
         timezone: "",
         availability: "",
         responseTime: "",
-        socials: { github: "", linkedin: "", twitter: "" },
+        socials: { github: "", linkedin: "", twitter: "", portfolio3d: "" },
         hero: { headline: "", headlineSecond: "", subheadline: "", availability: "" },
     });
     const [savedProfile, setSavedProfile] = useState<ProfileData>(profile);
@@ -64,9 +66,9 @@ export default function ProfileDashboardPage() {
 
     const loadData = useCallback(async () => {
         try {
-            const res = await fetch("/api/portfolio");
+            const res = await fetch("/api/portfolio?scope=profile");
             const data = await res.json();
-            if (data?.name) {
+            if (data?.name || data?.firstName) {
                 const normalized: ProfileData = {
                     name: data.name || "",
                     firstName: data.firstName || "",
@@ -82,10 +84,11 @@ export default function ProfileDashboardPage() {
                         github: data.socials?.github || "",
                         linkedin: data.socials?.linkedin || "",
                         twitter: data.socials?.twitter || "",
+                        portfolio3d: data.socials?.portfolio3d || "",
                     },
                     hero: {
-                        headline: data.hero?.headline || "",
-                        headlineSecond: data.hero?.headlineSecond || "",
+                        headline: data.hero?.headline || data.firstName || "MAHDI",
+                        headlineSecond: data.hero?.headlineSecond || "MONIRUZZAMAN",
                         subheadline: data.hero?.subheadline || "",
                         availability: data.hero?.availability || "",
                     },
@@ -110,18 +113,26 @@ export default function ProfileDashboardPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const currentRes = await fetch("/api/portfolio");
-            const currentData = await currentRes.json();
-
             const payload = {
-                ...currentData,
-                ...profile,
+                name: profile.name,
+                firstName: profile.firstName,
+                title: profile.title,
+                role: profile.role,
+                location: profile.location,
+                email: profile.email,
+                phone: profile.phone,
+                timezone: profile.timezone,
+                availability: profile.availability,
+                responseTime: profile.responseTime,
                 socials: profile.socials,
-                hero: profile.hero,
+                hero: {
+                    ...profile.hero,
+                    headline: profile.firstName || profile.hero.headline || "MAHDI",
+                },
             };
 
             const res = await fetch("/api/portfolio", {
-                method: "POST",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
                 body: JSON.stringify(payload),
@@ -166,14 +177,7 @@ export default function ProfileDashboardPage() {
         "bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between";
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Profile Settings...
-                </span>
-            </div>
-        );
+        return <DashboardFormSkeleton title="Profile & Hero" />;
     }
 
     return (
@@ -401,64 +405,49 @@ export default function ProfileDashboardPage() {
 
             {/* Grid 2: Hero Section Typography & Social Links */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-                {/* Hero Typography (2 Cols) */}
+                {/* Hero Presentation (2 Cols) */}
                 <div className={`${cardClass} lg:col-span-2`}>
                     <div>
                         <div className="flex items-center gap-2 pb-3 mb-5 border-b border-zinc-800">
                             <Sparkles className="w-4 h-4 text-zinc-300" />
                             <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
-                                Hero Section Typography
+                                Hero Section Presentation
                             </h2>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className={labelClass}>Headline Line 1</label>
+                                <label className={labelClass}>Hero Main Title (1st Line)</label>
                                 <input
                                     className={inputClass + " font-black uppercase text-base"}
-                                    value={profile.hero.headline}
+                                    value={profile.firstName}
                                     onChange={(e) =>
                                         setProfile({
                                             ...profile,
-                                            hero: { ...profile.hero, headline: e.target.value },
+                                            firstName: e.target.value,
                                         })
                                     }
-                                    placeholder="DRIVEN"
+                                    placeholder="MAHDI"
                                 />
                             </div>
 
                             <div>
-                                <label className={labelClass}>Headline Line 2</label>
+                                <label className={labelClass}>Hero Position Tag (2nd Line)</label>
                                 <input
-                                    className={inputClass + " font-black uppercase text-base"}
-                                    value={profile.hero.headlineSecond}
+                                    className={inputClass + " font-bold uppercase text-xs"}
+                                    value={profile.role}
                                     onChange={(e) =>
                                         setProfile({
                                             ...profile,
-                                            hero: { ...profile.hero, headlineSecond: e.target.value },
+                                            role: e.target.value,
                                         })
                                     }
-                                    placeholder="BY LOGIC"
+                                    placeholder="FULL STACK DEVELOPER"
                                 />
                             </div>
 
                             <div className="sm:col-span-2">
-                                <label className={labelClass}>Hero Top Availability Badge Text</label>
-                                <input
-                                    className={inputClass}
-                                    value={profile.hero.availability}
-                                    onChange={(e) =>
-                                        setProfile({
-                                            ...profile,
-                                            hero: { ...profile.hero, availability: e.target.value },
-                                        })
-                                    }
-                                    placeholder="Available for work"
-                                />
-                            </div>
-
-                            <div className="sm:col-span-2">
-                                <label className={labelClass}>Hero Subheadline Description</label>
+                                <label className={labelClass}>Hero Bio / Philosophy Description</label>
                                 <textarea
                                     className={inputClass + " resize-y min-h-[75px] leading-relaxed"}
                                     rows={3}
@@ -469,25 +458,31 @@ export default function ProfileDashboardPage() {
                                             hero: { ...profile.hero, subheadline: e.target.value },
                                         })
                                     }
-                                    placeholder="Building robust software, automating the complex..."
+                                    placeholder="Building robust software, automating the complex and focused on transforming static systems into intelligent ones."
                                 />
                             </div>
                         </div>
                     </div>
 
-                    {/* Live Hero Banner Preview */}
-                    <div className="mt-4 p-5 rounded-xl bg-black border border-zinc-800 flex flex-col gap-2">
-                        <span className="text-[9px] uppercase tracking-widest text-zinc-600 font-bold font-mono">
-                            Live Hero Preview
+                    {/* Live Hero Banner Preview Matching HomePage */}
+                    <div className="mt-4 p-6 rounded-xl bg-black border border-zinc-800 flex flex-col gap-3">
+                        <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold font-mono">
+                            Live Hero Section Preview
                         </span>
-                        <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-white leading-none">
-                            {profile.hero.headline || "DRIVEN"}
-                            <br />
-                            {profile.hero.headlineSecond || "BY LOGIC"}
-                        </h3>
-                        <p className="text-xs text-zinc-400 font-medium uppercase tracking-wide mt-1">
-                            {profile.hero.subheadline}
-                        </p>
+                        <div>
+                            <h3 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white leading-none">
+                                {profile.firstName || "MAHDI"}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-2">
+                                <span className="h-[2px] w-6 bg-cyan-400 shrink-0" />
+                                <span className="font-mono text-xs uppercase tracking-[0.22em] text-zinc-200 font-bold">
+                                    {profile.role || "FULL STACK DEVELOPER"}
+                                </span>
+                            </div>
+                            <p className="text-xs text-zinc-400 font-normal leading-relaxed mt-3 max-w-xl">
+                                {profile.hero.subheadline || "Building robust software, automating the complex..."}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -501,6 +496,35 @@ export default function ProfileDashboardPage() {
                     </div>
 
                     <div className="flex flex-col gap-4">
+                        <div>
+                            <label className={labelClass}>
+                                <span className="flex items-center gap-1.5">
+                                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> 3D Portfolio URL
+                                </span>
+                                {profile.socials.portfolio3d && (
+                                    <a
+                                        href={profile.socials.portfolio3d}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="text-[9px] text-zinc-400 hover:text-white"
+                                    >
+                                        Visit ↗
+                                    </a>
+                                )}
+                            </label>
+                            <input
+                                className={inputClass}
+                                value={profile.socials.portfolio3d || ""}
+                                onChange={(e) =>
+                                    setProfile({
+                                        ...profile,
+                                        socials: { ...profile.socials, portfolio3d: e.target.value },
+                                    })
+                                }
+                                placeholder="https://3d.mahdimonir.dev"
+                            />
+                        </div>
+
                         <div>
                             <label className={labelClass}>
                                 <span className="flex items-center gap-1.5">

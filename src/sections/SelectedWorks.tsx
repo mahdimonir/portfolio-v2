@@ -55,7 +55,7 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
           onClick={() => router.push(`/projects/${projectSlug}`)}
         >
           <img
-            src={project.image}
+            src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
             className="main-image"
             alt={project.title}
             onLoad={() => window.dispatchEvent(new Event("resize"))}

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ProjectsCatalogSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     FolderKanban,
     Plus,
@@ -47,7 +48,13 @@ export interface Project {
     longDescription?: string | null;
     image: string;
     images: string[];
-    links: { live?: string | null; code?: string | null };
+    links: {
+        live?: string | null;
+        code?: string | null;
+        api?: string | null;
+        play_store?: string | null;
+        app_store?: string | null;
+    };
     cta: string;
     category: string;
     role?: string | null;
@@ -100,21 +107,27 @@ export default function ProjectsDashboardPage() {
     const loadData = useCallback(async () => {
         try {
             const [portRes, catRes, techRes] = await Promise.all([
-                fetch("/api/portfolio"),
-                fetch("/api/categories"),
-                fetch("/api/tech-stacks"),
+                fetch("/api/portfolio?scope=projects").catch(() => null),
+                fetch("/api/categories").catch(() => null),
+                fetch("/api/tech-stacks").catch(() => null),
             ]);
 
-            const portData = await portRes.json();
-            const catData = await catRes.json();
-            const techData = await techRes.json();
+            const portData = portRes && portRes.ok ? await portRes.json().catch(() => []) : [];
+            const catData = catRes && catRes.ok ? await catRes.json().catch(() => []) : [];
+            const techData = techRes && techRes.ok ? await techRes.json().catch(() => []) : [];
 
             if (Array.isArray(catData)) setCategories(catData);
             if (Array.isArray(techData)) setMasterTechs(techData);
 
-            if (Array.isArray(portData?.projects)) {
+            const projectList = Array.isArray(portData)
+                ? portData
+                : Array.isArray(portData?.projects)
+                ? portData.projects
+                : [];
+
+            if (projectList.length > 0) {
                 setProjects(
-                    portData.projects.map((p: Project) => ({
+                    projectList.map((p: Project) => ({
                         ...p,
                         images: Array.isArray(p.images) ? p.images : p.image ? [p.image] : [],
                         features: Array.isArray(p.features) ? p.features : [],
@@ -182,7 +195,13 @@ export default function ProjectsDashboardPage() {
             longDescription: "In-depth case study analyzing engineering trade-offs, database optimization, and performance gains.",
             image: "",
             images: [],
-            links: { live: "https://", code: "https://github.com" },
+            links: {
+                live: "https://",
+                code: "https://github.com",
+                api: "",
+                play_store: "",
+                app_store: "",
+            },
             cta: "View Project",
             category: defaultCat,
             role: "Lead Full Stack Engineer",
@@ -226,6 +245,8 @@ export default function ProjectsDashboardPage() {
         proj.images = images;
         proj.image = images[0] || proj.image || "";
 
+        if (!proj.links) proj.links = {};
+
         setActiveModalProject(proj);
         setEditingIndex(index);
         setModalTab("basic");
@@ -246,15 +267,38 @@ export default function ProjectsDashboardPage() {
         projectToSave.images = images;
         projectToSave.image = images[0] || projectToSave.image || "";
 
-        const next = [...projects];
-        if (editingIndex === null) {
-            // Add new
-            next.unshift(projectToSave);
-        } else {
-            // Update existing
-            next[editingIndex] = projectToSave;
+        // If editing existing project, use fast granular PUT /api/projects/[slug]
+        if (editingIndex !== null) {
+            setIsSaving(true);
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectToSave.slug)}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify(projectToSave),
+                });
+
+                if (res.ok) {
+                    const next = [...projects];
+                    next[editingIndex] = projectToSave;
+                    setProjects(next);
+                    toast.success("Project updated successfully!");
+                    setActiveModalProject(null);
+                    setEditingIndex(null);
+                } else {
+                    toast.error("Failed to update project");
+                }
+            } catch {
+                toast.error("Network error while updating project");
+            } finally {
+                setIsSaving(false);
+            }
+            return;
         }
 
+        // Otherwise creating new project
+        const next = [...projects];
+        next.unshift(projectToSave);
         await persistProjects(next);
         setActiveModalProject(null);
         setEditingIndex(null);
@@ -263,9 +307,25 @@ export default function ProjectsDashboardPage() {
     const handleDeleteProject = async (index: number) => {
         const target = projects[index];
         if (!confirm(`Are you sure you want to delete project "${target.title}"?`)) return;
-        const next = projects.filter((_, i) => i !== index);
-        await persistProjects(next);
-        toast.info(`Deleted project "${target.title}"`);
+
+        // Granular DELETE /api/projects/[slug]
+        try {
+            const res = await fetch(`/api/projects/${encodeURIComponent(target.slug)}`, {
+                method: "DELETE",
+                credentials: "include",
+            });
+            if (res.ok) {
+                const next = projects.filter((_, i) => i !== index);
+                setProjects(next);
+                toast.info(`Deleted project "${target.title}"`);
+            } else {
+                toast.error("Failed to delete project");
+                return;
+            }
+        } catch {
+            toast.error("Network error deleting project");
+            return;
+        }
 
         // Delete all project images from Cloudinary
         const imagesToDelete = (target.images || []).filter((url) => url && url.includes("cloudinary.com"));
@@ -303,14 +363,39 @@ export default function ProjectsDashboardPage() {
         toast.success("Project duplicated!");
     };
 
-    const handleMove = (index: number, direction: "up" | "down") => {
+    // Fast transaction reordering via POST /api/projects/reorder
+    const handleMove = async (index: number, direction: "up" | "down") => {
         const targetIndex = direction === "up" ? index - 1 : index + 1;
         if (targetIndex < 0 || targetIndex >= projects.length) return;
         const next = [...projects];
         const temp = next[index];
         next[index] = next[targetIndex];
         next[targetIndex] = temp;
-        persistProjects(next);
+        setProjects(next);
+
+        const orderList = next.map((p, idx) => ({
+            slug: p.slug,
+            order: idx,
+            featured: Boolean(p.featured),
+        }));
+
+        try {
+            const res = await fetch("/api/projects/reorder", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ orderList }),
+            });
+            if (res.ok) {
+                toast.success("Project order saved!");
+            } else {
+                toast.error("Failed to save reorder");
+                loadData();
+            }
+        } catch {
+            toast.error("Network error while reordering");
+            loadData();
+        }
     };
 
     // Upload image to Cloudinary inside modal
@@ -471,14 +556,7 @@ export default function ProjectsDashboardPage() {
         "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Projects Module...
-                </span>
-            </div>
-        );
+        return <ProjectsCatalogSkeleton />;
     }
 
     return (
@@ -1105,6 +1183,60 @@ export default function ProjectsDashboardPage() {
                                                 })
                                             }
                                             placeholder="https://github.com/..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>API / Swagger Docs URL</label>
+                                        <input
+                                            className={inputClass + " font-mono text-xs"}
+                                            value={activeModalProject.links?.api || ""}
+                                            onChange={(e) =>
+                                                setActiveModalProject({
+                                                    ...activeModalProject,
+                                                    links: {
+                                                        ...activeModalProject.links,
+                                                        api: e.target.value,
+                                                    },
+                                                })
+                                            }
+                                            placeholder="https://.../api/docs"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Google Play Store URL</label>
+                                        <input
+                                            className={inputClass + " font-mono text-xs"}
+                                            value={activeModalProject.links?.play_store || ""}
+                                            onChange={(e) =>
+                                                setActiveModalProject({
+                                                    ...activeModalProject,
+                                                    links: {
+                                                        ...activeModalProject.links,
+                                                        play_store: e.target.value,
+                                                    },
+                                                })
+                                            }
+                                            placeholder="https://play.google.com/store/apps/..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Apple App Store URL</label>
+                                        <input
+                                            className={inputClass + " font-mono text-xs"}
+                                            value={activeModalProject.links?.app_store || ""}
+                                            onChange={(e) =>
+                                                setActiveModalProject({
+                                                    ...activeModalProject,
+                                                    links: {
+                                                        ...activeModalProject.links,
+                                                        app_store: e.target.value,
+                                                    },
+                                                })
+                                            }
+                                            placeholder="https://apps.apple.com/app/..."
                                         />
                                     </div>
 

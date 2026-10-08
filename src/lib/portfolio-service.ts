@@ -65,6 +65,9 @@ export interface PortfolioData {
     links: {
       live?: string | null;
       code?: string | null;
+      api?: string | null;
+      play_store?: string | null;
+      app_store?: string | null;
     };
     cta: string;
     category: string;
@@ -229,12 +232,16 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         })),
         focus: user.focus,
       },
-      projects: formattedProjects.length > 0
-        ? formattedProjects
-        : (fallbackDb.projects as unknown as PortfolioData["projects"]).map((p, idx) => ({
-            ...p,
-            id: String(idx + 1).padStart(2, "0"),
-          })),
+      projects: (() => {
+        const dbSlugs = new Set(formattedProjects.map((p) => p.slug.toLowerCase()));
+        const missingFromDb = (fallbackDb.projects as unknown as PortfolioData["projects"]).filter(
+          (p) => !dbSlugs.has(p.slug.toLowerCase())
+        );
+        return [...formattedProjects, ...missingFromDb].map((p, idx) => ({
+          ...p,
+          id: String(idx + 1).padStart(2, "0"),
+        }));
+      })(),
       skills: formattedSkills.length > 0 ? formattedSkills : (fallbackDb.skills as unknown as PortfolioData["skills"]),
       quote: {
         text: user.quoteText || fallbackDb.quote.text,
@@ -275,7 +282,13 @@ export async function getProjects(): Promise<ProjectItem[]> {
 export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
   try {
     const projects = await getProjects();
-    return projects.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) || null;
+    const found = projects.find((p) => p.slug.toLowerCase() === slug.toLowerCase());
+    if (found) return found;
+
+    const fallback = (fallbackDb.projects as unknown as ProjectItem[]).find(
+      (p) => p.slug.toLowerCase() === slug.toLowerCase()
+    );
+    return fallback ? { ...fallback, id: String(fallbackDb.projects.indexOf(fallback as any) + 1).padStart(2, "0") } : null;
   } catch (error) {
     console.error(`Error in getProjectBySlug for ${slug}:`, error);
     const fallback = (fallbackDb.projects as unknown as ProjectItem[]).find(

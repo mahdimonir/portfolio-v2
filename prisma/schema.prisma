@@ -164,7 +164,7 @@ model TechStack {
 // ─────────────────────────────────────────
 model Project {
   id              Int     @id @default(autoincrement())
-  displayId       String  @unique @map("display_id")
+  displayId       String  @map("display_id")
   slug            String  @unique
   title           String
   tagline         String?

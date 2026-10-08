@@ -90,10 +90,20 @@ export async function PUT(
       cta,
       liveUrl,
       codeUrl,
+      apiUrl,
+      playStoreUrl,
+      appStoreUrl,
+      links,
       order,
       featured,
       categoryId,
+      images,
+      features,
+      tech,
     } = body;
+
+    const resolvedLiveUrl = links?.live !== undefined ? links.live : liveUrl;
+    const resolvedCodeUrl = links?.code !== undefined ? links.code : codeUrl;
 
     const updated = await prisma.project.update({
       where: { id: existing.id },
@@ -111,8 +121,8 @@ export async function PUT(
         ...(client !== undefined ? { client } : {}),
         ...(status !== undefined ? { status } : {}),
         ...(cta !== undefined ? { cta } : {}),
-        ...(liveUrl !== undefined ? { liveUrl } : {}),
-        ...(codeUrl !== undefined ? { codeUrl } : {}),
+        ...(resolvedLiveUrl !== undefined ? { liveUrl: resolvedLiveUrl } : {}),
+        ...(resolvedCodeUrl !== undefined ? { codeUrl: resolvedCodeUrl } : {}),
         ...(order !== undefined ? { order: Number(order) } : {}),
         ...(featured !== undefined ? { featured: Boolean(featured) } : {}),
         ...(categoryId ? { categoryId: Number(categoryId) } : {}),
@@ -124,6 +134,66 @@ export async function PUT(
         techStacks: { include: { techStack: true } },
       },
     });
+
+    // Synchronize images if array provided
+    if (Array.isArray(images)) {
+      await prisma.projectImage.deleteMany({ where: { projectId: existing.id } });
+      if (images.length > 0) {
+        await prisma.projectImage.createMany({
+          data: images.map((url: string, index: number) => ({
+            projectId: existing.id,
+            url,
+            order: index,
+          })),
+        });
+      }
+    }
+
+    // Synchronize features if array provided
+    if (Array.isArray(features)) {
+      await prisma.projectFeature.deleteMany({ where: { projectId: existing.id } });
+      if (features.length > 0) {
+        await prisma.projectFeature.createMany({
+          data: features.map((text: string, index: number) => ({
+            projectId: existing.id,
+            text,
+            order: index,
+          })),
+        });
+      }
+    }
+
+    // Synchronize tech stacks if array provided
+    if (Array.isArray(tech)) {
+      await prisma.projectTechStack.deleteMany({ where: { projectId: existing.id } });
+      for (let tIdx = 0; tIdx < tech.length; tIdx++) {
+        const item = tech[tIdx];
+        const techName = typeof item === "string" ? item : item.name;
+        if (!techName) continue;
+
+        let techRecord = await prisma.techStack.findUnique({
+          where: { name: techName },
+        });
+
+        if (!techRecord) {
+          techRecord = await prisma.techStack.create({
+            data: {
+              name: techName,
+              role: (typeof item === "object" ? item.category : null) || "Full Stack",
+              iconUrl: typeof item === "object" ? item.iconUrl || null : null,
+            },
+          });
+        }
+
+        await prisma.projectTechStack.create({
+          data: {
+            projectId: existing.id,
+            techStackId: techRecord.id,
+            order: tIdx,
+          },
+        });
+      }
+    }
 
     // Sync to local JSON file for server-side static reads
     try {
@@ -141,29 +211,26 @@ export async function PUT(
           if (stack !== undefined) parsed.projects[pIndex].stack = stack;
           if (description) parsed.projects[pIndex].description = description;
           if (longDescription !== undefined) parsed.projects[pIndex].longDescription = longDescription;
-          if (coverImage) {
-            parsed.projects[pIndex].image = coverImage;
-            if (Array.isArray(parsed.projects[pIndex].images)) {
-              if (!parsed.projects[pIndex].images.includes(coverImage)) {
-                parsed.projects[pIndex].images.unshift(coverImage);
-              }
-            } else {
-              parsed.projects[pIndex].images = [coverImage];
-            }
-          }
+          if (coverImage) parsed.projects[pIndex].image = coverImage;
+          if (Array.isArray(images)) parsed.projects[pIndex].images = images;
+          if (Array.isArray(features)) parsed.projects[pIndex].features = features;
+          if (Array.isArray(tech)) parsed.projects[pIndex].tech = tech;
           if (role !== undefined) parsed.projects[pIndex].role = role;
           if (duration !== undefined) parsed.projects[pIndex].duration = duration;
           if (client !== undefined) parsed.projects[pIndex].client = client;
           if (status !== undefined) parsed.projects[pIndex].status = status;
           if (cta !== undefined) parsed.projects[pIndex].cta = cta;
-          if (liveUrl !== undefined) {
-            if (!parsed.projects[pIndex].links) parsed.projects[pIndex].links = {};
-            parsed.projects[pIndex].links.live = liveUrl;
-          }
-          if (codeUrl !== undefined) {
-            if (!parsed.projects[pIndex].links) parsed.projects[pIndex].links = {};
-            parsed.projects[pIndex].links.code = codeUrl;
-          }
+
+          if (!parsed.projects[pIndex].links) parsed.projects[pIndex].links = {};
+          if (resolvedLiveUrl !== undefined) parsed.projects[pIndex].links.live = resolvedLiveUrl;
+          if (resolvedCodeUrl !== undefined) parsed.projects[pIndex].links.code = resolvedCodeUrl;
+          if (apiUrl !== undefined) parsed.projects[pIndex].links.api = apiUrl;
+          if (links?.api !== undefined) parsed.projects[pIndex].links.api = links.api;
+          if (playStoreUrl !== undefined) parsed.projects[pIndex].links.play_store = playStoreUrl;
+          if (links?.play_store !== undefined) parsed.projects[pIndex].links.play_store = links.play_store;
+          if (appStoreUrl !== undefined) parsed.projects[pIndex].links.app_store = appStoreUrl;
+          if (links?.app_store !== undefined) parsed.projects[pIndex].links.app_store = links.app_store;
+
           if (newSlug) parsed.projects[pIndex].slug = newSlug.toLowerCase().trim();
           await fs.writeFile(filePath, JSON.stringify(parsed, null, 2), "utf-8");
         }

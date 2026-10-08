@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { DashboardFormSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     Briefcase,
     GraduationCap,
@@ -75,10 +76,10 @@ export default function AboutDashboardPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
-    // Load data
+    // Load data (scoped to about section)
     const loadData = useCallback(async () => {
         try {
-            const res = await fetch("/api/portfolio");
+            const res = await fetch("/api/portfolio?scope=about");
             const data = await res.json();
             if (data?.about) {
                 const normalized: AboutData = {
@@ -108,19 +109,12 @@ export default function AboutDashboardPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const currentRes = await fetch("/api/portfolio");
-            const currentData = await currentRes.json();
-
-            const payload = {
-                ...currentData,
-                about,
-            };
-
+            // Save ONLY the about slice without overwriting projects or other relations
             const res = await fetch("/api/portfolio", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify(payload),
+                body: JSON.stringify({ about }),
             });
 
             if (res.ok) {
@@ -225,14 +219,7 @@ export default function AboutDashboardPage() {
         "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Career Milestones...
-                </span>
-            </div>
-        );
+        return <DashboardFormSkeleton title="About & Career" />;
     }
 
     return (

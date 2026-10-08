@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { DashboardOverviewSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     FolderKanban,
     Cpu,
@@ -90,22 +91,28 @@ export default function DashboardOverviewPage() {
     const [inquiryPage, setInquiryPage] = useState<number>(1);
     const inquiryLimit = 3;
 
-    // Load initial data
+    // Load initial data (scoped overview for minimal latency)
     const loadOverviewData = useCallback(async () => {
         try {
-            const [portRes, contactRes, techRes] = await Promise.all([
-                fetch("/api/portfolio"),
-                fetch("/api/contact", { credentials: "include" }),
-                fetch("/api/tech-stacks"),
+            const [portRes, contactRes] = await Promise.all([
+                fetch("/api/portfolio?scope=overview").catch(() => null),
+                fetch("/api/contact", { credentials: "include" }).catch(() => null),
             ]);
 
-            const portData = await portRes.json();
-            const contactData = await contactRes.json();
-            const techData = await techRes.json();
+            if (portRes && portRes.ok) {
+                const portData = await portRes.json();
+                if (portData?.name) {
+                    setPortfolio(portData);
+                    if (typeof portData?.techCount === "number") {
+                        setTechCount(portData.techCount);
+                    }
+                }
+            }
 
-            if (portData?.name) setPortfolio(portData);
-            if (Array.isArray(contactData)) setInquiries(contactData);
-            if (Array.isArray(techData)) setTechCount(techData.length);
+            if (contactRes && contactRes.ok) {
+                const contactData = await contactRes.json();
+                if (Array.isArray(contactData)) setInquiries(contactData);
+            }
         } catch (err) {
             console.error("Failed to load overview data:", err);
             toast.error("Failed to load studio overview");
@@ -235,7 +242,7 @@ export default function DashboardOverviewPage() {
         }
     };
 
-    // Fast toggle availability
+    // Fast toggle availability via sub-20ms PATCH
     const handleToggleAvailability = async () => {
         if (!portfolio) return;
         const isAvailable =
@@ -256,13 +263,21 @@ export default function DashboardOverviewPage() {
         setPortfolio(updated);
 
         try {
-            await fetch("/api/portfolio", {
-                method: "POST",
+            const res = await fetch("/api/portfolio", {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify(updated),
+                body: JSON.stringify({
+                    availability: newAvail,
+                    hero: { availability: newBadge },
+                }),
             });
-            toast.success(`Availability updated: "${newBadge}"`);
+            if (res.ok) {
+                toast.success(`Availability updated: "${newBadge}"`);
+            } else {
+                toast.error("Failed to update availability");
+                loadOverviewData();
+            }
         } catch {
             toast.error("Failed to update availability");
             loadOverviewData();
@@ -316,14 +331,7 @@ export default function DashboardOverviewPage() {
     };
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Studio Overview...
-                </span>
-            </div>
-        );
+        return <DashboardOverviewSkeleton />;
     }
 
     const isAvailableNow =

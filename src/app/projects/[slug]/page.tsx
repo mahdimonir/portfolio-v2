@@ -29,6 +29,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name))
     : [];
 
+  const safeImage = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : `${baseUrl}/preview.png`;
+
   return {
     title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
     description: project.description,
@@ -36,8 +38,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       project.title,
       project.category || "Full Stack",
       ...techNames,
-      "Case Study",
+      "Full Stack Development",
       "Software Architecture",
+      "SaaS MVP",
+      "ERP System",
+      "Custom CMS",
+      "PERN Stack",
+      "MERN Stack",
+      "Case Study",
       "Moniruzzaman Mahdi",
     ],
     alternates: {
@@ -51,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: project.description,
       images: [
         {
-          url: project.image,
+          url: safeImage,
           width: 1200,
           height: 630,
           alt: `${project.title} project screenshot and case study`,
@@ -64,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       creator: "@Mahdimonir2004",
       title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
       description: project.description,
-      images: [project.image],
+      images: [safeImage],
     },
   };
 }

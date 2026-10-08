@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
+import { DashboardFormSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     Cpu,
     Tag,
@@ -69,14 +70,14 @@ export default function SkillsDashboardPage() {
     const loadData = useCallback(async () => {
         try {
             const [techRes, catRes, portRes] = await Promise.all([
-                fetch("/api/tech-stacks"),
-                fetch("/api/categories"),
-                fetch("/api/portfolio"),
+                fetch("/api/tech-stacks").catch(() => null),
+                fetch("/api/categories").catch(() => null),
+                fetch("/api/portfolio?scope=skills").catch(() => null),
             ]);
 
-            const techData = await techRes.json();
-            const catData = await catRes.json();
-            const portData = await portRes.json();
+            const techData = techRes && techRes.ok ? await techRes.json().catch(() => []) : [];
+            const catData = catRes && catRes.ok ? await catRes.json().catch(() => []) : [];
+            const portData = portRes && portRes.ok ? await portRes.json().catch(() => ({})) : {};
 
             if (Array.isArray(techData)) setMasterTechs(techData);
             if (Array.isArray(catData)) setCategories(catData);
@@ -98,23 +99,15 @@ export default function SkillsDashboardPage() {
 
     const isGroupsDirty = JSON.stringify(skillGroups) !== JSON.stringify(savedSkillGroups);
 
-    // Save skill groups to portfolio
+    // Save skill groups to portfolio (sends ONLY the skills slice)
     const handleSaveSkillGroups = async () => {
         setSavingGroups(true);
         try {
-            const currentRes = await fetch("/api/portfolio");
-            const currentData = await currentRes.json();
-
-            const payload = {
-                ...currentData,
-                skills: skillGroups,
-            };
-
             const res = await fetch("/api/portfolio", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify(payload),
+                body: JSON.stringify({ skills: skillGroups }),
             });
 
             if (res.ok) {
@@ -295,14 +288,7 @@ export default function SkillsDashboardPage() {
         "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Tech Stacks Registry...
-                </span>
-            </div>
-        );
+        return <DashboardFormSkeleton title="Tech & Stacks" />;
     }
 
     return (

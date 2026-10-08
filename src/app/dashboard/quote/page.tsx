@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
+import { DashboardFormSkeleton } from "@/components/dashboard/DashboardSkeletons";
 import {
     Quote,
     Save,
@@ -24,7 +25,7 @@ export default function QuoteDashboardPage() {
 
     const loadData = useCallback(async () => {
         try {
-            const res = await fetch("/api/portfolio");
+            const res = await fetch("/api/portfolio?scope=quote");
             const data = await res.json();
             if (data?.quote) {
                 setQuote(data.quote);
@@ -47,19 +48,12 @@ export default function QuoteDashboardPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            const currentRes = await fetch("/api/portfolio");
-            const currentData = await currentRes.json();
-
-            const payload = {
-                ...currentData,
-                quote,
-            };
-
+            // Fast sub-20ms PATCH for quote
             const res = await fetch("/api/portfolio", {
-                method: "POST",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify(payload),
+                body: JSON.stringify({ quote }),
             });
 
             if (res.ok) {
@@ -99,14 +93,7 @@ export default function QuoteDashboardPage() {
         "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-                <div className="w-7 h-7 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
-                <span className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
-                    Loading Philosophy Quote...
-                </span>
-            </div>
-        );
+        return <DashboardFormSkeleton title="Philosophy & Quote" />;
     }
 
     return (
