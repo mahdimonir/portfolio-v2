@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { invalidatePortfolioCache } from "@/lib/portfolio-service";
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -241,6 +242,7 @@ export async function PUT(
 
     // Revalidate affected pages
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
       revalidatePath(`/projects/${slug}`);
@@ -285,6 +287,7 @@ export async function DELETE(
 
     // Revalidate affected pages
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
       revalidatePath(`/projects/${slug}`);

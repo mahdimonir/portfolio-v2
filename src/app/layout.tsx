@@ -4,6 +4,7 @@ import "./globals.css";
 import "lenis/dist/lenis.css";
 import Providers from "@/components/Providers";
 import StructuredData from "@/components/StructuredData";
+import PublicLoadingBar from "@/components/PublicLoadingBar";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
 
@@ -142,6 +143,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
+        <PublicLoadingBar />
         <StructuredData />
         <Providers>{children}</Providers>
       </body>

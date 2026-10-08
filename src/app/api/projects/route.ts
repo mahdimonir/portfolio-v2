@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { invalidatePortfolioCache } from "@/lib/portfolio-service";
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -144,6 +145,7 @@ export async function POST(request: NextRequest) {
     });
 
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
       revalidatePath(`/projects/${project.slug}`);

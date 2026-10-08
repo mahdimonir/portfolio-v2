@@ -98,11 +98,26 @@ export interface PortfolioData {
 
 export type ProjectItem = PortfolioData["projects"][number];
 
+// High-speed in-memory cache for ultra-fast instant page transitions (0ms)
+let cachedPortfolio: PortfolioData | null = null;
+let lastCacheTime = 0;
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds
+
+export function invalidatePortfolioCache() {
+  cachedPortfolio = null;
+  lastCacheTime = 0;
+}
+
 /**
  * Fetch full portfolio data assembled from normalized relational tables.
  * Falls back to local portfolio-db.json if database is unseeded.
  */
 export async function getNormalizedPortfolio(): Promise<PortfolioData> {
+  const now = Date.now();
+  if (cachedPortfolio && now - lastCacheTime < CACHE_TTL_MS) {
+    return cachedPortfolio;
+  }
+
   try {
     const user = await prisma.user.findFirst({
       include: {
@@ -182,7 +197,7 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       })),
     }));
 
-    return {
+    const assembled: PortfolioData = {
       name: user.fullName,
       firstName: user.firstName,
       title: user.title,
@@ -248,15 +263,22 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         author: user.quoteAuthor || fallbackDb.quote.author,
       },
     };
+
+    cachedPortfolio = assembled;
+    lastCacheTime = Date.now();
+    return assembled;
   } catch (error) {
     console.error("Error reading normalized portfolio from DB, using fallback:", error);
-    return {
+    const fallbackResult: PortfolioData = {
       ...(fallbackDb as unknown as PortfolioData),
       projects: (fallbackDb.projects as unknown as PortfolioData["projects"]).map((p, idx) => ({
         ...p,
         id: String(idx + 1).padStart(2, "0"),
       })),
     };
+    cachedPortfolio = fallbackResult;
+    lastCacheTime = Date.now();
+    return fallbackResult;
   }
 }
 

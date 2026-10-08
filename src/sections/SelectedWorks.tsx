@@ -28,12 +28,12 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
         <div className="id-brand-group">
           <span className="huge-number">{String(index + 1).padStart(2, "0")}</span>
           <div className="client-info">
-            <span
-              className="label cursor-pointer"
-              onClick={() => router.push(`/projects/${projectSlug}`)}
+            <Link
+              href={`/projects/${projectSlug}`}
+              className="label cursor-pointer hover:text-white transition-colors"
             >
               {project.title}
-            </span>
+            </Link>
             <span className="client-name">{project.stack}</span>
           </div>
         </div>
@@ -50,9 +50,9 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
       </div>
 
       <div className="content-grid">
-        <div
-          className="main-image-frame cursor-pointer"
-          onClick={() => router.push(`/projects/${projectSlug}`)}
+        <Link
+          href={`/projects/${projectSlug}`}
+          className="main-image-frame cursor-pointer block"
         >
           <img
             src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
@@ -60,7 +60,7 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
             alt={project.title}
             onLoad={() => window.dispatchEvent(new Event("resize"))}
           />
-        </div>
+        </Link>
         <div className="project-description">
           <p>{project.description}</p>
         </div>

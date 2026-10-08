@@ -3,7 +3,7 @@ import { getProjects } from "@/lib/portfolio-service";
 import ProjectsView from "./ProjectsView";
 import { ProjectData } from "./[slug]/ProjectDetailView";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { jwtVerify } from "jose";
-import { getNormalizedPortfolio } from "@/lib/portfolio-service";
+import { getNormalizedPortfolio, invalidatePortfolioCache } from "@/lib/portfolio-service";
 import { prisma } from "@/lib/prisma";
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -181,6 +181,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
     } catch {}
 
@@ -538,6 +539,7 @@ export async function POST(request: NextRequest) {
 
     // 8. Revalidate cached pages
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
       revalidatePath("/projects/[slug]", "page");

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { jwtVerify } from "jose";
 import { prisma } from "@/lib/prisma";
+import { invalidatePortfolioCache } from "@/lib/portfolio-service";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "super_secret_portfolio_jwt_key_2026_secure"
@@ -72,6 +73,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+      invalidatePortfolioCache();
       revalidatePath("/", "layout");
       revalidatePath("/projects");
     } catch {}

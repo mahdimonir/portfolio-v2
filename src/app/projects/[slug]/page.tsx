@@ -3,8 +3,18 @@ import { notFound } from "next/navigation";
 import { getProjects, getProjectBySlug } from "@/lib/portfolio-service";
 import ProjectDetailView, { ProjectData } from "./ProjectDetailView";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  try {
+    const projects = await getProjects();
+    return projects.map((p) => ({
+      slug: p.slug,
+    }));
+  } catch {
+    return [];
+  }
+}
 
 interface PageProps {
   params: Promise<{
