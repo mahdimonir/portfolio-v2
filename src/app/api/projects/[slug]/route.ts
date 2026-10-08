@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { jwtVerify } from "jose";
 
@@ -136,12 +137,52 @@ export async function PUT(
         if (pIndex !== -1) {
           if (featured !== undefined) parsed.projects[pIndex].featured = Boolean(featured);
           if (title) parsed.projects[pIndex].title = title;
+          if (tagline !== undefined) parsed.projects[pIndex].tagline = tagline;
+          if (stack !== undefined) parsed.projects[pIndex].stack = stack;
+          if (description) parsed.projects[pIndex].description = description;
+          if (longDescription !== undefined) parsed.projects[pIndex].longDescription = longDescription;
+          if (coverImage) {
+            parsed.projects[pIndex].image = coverImage;
+            if (Array.isArray(parsed.projects[pIndex].images)) {
+              if (!parsed.projects[pIndex].images.includes(coverImage)) {
+                parsed.projects[pIndex].images.unshift(coverImage);
+              }
+            } else {
+              parsed.projects[pIndex].images = [coverImage];
+            }
+          }
+          if (role !== undefined) parsed.projects[pIndex].role = role;
+          if (duration !== undefined) parsed.projects[pIndex].duration = duration;
+          if (client !== undefined) parsed.projects[pIndex].client = client;
           if (status !== undefined) parsed.projects[pIndex].status = status;
+          if (cta !== undefined) parsed.projects[pIndex].cta = cta;
+          if (liveUrl !== undefined) {
+            if (!parsed.projects[pIndex].links) parsed.projects[pIndex].links = {};
+            parsed.projects[pIndex].links.live = liveUrl;
+          }
+          if (codeUrl !== undefined) {
+            if (!parsed.projects[pIndex].links) parsed.projects[pIndex].links = {};
+            parsed.projects[pIndex].links.code = codeUrl;
+          }
+          if (newSlug) parsed.projects[pIndex].slug = newSlug.toLowerCase().trim();
           await fs.writeFile(filePath, JSON.stringify(parsed, null, 2), "utf-8");
         }
       }
     } catch (fsErr) {
       console.warn("Project JSON file sync skipped:", fsErr);
+    }
+
+    // Revalidate affected pages
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath(`/projects/${slug}`);
+      if (newSlug && newSlug.toLowerCase().trim() !== slug.toLowerCase().trim()) {
+        revalidatePath(`/projects/${newSlug.toLowerCase().trim()}`);
+      }
+      revalidatePath("/projects/[slug]", "page");
+    } catch (revErr) {
+      console.warn("Revalidation warning:", revErr);
     }
 
     return NextResponse.json({ success: true, project: updated });
@@ -174,6 +215,16 @@ export async function DELETE(
     await prisma.project.delete({
       where: { id: existing.id },
     });
+
+    // Revalidate affected pages
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath(`/projects/${slug}`);
+      revalidatePath("/projects/[slug]", "page");
+    } catch (revErr) {
+      console.warn("Revalidation warning:", revErr);
+    }
 
     return NextResponse.json({ success: true, message: "Project deleted" });
   } catch (error) {

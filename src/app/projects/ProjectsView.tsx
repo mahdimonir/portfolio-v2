@@ -76,7 +76,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                             <span>Back To Highlights</span>
                         </Link>
                         <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">
-                            Archive // 0{projects.length} Projects
+                            Archive // {String(projects.length).padStart(2, "0")} Projects
                         </span>
                     </div>
 
@@ -154,9 +154,11 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                 {/* 3-Column Responsive Projects Grid */}
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
                     <AnimatePresence mode="popLayout">
-                        {paginatedProjects.map((project, index) => (
+                        {paginatedProjects.map((project, index) => {
+                            const position = (safeCurrentPage - 1) * pageSize + index + 1;
+                            return (
                             <motion.article
-                                key={project.slug || project.id}
+                                key={project.slug || project.id || index}
                                 layout
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -176,10 +178,10 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                     />
                                     <div className="absolute inset-0 bg-black/10 group-hover/img:bg-transparent transition-colors pointer-events-none" />
 
-                                    {/* Clean ID badge */}
+                                    {/* Clean Position badge */}
                                     <div className="absolute top-3.5 left-3.5">
                                         <span className="px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold text-white tracking-wider">
-                                            {project.id}
+                                            {String(position).padStart(2, "0")}
                                         </span>
                                     </div>
                                 </Link>
@@ -260,7 +262,8 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                     </div>
                                 </div>
                             </motion.article>
-                        ))}
+                            );
+                        })}
                     </AnimatePresence>
                 </section>
 

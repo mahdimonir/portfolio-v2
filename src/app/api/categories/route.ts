@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { jwtVerify } from "jose";
 
@@ -59,6 +60,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+    } catch {}
+
     return NextResponse.json({ success: true, category });
   } catch (error) {
     console.error("POST /api/categories error:", error);
@@ -88,6 +94,11 @@ export async function PUT(request: NextRequest) {
       },
     });
 
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+    } catch {}
+
     return NextResponse.json({ success: true, category: updated });
   } catch (error) {
     console.error("PUT /api/categories error:", error);
@@ -112,6 +123,11 @@ export async function DELETE(request: NextRequest) {
     await prisma.category.delete({
       where: { id: Number(id) },
     });
+
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+    } catch {}
 
     return NextResponse.json({ success: true, message: "Category deleted" });
   } catch (error) {

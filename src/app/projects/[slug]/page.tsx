@@ -3,17 +3,13 @@ import { notFound } from "next/navigation";
 import { getProjects, getProjectBySlug } from "@/lib/portfolio-service";
 import ProjectDetailView, { ProjectData } from "./ProjectDetailView";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
-}
-
-export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((p) => ({
-    slug: p.slug,
-  }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -46,7 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
   const projects = await getProjects();
-  const currentIndex = projects.findIndex((p) => p.slug === slug);
+  const currentIndex = projects.findIndex(
+    (p) => p.slug.toLowerCase() === slug.toLowerCase()
+  );
 
   if (currentIndex === -1) {
     notFound();
@@ -61,6 +59,7 @@ export default async function ProjectPage({ params }: PageProps) {
       project={project}
       prevProject={prevProject}
       nextProject={nextProject}
+      position={currentIndex + 1}
     />
   );
 }

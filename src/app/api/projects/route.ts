@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { jwtVerify } from "jose";
 
@@ -141,6 +142,15 @@ export async function POST(request: NextRequest) {
         techStacks: { include: { techStack: true } },
       },
     });
+
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath(`/projects/${project.slug}`);
+      revalidatePath("/projects/[slug]", "page");
+    } catch (revErr) {
+      console.warn("Revalidation warning:", revErr);
+    }
 
     return NextResponse.json({ success: true, project });
   } catch (error) {

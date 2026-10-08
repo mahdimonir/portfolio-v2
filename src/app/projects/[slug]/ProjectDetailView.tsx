@@ -60,9 +60,10 @@ interface ProjectDetailViewProps {
     project: ProjectData;
     prevProject: ProjectData | null;
     nextProject: ProjectData | null;
+    position?: number;
 }
 
-export default function ProjectDetailView({ project, prevProject, nextProject }: ProjectDetailViewProps) {
+export default function ProjectDetailView({ project, prevProject, nextProject, position }: ProjectDetailViewProps) {
     const allImages = project.images && project.images.length > 0 ? project.images : [project.image];
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -150,7 +151,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject }:
                         className="flex items-center gap-3 mb-6"
                     >
                         <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-[0.2em] uppercase bg-white/10 text-white border border-white/15">
-                            Project {project.id}
+                            Project {String(position ?? (Number(project.id) || 1)).padStart(2, "0")}
                         </span>
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-semibold tracking-wider uppercase bg-white/5 text-zinc-300 border border-white/10">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-400" />

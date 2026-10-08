@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { jwtVerify } from "jose";
 import { getNormalizedPortfolio } from "@/lib/portfolio-service";
 import { prisma } from "@/lib/prisma";
@@ -322,12 +323,34 @@ export async function POST(request: NextRequest) {
 
     // 7. Synchronize to local JSON file for local build / server-side imports
     try {
+      if (Array.isArray(body.projects)) {
+        body.projects = body.projects.map((p: any, i: number) => ({
+          ...p,
+          id: String(i + 1).padStart(2, "0"),
+        }));
+      }
       const fs = await import("fs/promises");
       const path = await import("path");
       const filePath = path.join(process.cwd(), "src", "lib", "portfolio-db.json");
       await fs.writeFile(filePath, JSON.stringify(body, null, 2), "utf-8");
     } catch (fsErr) {
       console.warn("Local JSON file sync skipped:", fsErr);
+    }
+
+    // 8. Revalidate cached pages
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/projects");
+      revalidatePath("/projects/[slug]", "page");
+      if (Array.isArray(body.projects)) {
+        for (const p of body.projects) {
+          if (p.slug) {
+            revalidatePath(`/projects/${p.slug}`);
+          }
+        }
+      }
+    } catch (revErr) {
+      console.warn("Revalidation skipped:", revErr);
     }
 
     return NextResponse.json({ success: true });

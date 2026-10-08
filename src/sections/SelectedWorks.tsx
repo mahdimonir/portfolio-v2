@@ -13,7 +13,7 @@ interface ScrollStackCardProps {
   index: number;
 }
 
-const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
+const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
   const router = useRouter();
   const projectSlug = (project as any).slug || project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
@@ -26,7 +26,7 @@ const ScrollStackCard = ({ project }: ScrollStackCardProps) => {
     >
       <div className="card-top-row">
         <div className="id-brand-group">
-          <span className="huge-number">{project.id}</span>
+          <span className="huge-number">{String(index + 1).padStart(2, "0")}</span>
           <div className="client-info">
             <span
               className="label cursor-pointer"
@@ -415,7 +415,7 @@ const SelectedWorks = () => {
           style={{ willChange: "transform, opacity", transformStyle: "preserve-3d" }}
         >
           {projects.map((project, index) => (
-            <ScrollStackCard key={project.id} project={project} index={index} />
+            <ScrollStackCard key={project.slug || project.id || index} project={project} index={index} />
           ))}
         </div>
         <div className="scroll-stack-end pointer-events-none h-[120vh]" />

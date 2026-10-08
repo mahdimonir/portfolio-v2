@@ -629,9 +629,11 @@ export default function DashboardOverviewPage() {
                         </div>
                     ) : (
                         <div className="flex flex-col gap-2.5">
-                            {paginatedProjects.map((p) => {
+                            {paginatedProjects.map((p, index) => {
                                 const isFeatured = p.featured === true;
                                 const isToggling = togglingSlug === p.slug;
+                                const globalIndex = allProjects.findIndex((item) => item.slug === p.slug);
+                                const position = globalIndex !== -1 ? globalIndex + 1 : (safeProjectPage - 1) * projectLimit + index + 1;
 
                                 return (
                                     <div
@@ -652,7 +654,7 @@ export default function DashboardOverviewPage() {
                                             <div className="min-w-0 flex-1">
                                                 <div className="flex items-center gap-2">
                                                     <span className="font-mono text-[10px] font-bold text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded">
-                                                        #{p.id}
+                                                        #{String(position).padStart(2, "0")}
                                                     </span>
                                                     <h3 className="font-bold text-xs text-white uppercase truncate">
                                                         {p.title}

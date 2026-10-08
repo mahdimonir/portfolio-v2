@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
     FolderKanban,
@@ -74,6 +75,7 @@ interface MasterTech {
 type ModalTab = "basic" | "tech" | "media" | "description" | "features";
 
 export default function ProjectsDashboardPage() {
+    const router = useRouter();
     const [projects, setProjects] = useState<Project[]>([]);
     const [categories, setCategories] = useState<CategoryOption[]>([]);
     const [masterTechs, setMasterTechs] = useState<MasterTech[]>([]);
@@ -154,6 +156,7 @@ export default function ProjectsDashboardPage() {
 
             if (res.ok) {
                 setProjects(updatedProjects);
+                router.refresh();
                 toast.success("Projects synchronized with database!");
             } else {
                 toast.error("Failed to save projects to database.");
@@ -646,6 +649,7 @@ export default function ProjectsDashboardPage() {
                             const globalIndex = projects.findIndex(
                                 (item) => item.slug === p.slug || item.id === p.id
                             );
+                            const position = globalIndex !== -1 ? globalIndex + 1 : (currentPage - 1) * pageSize + index + 1;
 
                             return (
                                 <div
@@ -657,7 +661,7 @@ export default function ProjectsDashboardPage() {
                                         <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3 mb-3">
                                             <div className="flex items-center gap-2 flex-wrap">
                                                 <span className="font-mono text-xs font-bold bg-zinc-800 text-zinc-200 px-2 py-0.5 rounded">
-                                                    #{p.id}
+                                                    #{String(position).padStart(2, "0")}
                                                 </span>
                                                 <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded">
                                                     {p.category}
@@ -858,7 +862,7 @@ export default function ProjectsDashboardPage() {
                         <div className="px-6 py-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/80 shrink-0">
                             <div>
                                 <span className="text-[10px] font-mono uppercase font-bold text-zinc-500">
-                                    {editingIndex === null ? "New Project Workflow" : `Editing #${activeModalProject.id}`}
+                                    {editingIndex === null ? "New Project Workflow" : `Editing #${String(editingIndex + 1).padStart(2, "0")}`}
                                 </span>
                                 <h2 className="text-lg font-black uppercase text-white truncate max-w-lg">
                                     {activeModalProject.title || "Untitled Project"}

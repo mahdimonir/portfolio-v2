@@ -136,13 +136,13 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       },
     });
 
-    const formattedProjects = projects.map((p) => {
+    const formattedProjects = projects.map((p, index) => {
       const gallery = p.images.map((img) => img.url);
       const allImages = gallery.length > 0 ? gallery : p.coverImage ? [p.coverImage] : [];
       const coverImage = allImages.length > 0 ? allImages[0] : (p.coverImage || "");
 
       return {
-        id: p.displayId || String(p.id).padStart(2, "0"),
+        id: String(index + 1).padStart(2, "0"),
         slug: p.slug,
         title: p.title,
         tagline: p.tagline,
@@ -229,7 +229,12 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         })),
         focus: user.focus,
       },
-      projects: formattedProjects.length > 0 ? formattedProjects : (fallbackDb.projects as unknown as PortfolioData["projects"]),
+      projects: formattedProjects.length > 0
+        ? formattedProjects
+        : (fallbackDb.projects as unknown as PortfolioData["projects"]).map((p, idx) => ({
+            ...p,
+            id: String(idx + 1).padStart(2, "0"),
+          })),
       skills: formattedSkills.length > 0 ? formattedSkills : (fallbackDb.skills as unknown as PortfolioData["skills"]),
       quote: {
         text: user.quoteText || fallbackDb.quote.text,
@@ -238,7 +243,13 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
     };
   } catch (error) {
     console.error("Error reading normalized portfolio from DB, using fallback:", error);
-    return fallbackDb as unknown as PortfolioData;
+    return {
+      ...(fallbackDb as unknown as PortfolioData),
+      projects: (fallbackDb.projects as unknown as PortfolioData["projects"]).map((p, idx) => ({
+        ...p,
+        id: String(idx + 1).padStart(2, "0"),
+      })),
+    };
   }
 }
 
@@ -251,7 +262,10 @@ export async function getProjects(): Promise<ProjectItem[]> {
     return portfolio.projects;
   } catch (error) {
     console.error("Error in getProjects:", error);
-    return fallbackDb.projects as unknown as ProjectItem[];
+    return (fallbackDb.projects as unknown as ProjectItem[]).map((p, idx) => ({
+      ...p,
+      id: String(idx + 1).padStart(2, "0"),
+    }));
   }
 }
 
@@ -261,10 +275,12 @@ export async function getProjects(): Promise<ProjectItem[]> {
 export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
   try {
     const projects = await getProjects();
-    return projects.find((p) => p.slug === slug) || null;
+    return projects.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) || null;
   } catch (error) {
     console.error(`Error in getProjectBySlug for ${slug}:`, error);
-    const fallback = (fallbackDb.projects as unknown as ProjectItem[]).find((p) => p.slug === slug);
-    return fallback || null;
+    const fallback = (fallbackDb.projects as unknown as ProjectItem[]).find(
+      (p) => p.slug.toLowerCase() === slug.toLowerCase()
+    );
+    return fallback ? { ...fallback, id: String(fallbackDb.projects.indexOf(fallback as any) + 1).padStart(2, "0") } : null;
   }
 }
