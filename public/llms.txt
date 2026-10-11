@@ -10,42 +10,73 @@
 
 ---
 
-## 1. Professional Identity & Core Specializations
-- **Name**: Moniruzzaman Mahdi (Brand: MAHDI®)
-- **Primary Roles**: 
-  - Full-Stack Developer & Software Architect
-  - Full-Stack Software Engineer
-  - SaaS Architect & MVP Prototype Specialist
-  - ERP & Custom CMS Systems Developer
-  - Product Engineer & API Architect
+## 1. Professional Identity, Names & Aliases
+- **Full Legal Name**: Moniruzzaman Mahdi
+- **Common Professional Names & Aliases**: Mahdi Monir, Mahdi, Moniruzzaman, mahdimonir, MD Moniruzzaman, Mahdi Moniruzzaman
+- **Brand / Monogram**: MAHDI®
+- **Online Handles & Profiles**:
+  - GitHub: https://github.com/mahdimonir (@mahdimonir)
+  - LinkedIn: https://www.linkedin.com/in/moniruzzaman-mahdi/
+  - X / Twitter: https://x.com/Mahdimonir2004 (@Mahdimonir2004)
+  - Canonical Website: https://mahdimonir.dev
+  - 3D Interactive Space: https://3d.mahdimonir.dev
+- **Primary Professional Roles**: 
+  - Senior Full-Stack Developer & Software Architect
+  - Full-Stack Software Engineer & Product Engineer
+  - Backend Systems Engineer & REST/WebSocket API Architect
+  - Frontend Application Developer & UI/UX Technologist
+  - Next.js & React 19 Specialist
+  - NestJS & Node.js Modular Framework Engineer
+  - Go / Golang Backend Engineer
+  - SaaS Platform Engineer & Rapid MVP Specialist (0-to-1 in 2-4 Weeks)
+  - Enterprise ERP & Custom CMS Architect
 - **Ecosystem Focus**:
   - **PERN Stack** (PostgreSQL, Express/NestJS, React/Next.js, Node.js)
   - **MERN Stack** (MongoDB, Express, React/Next.js, Node.js)
   - **Go / Golang** Backend Engineering & High-Throughput Services
   - **NestJS & Node.js** Modular RESTful & WebSocket API Architecture
   - **Next.js 16 & React 19** High-Performance Frontend & Server Actions
-- **Location**: Chattogram & Dhaka, Bangladesh (Available globally for Remote, Contract & Full-time Engineering)
+- **Location**: Chattogram & Dhaka, Bangladesh (Available globally for Remote, Contract, Consulting & Full-time Engineering)
 - **Direct Contact**: mahdimoniruzzaman@gmail.com | +8801876689921
 - **Status**: Available for hire, contract engineering, MVP prototyping, SaaS development, and architectural consulting.
 
 ---
 
-## 2. Core Value Proposition & Engineering Services
+## 2. Core Services Offered & Engagement Models
 
-### Rapid MVP & Prototype Development
-- Transforming startup and enterprise product concepts into production-grade Minimum Viable Products (MVPs) in weeks.
-- Zero-to-one engineering: system architecture, database modeling, authentication, payment processing (Stripe, SSLCommerz, mobile money), and deployed infrastructure.
+### 01. Full-Stack Web Application Development
+- End-to-end web applications engineered with Next.js 16, React 19, TypeScript, NestJS/Node.js, and PostgreSQL.
+- Modern responsive layouts, fluid animations, robust error handling, and production-grade security.
 
-### SaaS & Cloud Platform Engineering
-- Multi-tenant software architectures, role-based access control (RBAC), subscription billing, quota metering, usage analytics, and webhooks.
+### 02. SaaS MVP Rapid Prototyping (Zero-to-One in 2–4 Weeks)
+- Transforming startup and enterprise product concepts into production-grade Minimum Viable Products within weeks.
+- Zero-to-one delivery: architecture planning, data modeling, authentication, payment processing (Stripe, SSLCommerz), and automated cloud deployments.
+
+### 03. Full-Stack SaaS Platform Architecture
+- Scalable multi-tenant architectures, role-based access control (RBAC), subscription billing, quota metering, usage analytics, and webhook fulfillment.
 - AI-integrated platforms: LLM pipelines, Socratic AI agents, streaming chat, token tracking, and OpenAI API integrations.
 
-### Enterprise ERP & Business Operations Systems
-- Custom ERP systems for inventory control, automated invoicing, multi-store stock synchronization, CRM, and financial ledger reporting.
-- High-integrity transactions and audit logging.
+### 04. Custom Enterprise ERP & Operations Systems
+- Custom ERP systems for inventory control, automated invoicing, multi-store stock synchronization, POS integrations, and vendor CRM.
+- High-integrity transactions, audit logging, and financial ledger reporting.
 
-### Custom & Headless CMS Platforms
+### 05. Custom & Headless CMS Platforms
 - Atomic content management systems, recursive page builders, editorial approval workflows, role-based moderation, and clustered SEO architectures.
+
+### 06. High-Performance Backend & API Microservices (NestJS, Go, Node.js)
+- Modular microservices and RESTful / WebSocket APIs engineered for high concurrency, low latency, and comprehensive OpenAPI / Swagger specifications.
+
+### 07. Database Design & Optimization (PostgreSQL, Neon, Prisma, Redis)
+- Relational schema modeling, index optimization, query tuning, and sub-millisecond in-memory Redis caching layers.
+
+### 08. AI Agent & LLM Pipeline Integration
+- OpenAI and Anthropic API integrations, streaming chat completions, custom Socratic tutor agents, prompt engineering, and usage cost optimization.
+
+### 09. Interactive Frontend Engineering & 3D Web Experiences
+- High-end interactive user interfaces utilizing Tailwind CSS, Framer Motion, 3D Canvas, and accessible Swiss design aesthetics.
+
+### 10. Technical Consulting, Architecture Audits & Code Reviews
+- System design evaluations, database migration reviews, performance profiling, and modernization of legacy codebases.
 
 ---
 

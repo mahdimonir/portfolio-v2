@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
+        allow: ["/", "/about", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
         disallow: ["/dashboard/", "/api/", "/login"],
       },
       {
@@ -21,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
           "OAI-SearchBot",
           "anthropic-ai",
         ],
-        allow: ["/", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
+        allow: ["/", "/about", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
         disallow: ["/dashboard/", "/api/", "/login"],
       },
     ],

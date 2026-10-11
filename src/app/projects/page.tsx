@@ -8,10 +8,16 @@ export const revalidate = 60;
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
 
 export const metadata: Metadata = {
-  title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
+  title: "Production Web Applications, SaaS MVPs & ERP Systems | Mahdi (Moniruzzaman Mahdi)",
   description:
-    "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Moniruzzaman Mahdi.",
+    "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Mahdi (Moniruzzaman Mahdi / @mahdimonir).",
   keywords: [
+    "Mahdi",
+    "Mahdi Monir",
+    "mahdimonir",
+    "Moniruzzaman",
+    "Moniruzzaman Mahdi",
+    "MD Moniruzzaman",
     "Full Stack Projects",
     "Next.js Applications",
     "NestJS Microservices",
@@ -22,15 +28,15 @@ export const metadata: Metadata = {
     "PERN Stack Projects",
     "MERN Stack Projects",
     "Software Architecture Case Studies",
-    "Moniruzzaman Mahdi",
+    "Full Stack Developer Portfolio",
   ],
   alternates: {
     canonical: "/projects",
   },
   openGraph: {
-    title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
+    title: "Production Web Applications, SaaS MVPs & ERP Systems | Mahdi (Moniruzzaman Mahdi)",
     description:
-      "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Moniruzzaman Mahdi.",
+      "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL by Mahdi (Moniruzzaman Mahdi / @mahdimonir).",
     url: `${baseUrl}/projects`,
     type: "website",
     images: [
@@ -38,13 +44,13 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Projects & Architecture — Moniruzzaman Mahdi",
+        alt: "Projects & Architecture — Mahdi (Moniruzzaman Mahdi / mahdimonir)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Production Web Applications, SaaS MVPs & ERP Systems | Moniruzzaman Mahdi",
+    title: "Production Web Applications, SaaS MVPs & ERP Systems | Mahdi (@mahdimonir)",
     description:
       "Explore 9 production-grade full-stack web applications, scalable SaaS architectures, enterprise ERP systems, and custom CMS engines built with Next.js, NestJS, Go, and PostgreSQL.",
     images: ["/opengraph-image"],

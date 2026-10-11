@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Moniruzzaman Mahdi — Full Stack Developer & Software Architect",
-    short_name: "MAHDI®",
+    name: "Mahdi (Moniruzzaman Mahdi / mahdimonir) — Full Stack Developer & Software Architect",
+    short_name: "Mahdi Monir",
     description:
-      "Portfolio of Moniruzzaman Mahdi — Full Stack Developer & Software Architect specializing in Next.js, NestJS, Go, PERN & MERN stacks, SaaS MVPs, ERP, and custom CMS platforms.",
+      "Official portfolio and engineering case studies of Mahdi (Moniruzzaman Mahdi / @mahdimonir) — Full Stack Developer & Software Architect specializing in Next.js, NestJS, Go, PERN & MERN stacks, SaaS MVPs, and enterprise systems.",
     start_url: "/",
     display: "standalone",
     background_color: "#000000",

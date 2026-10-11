@@ -7,16 +7,17 @@ import {
     Briefcase,
     GraduationCap,
     Award,
-    Target,
     Plus,
     Trash2,
     Save,
     RotateCcw,
-    Check,
     AlertCircle,
     CheckCircle2,
-    ExternalLink,
+    Sparkles,
+    Layers,
     X,
+    FileText,
+    ExternalLink,
 } from "lucide-react";
 
 export interface Experience {
@@ -46,33 +47,61 @@ export interface Course {
     completed?: boolean;
 }
 
+export interface SpecializationItem {
+    id?: string;
+    title: string;
+    description: string;
+    skills?: string[];
+    points?: string[];
+}
+
 export interface AboutData {
     label: string;
+    summary?: string;
+    avatarUrl?: string;
+    resumeUrl?: string;
+    ctaHeading?: string;
+    ctaDescription?: string;
     education: Education[];
     experience: Experience[];
     courses: Course[];
     focus: string[];
+    specializations: SpecializationItem[];
 }
 
-type SubSection = "experience" | "education" | "courses" | "focus";
+type SubSection = "overview" | "specializations" | "experience" | "education" | "courses";
 
 export default function AboutDashboardPage() {
     const [about, setAbout] = useState<AboutData>({
-        label: "Background & Data",
+        label: "00 // DOSSIER & PROFILE",
+        summary: "",
+        avatarUrl: "/Moniruzzaman_Mahdi.png",
+        resumeUrl: "/Moniruzzaman_Mahdi_Full_Stack_Developer.pdf",
+        ctaHeading: "Have an architecture or system to build?",
+        ctaDescription:
+            "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering.",
         education: [],
         experience: [],
         courses: [],
         focus: [],
+        specializations: [],
     });
     const [savedAbout, setSavedAbout] = useState<AboutData>({
-        label: "Background & Data",
+        label: "00 // DOSSIER & PROFILE",
+        summary: "",
+        avatarUrl: "/Moniruzzaman_Mahdi.png",
+        resumeUrl: "/Moniruzzaman_Mahdi_Full_Stack_Developer.pdf",
+        ctaHeading: "Have an architecture or system to build?",
+        ctaDescription:
+            "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering.",
         education: [],
         experience: [],
         courses: [],
         focus: [],
+        specializations: [],
     });
 
-    const [activeSection, setActiveSection] = useState<SubSection>("experience");
+    const [activeSection, setActiveSection] = useState<SubSection>("overview");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
@@ -82,12 +111,33 @@ export default function AboutDashboardPage() {
             const res = await fetch("/api/portfolio?scope=about");
             const data = await res.json();
             if (data?.about) {
+                const rawSpecs = Array.isArray(data.about.specializations)
+                    ? data.about.specializations
+                    : [];
+
                 const normalized: AboutData = {
-                    label: data.about.label || "Background & Data",
+                    label: data.about.label || "00 // DOSSIER & PROFILE",
+                    summary: data.about.summary || "",
+                    avatarUrl: data.about.avatarUrl || "/Moniruzzaman_Mahdi.png",
+                    resumeUrl:
+                        data.resumeUrl ||
+                        data.about.resumeUrl ||
+                        "/Moniruzzaman_Mahdi_Full_Stack_Developer.pdf",
+                    ctaHeading: data.about.ctaHeading || "Have an architecture or system to build?",
+                    ctaDescription:
+                        data.about.ctaDescription ||
+                        "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering.",
                     education: Array.isArray(data.about.education) ? data.about.education : [],
                     experience: Array.isArray(data.about.experience) ? data.about.experience : [],
                     courses: Array.isArray(data.about.courses) ? data.about.courses : [],
                     focus: Array.isArray(data.about.focus) ? data.about.focus : [],
+                    specializations: rawSpecs.map((s: any, idx: number) => ({
+                        id: s.id || `spec-${idx + 1}`,
+                        title: s.title || "Specialization",
+                        description: s.description || "",
+                        skills: Array.isArray(s.skills) ? s.skills : [],
+                        points: Array.isArray(s.points) ? s.points : [],
+                    })),
                 };
                 setAbout(normalized);
                 setSavedAbout(JSON.parse(JSON.stringify(normalized)));
@@ -109,17 +159,25 @@ export default function AboutDashboardPage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            // Save ONLY the about slice without overwriting projects or other relations
+            // Keep legacy focus synced with specialization titles
+            const payload = {
+                resumeUrl: about.resumeUrl,
+                about: {
+                    ...about,
+                    focus: about.specializations.map((s) => s.title),
+                },
+            };
+
             const res = await fetch("/api/portfolio", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ about }),
+                body: JSON.stringify(payload),
             });
 
             if (res.ok) {
                 setSavedAbout(JSON.parse(JSON.stringify(about)));
-                toast.success("About & career milestones saved to database!");
+                toast.success("All About milestones, specializations & settings saved!");
             } else {
                 toast.error("Failed to save changes.");
             }
@@ -140,37 +198,35 @@ export default function AboutDashboardPage() {
     // Keyboard shortcut Ctrl+S
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
                 e.preventDefault();
-                handleSave();
+                if (isDirty && !saving) handleSave();
             }
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [handleSave]);
+    });
 
-    // Manipulators
+    // Helper modifiers
     const addExperience = () => {
         setAbout((prev) => ({
             ...prev,
             experience: [
                 {
                     company: "Company Name",
-                    role: "Senior Full Stack Engineer",
-                    period: "2024 — Present",
+                    role: "Full Stack Developer",
+                    period: "2026 – Present",
                     location: "Remote",
                     current: true,
                     companyUrl: "https://",
-                    description: "Built scalable web applications and resilient backend services.",
-                    achievements: [
-                        "Architected low-latency microservices with automated testing",
-                        "Led cross-functional delivery team driving sprint goals",
-                    ],
+                    companyLogo: "",
+                    description: "Key contributions, backend services, and interface development.",
+                    achievements: ["Architected core production APIs"],
                 },
                 ...prev.experience,
             ],
         }));
-        toast.info("Added new work role");
+        toast.info("Added work experience entry");
     };
 
     const addEducation = () => {
@@ -178,9 +234,9 @@ export default function AboutDashboardPage() {
             ...prev,
             education: [
                 {
+                    institution: "Institution Name",
                     degree: "Bachelor of Science",
-                    institution: "University / Institute",
-                    period: "2024 — Present",
+                    period: "2025 – Present",
                     current: true,
                 },
                 ...prev.education,
@@ -194,9 +250,9 @@ export default function AboutDashboardPage() {
             ...prev,
             courses: [
                 {
-                    title: "Specialized Course / Certification",
+                    title: "Certification Title",
                     institution: "Platform / Institute",
-                    period: "2024",
+                    period: "2026",
                     certificateUrl: "https://",
                     completed: true,
                 },
@@ -206,11 +262,21 @@ export default function AboutDashboardPage() {
         toast.info("Added course entry");
     };
 
-    const addFocus = () => {
+    const addSpecialization = () => {
         setAbout((prev) => ({
             ...prev,
-            focus: [...prev.focus, "Scalable Full-Stack Engineering"],
+            specializations: [
+                {
+                    id: `spec-${Date.now()}`,
+                    title: "New Engineering Specialization",
+                    description: "Architectural overview and technical execution details.",
+                    skills: ["TypeScript", "Next.js", "PostgreSQL"],
+                    points: ["Architectural deliverable or system benchmark"],
+                },
+                ...prev.specializations,
+            ],
         }));
+        toast.info("Added engineering specialization");
     };
 
     const inputClass =
@@ -228,7 +294,7 @@ export default function AboutDashboardPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-5">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white flex items-center gap-3">
-                        About & Career Milestones
+                        About &amp; Career Milestones
                         {isDirty ? (
                             <span className="text-[11px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20 flex items-center gap-1">
                                 <AlertCircle className="w-3 h-3" /> Unsaved
@@ -240,7 +306,7 @@ export default function AboutDashboardPage() {
                         )}
                     </h1>
                     <p className="text-xs text-zinc-400 mt-1">
-                        Organize your work history timeline, formal degrees, certified courses, and engineering focus pillars.
+                        Manage your executive narrative, detailed engineering specializations, work history, formal education, and certifications.
                     </p>
                 </div>
 
@@ -281,8 +347,32 @@ export default function AboutDashboardPage() {
             {/* Segmented Section Navigation Tabs */}
             <div className="flex items-center gap-2 border-b border-zinc-800/80 pb-3 overflow-x-auto">
                 <button
+                    onClick={() => setActiveSection("overview")}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 ${
+                        activeSection === "overview"
+                            ? "bg-white text-black font-extrabold shadow-sm"
+                            : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
+                    }`}
+                >
+                    <FileText className="w-4 h-4" />
+                    <span>Overview &amp; Profile</span>
+                </button>
+
+                <button
+                    onClick={() => setActiveSection("specializations")}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 ${
+                        activeSection === "specializations"
+                            ? "bg-white text-black font-extrabold shadow-sm"
+                            : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
+                    }`}
+                >
+                    <Layers className="w-4 h-4 text-cyan-400" />
+                    <span>Specializations ({about.specializations.length})</span>
+                </button>
+
+                <button
                     onClick={() => setActiveSection("experience")}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 ${
                         activeSection === "experience"
                             ? "bg-white text-black font-extrabold shadow-sm"
                             : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
@@ -294,7 +384,7 @@ export default function AboutDashboardPage() {
 
                 <button
                     onClick={() => setActiveSection("education")}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 ${
                         activeSection === "education"
                             ? "bg-white text-black font-extrabold shadow-sm"
                             : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
@@ -306,7 +396,7 @@ export default function AboutDashboardPage() {
 
                 <button
                     onClick={() => setActiveSection("courses")}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shrink-0 ${
                         activeSection === "courses"
                             ? "bg-white text-black font-extrabold shadow-sm"
                             : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
@@ -315,217 +405,302 @@ export default function AboutDashboardPage() {
                     <Award className="w-4 h-4" />
                     <span>Verified Courses ({about.courses.length})</span>
                 </button>
-
-                <button
-                    onClick={() => setActiveSection("focus")}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all ${
-                        activeSection === "focus"
-                            ? "bg-white text-black font-extrabold shadow-sm"
-                            : "bg-zinc-900/60 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800/80"
-                    }`}
-                >
-                    <Target className="w-4 h-4" />
-                    <span>Focus Pillars ({about.focus.length})</span>
-                </button>
             </div>
 
             {/* ========================================================================= */}
-            {/* SUB-SECTION 1: WORK EXPERIENCE */}
+            {/* SUB-SECTION 1: OVERVIEW & PAGE SETTINGS */}
             {/* ========================================================================= */}
-            {activeSection === "experience" && (
-                <div className="flex flex-col gap-5">
+            {activeSection === "overview" && (
+                <div className="flex flex-col gap-6">
+                    <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 space-y-5">
+                        <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                            <h2 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                                <Sparkles className="w-4 h-4 text-cyan-400" />
+                                <span>Hero Narrative &amp; Label</span>
+                            </h2>
+                            <span className="text-[11px] font-mono text-zinc-500">
+                                Displayed in the top profile header of /about
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label className={labelClass}>Section Overline Label</label>
+                                <input
+                                    className={inputClass}
+                                    value={about.label}
+                                    onChange={(e) => setAbout({ ...about, label: e.target.value })}
+                                    placeholder="00 // DOSSIER & PROFILE"
+                                />
+                                <p className="text-[11px] text-zinc-500 mt-1.5">
+                                    The uppercase badge tracked right above your full name.
+                                </p>
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <label className={labelClass}>Executive Biography Narrative</label>
+                                <textarea
+                                    rows={3}
+                                    className={inputClass}
+                                    value={about.summary || ""}
+                                    onChange={(e) => setAbout({ ...about, summary: e.target.value })}
+                                    placeholder="High-level engineering overview displayed in the header bio..."
+                                />
+                                <p className="text-[11px] text-zinc-500 mt-1.5">
+                                    The primary narrative paragraph under your name and role.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Media & Resume Assets */}
+                    <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 space-y-5">
+                        <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                            <h2 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-cyan-400" />
+                                <span>Assets &amp; Downloads</span>
+                            </h2>
+                            <span className="text-[11px] font-mono text-zinc-500">
+                                Media and documents linked across the page
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className={labelClass}>
+                                    <span>Portrait Photo URL</span>
+                                    <span className="text-[10px] text-zinc-500">Aspect 4:5 Recommended</span>
+                                </label>
+                                <input
+                                    className={inputClass + " font-mono text-xs"}
+                                    value={about.avatarUrl || ""}
+                                    onChange={(e) => setAbout({ ...about, avatarUrl: e.target.value })}
+                                    placeholder="/Moniruzzaman_Mahdi.png"
+                                />
+                                <p className="text-[11px] text-zinc-500 mt-1.5">
+                                    Editorial portrait shown in the right column of the dossier header.
+                                </p>
+                            </div>
+
+                            <div>
+                                <label className={labelClass}>
+                                    <span>Official Resume Download URL</span>
+                                    {about.resumeUrl && (
+                                        <a
+                                            href={about.resumeUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-[10px] text-cyan-400 hover:text-white inline-flex items-center gap-0.5"
+                                        >
+                                            <span>Test File</span>
+                                            <ExternalLink className="w-3 h-3" />
+                                        </a>
+                                    )}
+                                </label>
+                                <input
+                                    className={inputClass + " font-mono text-xs"}
+                                    value={about.resumeUrl || ""}
+                                    onChange={(e) => setAbout({ ...about, resumeUrl: e.target.value })}
+                                    placeholder="/Moniruzzaman_Mahdi_Full_Stack_Developer.pdf"
+                                />
+                                <p className="text-[11px] text-zinc-500 mt-1.5">
+                                    Direct link triggered by the &ldquo;Download Resume&rdquo; button in the header and footer.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom CTA Banner */}
+                    <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 space-y-5">
+                        <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                            <h2 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                                <Sparkles className="w-4 h-4 text-cyan-400" />
+                                <span>Collaboration Callout Banner</span>
+                            </h2>
+                            <span className="text-[11px] font-mono text-zinc-500">
+                                Section 06 at the bottom of /about
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className={labelClass}>Banner Headline</label>
+                                <input
+                                    className={inputClass}
+                                    value={about.ctaHeading || ""}
+                                    onChange={(e) => setAbout({ ...about, ctaHeading: e.target.value })}
+                                    placeholder="Have an architecture or system to build?"
+                                />
+                            </div>
+
+                            <div>
+                                <label className={labelClass}>Banner Subtitle / Description</label>
+                                <textarea
+                                    rows={2}
+                                    className={inputClass}
+                                    value={about.ctaDescription || ""}
+                                    onChange={(e) => setAbout({ ...about, ctaDescription: e.target.value })}
+                                    placeholder="Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ========================================================================= */}
+            {/* SUB-SECTION 2: ENGINEERING SPECIALIZATIONS */}
+            {/* ========================================================================= */}
+            {activeSection === "specializations" && (
+                <div className="flex flex-col gap-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-base font-bold uppercase tracking-wider text-white">
-                                Work Experience Timeline
+                            <h2 className="text-base font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                                <Layers className="w-4 h-4 text-cyan-400" />
+                                <span>Engineering Specializations ({about.specializations.length})</span>
                             </h2>
                             <p className="text-xs text-zinc-400">
-                                Real work history displayed on your About timeline.
+                                Detailed architectural competencies, tech tags, and deliverables rendered under section 04 of the about page.
                             </p>
                         </div>
                         <button
-                            onClick={addExperience}
-                            className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
+                            onClick={addSpecialization}
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
                         >
-                            <Plus className="w-3.5 h-3.5" /> Add Role
+                            <Plus className="w-3.5 h-3.5" /> Add Specialization
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
-                        {about.experience.map((exp, i) => (
+                    <div className="space-y-6">
+                        {about.specializations.map((spec, i) => (
                             <div
-                                key={i}
-                                className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 hover:border-zinc-700 transition-all shadow-sm"
+                                key={spec.id || i}
+                                className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 space-y-5 hover:border-zinc-700 transition-colors"
                             >
-                                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400">
-                                            Position #{i + 1}
+                                <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-xs text-cyan-400 font-bold uppercase tracking-widest">
+                                            SPEC // 0{i + 1}
                                         </span>
-                                        {exp.current && (
-                                            <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">
-                                                Active Role
-                                            </span>
-                                        )}
+                                        <h3 className="font-bold text-white text-base">
+                                            {spec.title || "Untitled Specialization"}
+                                        </h3>
                                     </div>
                                     <button
                                         onClick={() => {
-                                            setAbout((prev) => ({
-                                                ...prev,
-                                                experience: prev.experience.filter((_, idx) => idx !== i),
-                                            }));
+                                            if (confirm(`Remove specialization: ${spec.title}?`)) {
+                                                setAbout({
+                                                    ...about,
+                                                    specializations: about.specializations.filter((_, idx) => idx !== i),
+                                                });
+                                            }
                                         }}
-                                        className="text-xs text-rose-400 hover:text-rose-300 font-bold uppercase flex items-center gap-1"
+                                        className="text-zinc-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-colors"
+                                        title="Delete Specialization"
                                     >
-                                        <Trash2 className="w-3.5 h-3.5" /> Remove
+                                        <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className={labelClass}>Company Name</label>
+                                        <label className={labelClass}>Domain Title</label>
                                         <input
-                                            className={inputClass}
-                                            value={exp.company}
+                                            className={inputClass + " font-bold"}
+                                            value={spec.title}
                                             onChange={(e) => {
-                                                const next = [...about.experience];
-                                                next[i].company = e.target.value;
-                                                setAbout({ ...about, experience: next });
+                                                const next = [...about.specializations];
+                                                next[i].title = e.target.value;
+                                                setAbout({ ...about, specializations: next });
                                             }}
-                                            placeholder="Company / Client"
+                                            placeholder="Scalable Multi-Tenant SaaS Architecture"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>Job Title / Role</label>
-                                        <input
-                                            className={inputClass}
-                                            value={exp.role}
-                                            onChange={(e) => {
-                                                const next = [...about.experience];
-                                                next[i].role = e.target.value;
-                                                setAbout({ ...about, experience: next });
-                                            }}
-                                            placeholder="Full Stack Engineer"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className={labelClass}>Employment Duration</label>
-                                        <input
-                                            className={inputClass}
-                                            value={exp.period}
-                                            onChange={(e) => {
-                                                const next = [...about.experience];
-                                                next[i].period = e.target.value;
-                                                setAbout({ ...about, experience: next });
-                                            }}
-                                            placeholder="2024 — Present"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className={labelClass}>Location</label>
-                                        <input
-                                            className={inputClass}
-                                            value={exp.location || ""}
-                                            onChange={(e) => {
-                                                const next = [...about.experience];
-                                                next[i].location = e.target.value;
-                                                setAbout({ ...about, experience: next });
-                                            }}
-                                            placeholder="Remote / City"
-                                        />
-                                    </div>
-
-                                    <div className="sm:col-span-2">
                                         <label className={labelClass}>
-                                            <span>Company Website URL</span>
-                                            {exp.companyUrl && (
-                                                <a
-                                                    href={exp.companyUrl}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="text-[9px] text-zinc-400 hover:text-white"
-                                                >
-                                                    Visit ↗
-                                                </a>
-                                            )}
+                                            <span>Core Tech &amp; Tools (comma separated)</span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                {(spec.skills || []).length} tags
+                                            </span>
                                         </label>
                                         <input
-                                            className={inputClass}
-                                            value={exp.companyUrl || ""}
+                                            className={inputClass + " font-mono text-xs"}
+                                            value={(spec.skills || []).join(", ")}
                                             onChange={(e) => {
-                                                const next = [...about.experience];
-                                                next[i].companyUrl = e.target.value;
-                                                setAbout({ ...about, experience: next });
+                                                const next = [...about.specializations];
+                                                next[i].skills = e.target.value
+                                                    .split(",")
+                                                    .map((s) => s.trim())
+                                                    .filter(Boolean);
+                                                setAbout({ ...about, specializations: next });
                                             }}
-                                            placeholder="https://..."
+                                            placeholder="NestJS, Next.js, PostgreSQL, Redis"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className={labelClass}>Role Summary</label>
+                                    <label className={labelClass}>Architectural Description</label>
                                     <textarea
-                                        className={inputClass + " resize-y min-h-[60px] leading-relaxed"}
-                                        rows={2}
-                                        value={exp.description || ""}
+                                        rows={3}
+                                        className={inputClass}
+                                        value={spec.description}
                                         onChange={(e) => {
-                                            const next = [...about.experience];
+                                            const next = [...about.specializations];
                                             next[i].description = e.target.value;
-                                            setAbout({ ...about, experience: next });
+                                            setAbout({ ...about, specializations: next });
                                         }}
-                                        placeholder="Overview of core duties and impact..."
+                                        placeholder="Detailed technical explanation of what you build and the architectural approaches used..."
                                     />
                                 </div>
 
-                                {/* Achievements Bullet Points */}
-                                <div className="pt-2 border-t border-zinc-800/80">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono">
-                                            Key Engineering Deliverables ({exp.achievements?.length || 0})
+                                {/* Architecture Points / Benchmarks */}
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <label className={labelClass}>
+                                            <span>Key Architecture Deliverables &amp; Points</span>
+                                            <span className="text-[10px] text-zinc-500">
+                                                {(spec.points || []).length} items
+                                            </span>
                                         </label>
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                const next = [...about.experience];
-                                                next[i].achievements = [
-                                                    ...(next[i].achievements || []),
-                                                    "New technical accomplishment",
+                                                const next = [...about.specializations];
+                                                next[i].points = [
+                                                    ...(next[i].points || []),
+                                                    "New deliverable or architectural highlight",
                                                 ];
-                                                setAbout({ ...about, experience: next });
+                                                setAbout({ ...about, specializations: next });
                                             }}
-                                            className="text-[10px] font-bold uppercase text-white bg-zinc-800 hover:bg-zinc-700 px-2 py-0.5 rounded flex items-center gap-1"
+                                            className="text-[10px] font-bold text-cyan-400 hover:text-white uppercase tracking-wider flex items-center gap-1"
                                         >
-                                            <Plus className="w-3 h-3" /> Add Bullet
+                                            <Plus className="w-3 h-3" /> Add Point
                                         </button>
                                     </div>
 
-                                    <div className="flex flex-col gap-2">
-                                        {(exp.achievements || []).map((ach, achIdx) => (
-                                            <div key={achIdx} className="flex items-center gap-2">
-                                                <span className="text-zinc-600 font-mono text-xs">•</span>
+                                    <div className="space-y-2">
+                                        {(spec.points || []).map((pt, ptIdx) => (
+                                            <div key={ptIdx} className="flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full shrink-0 ml-1" />
                                                 <input
-                                                    className={inputClass + " py-1.5 text-xs"}
-                                                    value={ach}
+                                                    className={inputClass + " text-xs py-1.5"}
+                                                    value={pt}
                                                     onChange={(e) => {
-                                                        const next = [...about.experience];
-                                                        next[i].achievements[achIdx] = e.target.value;
-                                                        setAbout({ ...about, experience: next });
+                                                        const next = [...about.specializations];
+                                                        next[i].points![ptIdx] = e.target.value;
+                                                        setAbout({ ...about, specializations: next });
                                                     }}
-                                                    placeholder="Achievement statement..."
                                                 />
                                                 <button
                                                     type="button"
                                                     onClick={() => {
-                                                        const next = [...about.experience];
-                                                        next[i].achievements = next[i].achievements.filter(
-                                                            (_, idx) => idx !== achIdx
-                                                        );
-                                                        setAbout({ ...about, experience: next });
+                                                        const next = [...about.specializations];
+                                                        next[i].points = next[i].points!.filter((_, idx) => idx !== ptIdx);
+                                                        setAbout({ ...about, specializations: next });
                                                     }}
-                                                    className="p-1 text-zinc-500 hover:text-rose-400 rounded"
+                                                    className="p-1.5 text-zinc-500 hover:text-rose-400"
                                                 >
                                                     <X className="w-3.5 h-3.5" />
                                                 </button>
@@ -540,60 +715,291 @@ export default function AboutDashboardPage() {
             )}
 
             {/* ========================================================================= */}
-            {/* SUB-SECTION 2: FORMAL EDUCATION */}
+            {/* SUB-SECTION 3: WORK EXPERIENCE */}
+            {/* ========================================================================= */}
+            {activeSection === "experience" && (
+                <div className="flex flex-col gap-5">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-base font-bold uppercase tracking-wider text-white">
+                                Work Experience Timeline
+                            </h2>
+                            <p className="text-xs text-zinc-400">
+                                Chronological history rendered under section 01 of the about page.
+                            </p>
+                        </div>
+                        <button
+                            onClick={addExperience}
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+                        >
+                            <Plus className="w-3.5 h-3.5" /> Add Experience
+                        </button>
+                    </div>
+
+                    <div className="space-y-5">
+                        {about.experience.map((exp, i) => (
+                            <div
+                                key={i}
+                                className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all hover:border-zinc-700 space-y-4"
+                            >
+                                <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-xs text-zinc-500 font-bold">
+                                            #{i + 1}
+                                        </span>
+                                        <h3 className="font-bold text-white text-sm">
+                                            {exp.company || "Untitled Company"}
+                                        </h3>
+                                        {exp.current && (
+                                            <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">
+                                                Current Role
+                                            </span>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            if (confirm(`Remove ${exp.company}?`)) {
+                                                setAbout({
+                                                    ...about,
+                                                    experience: about.experience.filter((_, idx) => idx !== i),
+                                                });
+                                            }
+                                        }}
+                                        className="text-zinc-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-colors"
+                                        title="Delete Experience"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label className={labelClass}>Company Name</label>
+                                        <input
+                                            className={inputClass}
+                                            value={exp.company}
+                                            onChange={(e) => {
+                                                const next = [...about.experience];
+                                                next[i].company = e.target.value;
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            placeholder="Kodevio Limited"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Job Title / Role</label>
+                                        <input
+                                            className={inputClass}
+                                            value={exp.role}
+                                            onChange={(e) => {
+                                                const next = [...about.experience];
+                                                next[i].role = e.target.value;
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            placeholder="Full Stack Developer"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Period / Duration</label>
+                                        <input
+                                            className={inputClass}
+                                            value={exp.period}
+                                            onChange={(e) => {
+                                                const next = [...about.experience];
+                                                next[i].period = e.target.value;
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            placeholder="Aug 2026 – Present"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label className={labelClass}>Location</label>
+                                        <input
+                                            className={inputClass}
+                                            value={exp.location || ""}
+                                            onChange={(e) => {
+                                                const next = [...about.experience];
+                                                next[i].location = e.target.value;
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            placeholder="Dhaka, Bangladesh / Remote"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Company Website URL</label>
+                                        <input
+                                            className={inputClass}
+                                            value={exp.companyUrl || ""}
+                                            onChange={(e) => {
+                                                const next = [...about.experience];
+                                                next[i].companyUrl = e.target.value;
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center pt-6">
+                                        <label className="flex items-center gap-2.5 cursor-pointer text-xs text-zinc-300">
+                                            <input
+                                                type="checkbox"
+                                                checked={Boolean(exp.current)}
+                                                onChange={(e) => {
+                                                    const next = [...about.experience];
+                                                    next[i].current = e.target.checked;
+                                                    setAbout({ ...about, experience: next });
+                                                }}
+                                                className="rounded border-zinc-700 bg-zinc-800 text-white focus:ring-0"
+                                            />
+                                            <span>Mark as Currently Active</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className={labelClass}>Overview Description</label>
+                                    <textarea
+                                        rows={2}
+                                        className={inputClass}
+                                        value={exp.description || ""}
+                                        onChange={(e) => {
+                                            const next = [...about.experience];
+                                            next[i].description = e.target.value;
+                                            setAbout({ ...about, experience: next });
+                                        }}
+                                        placeholder="Summary of responsibilities and scope..."
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <label className={labelClass}>Key Achievements &amp; Highlights</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const next = [...about.experience];
+                                                next[i].achievements = [...(next[i].achievements || []), "New achievement point"];
+                                                setAbout({ ...about, experience: next });
+                                            }}
+                                            className="text-[10px] font-bold text-zinc-300 hover:text-white uppercase tracking-wider flex items-center gap-1"
+                                        >
+                                            <Plus className="w-3 h-3" /> Add Point
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        {(exp.achievements || []).map((ach, achIdx) => (
+                                            <div key={achIdx} className="flex items-center gap-2">
+                                                <input
+                                                    className={inputClass + " text-xs py-1.5"}
+                                                    value={ach}
+                                                    onChange={(e) => {
+                                                        const next = [...about.experience];
+                                                        next[i].achievements[achIdx] = e.target.value;
+                                                        setAbout({ ...about, experience: next });
+                                                    }}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        const next = [...about.experience];
+                                                        next[i].achievements = next[i].achievements.filter((_, idx) => idx !== achIdx);
+                                                        setAbout({ ...about, experience: next });
+                                                    }}
+                                                    className="p-1.5 text-zinc-500 hover:text-rose-400"
+                                                >
+                                                    <X className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* ========================================================================= */}
+            {/* SUB-SECTION 4: FORMAL EDUCATION */}
             {/* ========================================================================= */}
             {activeSection === "education" && (
                 <div className="flex flex-col gap-5">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="text-base font-bold uppercase tracking-wider text-white">
-                                Formal Degrees & Academics
+                                Formal Education History
                             </h2>
                             <p className="text-xs text-zinc-400">
-                                University and institution background.
+                                Degrees and academic credentials rendered under section 05.
                             </p>
                         </div>
                         <button
                             onClick={addEducation}
-                            className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
                         >
                             <Plus className="w-3.5 h-3.5" /> Add Degree
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                    <div className="space-y-4">
                         {about.education.map((edu, i) => (
                             <div
                                 key={i}
-                                className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between gap-4 hover:border-zinc-700 transition-all shadow-sm"
+                                className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all hover:border-zinc-700 space-y-4"
                             >
-                                <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">
-                                            Degree #{i + 1}
+                                <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-xs text-zinc-500 font-bold">
+                                            #{i + 1}
                                         </span>
+                                        <h3 className="font-bold text-white text-sm">
+                                            {edu.institution || "Institution"}
+                                        </h3>
                                         {edu.current && (
-                                            <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">
-                                                Ongoing
+                                            <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded">
+                                                On-Going
                                             </span>
                                         )}
                                     </div>
                                     <button
                                         onClick={() => {
-                                            setAbout((prev) => ({
-                                                ...prev,
-                                                education: prev.education.filter((_, idx) => idx !== i),
-                                            }));
+                                            if (confirm(`Remove ${edu.institution}?`)) {
+                                                setAbout({
+                                                    ...about,
+                                                    education: about.education.filter((_, idx) => idx !== i),
+                                                });
+                                            }
                                         }}
-                                        className="text-xs text-rose-400 hover:text-rose-300 font-bold uppercase flex items-center gap-1"
+                                        className="text-zinc-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-colors"
                                     >
-                                        <Trash2 className="w-3 h-3" /> Remove
+                                        <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
 
-                                <div className="flex flex-col gap-3">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label className={labelClass}>Degree / Qualification</label>
+                                        <label className={labelClass}>Institution</label>
+                                        <input
+                                            className={inputClass}
+                                            value={edu.institution}
+                                            onChange={(e) => {
+                                                const next = [...about.education];
+                                                next[i].institution = e.target.value;
+                                                setAbout({ ...about, education: next });
+                                            }}
+                                            placeholder="National University"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className={labelClass}>Degree / Certificate</label>
                                         <input
                                             className={inputClass}
                                             value={edu.degree}
@@ -607,49 +1013,34 @@ export default function AboutDashboardPage() {
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>Institution / University</label>
+                                        <label className={labelClass}>Period</label>
                                         <input
                                             className={inputClass}
-                                            value={edu.institution}
+                                            value={edu.period}
                                             onChange={(e) => {
                                                 const next = [...about.education];
-                                                next[i].institution = e.target.value;
+                                                next[i].period = e.target.value;
                                                 setAbout({ ...about, education: next });
                                             }}
-                                            placeholder="National University"
+                                            placeholder="2025 – Present"
                                         />
                                     </div>
+                                </div>
 
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                            <label className={labelClass}>Academic Period</label>
-                                            <input
-                                                className={inputClass}
-                                                value={edu.period}
-                                                onChange={(e) => {
-                                                    const next = [...about.education];
-                                                    next[i].period = e.target.value;
-                                                    setAbout({ ...about, education: next });
-                                                }}
-                                                placeholder="2024 — Present"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col justify-end pb-1">
-                                            <label className="flex items-center gap-2 cursor-pointer text-xs text-zinc-300 py-2">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={Boolean(edu.current)}
-                                                    onChange={(e) => {
-                                                        const next = [...about.education];
-                                                        next[i].current = e.target.checked;
-                                                        setAbout({ ...about, education: next });
-                                                    }}
-                                                    className="rounded border-zinc-700 bg-zinc-800 text-white"
-                                                />
-                                                <span>Ongoing Study</span>
-                                            </label>
-                                        </div>
-                                    </div>
+                                <div className="flex items-center">
+                                    <label className="flex items-center gap-2 cursor-pointer text-xs text-zinc-300">
+                                        <input
+                                            type="checkbox"
+                                            checked={Boolean(edu.current)}
+                                            onChange={(e) => {
+                                                const next = [...about.education];
+                                                next[i].current = e.target.checked;
+                                                setAbout({ ...about, education: next });
+                                            }}
+                                            className="rounded border-zinc-700 bg-zinc-800 text-white"
+                                        />
+                                        <span>Currently On-Going</span>
+                                    </label>
                                 </div>
                             </div>
                         ))}
@@ -658,60 +1049,60 @@ export default function AboutDashboardPage() {
             )}
 
             {/* ========================================================================= */}
-            {/* SUB-SECTION 3: VERIFIED COURSES */}
+            {/* SUB-SECTION 5: VERIFIED COURSES */}
             {/* ========================================================================= */}
             {activeSection === "courses" && (
                 <div className="flex flex-col gap-5">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="text-base font-bold uppercase tracking-wider text-white">
-                                Verified Courses & Certifications
+                                Verified Courses &amp; Certifications
                             </h2>
                             <p className="text-xs text-zinc-400">
-                                Professional certificates and specialized computer science education.
+                                Credentials with verification links rendered under section 05.
                             </p>
                         </div>
                         <button
                             onClick={addCourse}
-                            className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
                         >
-                            <Plus className="w-3.5 h-3.5" /> Add Certification
+                            <Plus className="w-3.5 h-3.5" /> Add Course
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                    <div className="space-y-4">
                         {about.courses.map((crs, i) => (
                             <div
                                 key={i}
-                                className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between gap-4 hover:border-zinc-700 transition-all shadow-sm"
+                                className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-6 transition-all hover:border-zinc-700 space-y-4"
                             >
-                                <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">
-                                            Cert #{i + 1}
+                                <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-xs text-zinc-500 font-bold">
+                                            #{i + 1}
                                         </span>
-                                        {crs.completed && (
-                                            <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
-                                                Verified
-                                            </span>
-                                        )}
+                                        <h3 className="font-bold text-white text-sm">
+                                            {crs.title || "Untitled Course"}
+                                        </h3>
                                     </div>
                                     <button
                                         onClick={() => {
-                                            setAbout((prev) => ({
-                                                ...prev,
-                                                courses: prev.courses.filter((_, idx) => idx !== i),
-                                            }));
+                                            if (confirm(`Remove ${crs.title}?`)) {
+                                                setAbout({
+                                                    ...about,
+                                                    courses: about.courses.filter((_, idx) => idx !== i),
+                                                });
+                                            }
                                         }}
-                                        className="text-xs text-rose-400 hover:text-rose-300 font-bold uppercase flex items-center gap-1"
+                                        className="text-zinc-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-colors"
                                     >
-                                        <Trash2 className="w-3 h-3" /> Remove
+                                        <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
 
-                                <div className="flex flex-col gap-3">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label className={labelClass}>Course / Certificate Title</label>
+                                        <label className={labelClass}>Course / Cohort Title</label>
                                         <input
                                             className={inputClass}
                                             value={crs.title}
@@ -720,12 +1111,12 @@ export default function AboutDashboardPage() {
                                                 next[i].title = e.target.value;
                                                 setAbout({ ...about, courses: next });
                                             }}
-                                            placeholder="CS50: Introduction to Computer Science"
+                                            placeholder="System Design Cohort"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>Issuer / Platform</label>
+                                        <label className={labelClass}>Institution / Platform</label>
                                         <input
                                             className={inputClass}
                                             value={crs.institution}
@@ -734,136 +1125,52 @@ export default function AboutDashboardPage() {
                                                 next[i].institution = e.target.value;
                                                 setAbout({ ...about, courses: next });
                                             }}
-                                            placeholder="Harvard University / edX"
+                                            placeholder="Chai aur Code"
                                         />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                            <label className={labelClass}>Completion Year</label>
-                                            <input
-                                                className={inputClass}
-                                                value={crs.period}
-                                                onChange={(e) => {
-                                                    const next = [...about.courses];
-                                                    next[i].period = e.target.value;
-                                                    setAbout({ ...about, courses: next });
-                                                }}
-                                                placeholder="2023"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col justify-end pb-1">
-                                            <label className="flex items-center gap-2 cursor-pointer text-xs text-zinc-300 py-2">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={Boolean(crs.completed)}
-                                                    onChange={(e) => {
-                                                        const next = [...about.courses];
-                                                        next[i].completed = e.target.checked;
-                                                        setAbout({ ...about, courses: next });
-                                                    }}
-                                                    className="rounded border-zinc-700 bg-zinc-800 text-white"
-                                                />
-                                                <span>Completed</span>
-                                            </label>
-                                        </div>
                                     </div>
 
                                     <div>
-                                        <label className={labelClass}>
-                                            <span>Certificate URL</span>
-                                            {crs.certificateUrl && (
-                                                <a
-                                                    href={crs.certificateUrl}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="text-[9px] text-zinc-400 hover:text-white"
-                                                >
-                                                    View ↗
-                                                </a>
-                                            )}
-                                        </label>
+                                        <label className={labelClass}>Period / Year</label>
                                         <input
-                                            className={inputClass + " font-mono text-xs"}
-                                            value={crs.certificateUrl || ""}
+                                            className={inputClass}
+                                            value={crs.period}
                                             onChange={(e) => {
                                                 const next = [...about.courses];
-                                                next[i].certificateUrl = e.target.value;
+                                                next[i].period = e.target.value;
                                                 setAbout({ ...about, courses: next });
                                             }}
-                                            placeholder="https://..."
+                                            placeholder="2026"
                                         />
                                     </div>
                                 </div>
+
+                                <div>
+                                    <label className={labelClass}>
+                                        <span>Certificate Verification URL</span>
+                                        {crs.certificateUrl && (
+                                            <a
+                                                href={crs.certificateUrl}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="text-[10px] text-cyan-400 hover:text-white"
+                                            >
+                                                Verify ↗
+                                            </a>
+                                        )}
+                                    </label>
+                                    <input
+                                        className={inputClass + " font-mono text-xs"}
+                                        value={crs.certificateUrl || ""}
+                                        onChange={(e) => {
+                                            const next = [...about.courses];
+                                            next[i].certificateUrl = e.target.value;
+                                            setAbout({ ...about, courses: next });
+                                        }}
+                                        placeholder="https://..."
+                                    />
+                                </div>
                             </div>
                         ))}
-                    </div>
-                </div>
-            )}
-
-            {/* ========================================================================= */}
-            {/* SUB-SECTION 4: FOCUS PILLARS */}
-            {/* ========================================================================= */}
-            {activeSection === "focus" && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-                    <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 lg:col-span-1 flex flex-col justify-between">
-                        <div>
-                            <label className={labelClass}>Section Overline Label</label>
-                            <input
-                                className={inputClass}
-                                value={about.label}
-                                onChange={(e) => setAbout({ ...about, label: e.target.value })}
-                                placeholder="Background & Data"
-                            />
-                            <p className="text-xs text-zinc-500 mt-2">
-                                The label pill rendered above the About section on the public site.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 lg:col-span-2">
-                        <div className="flex items-center justify-between mb-4 pb-2 border-b border-zinc-800">
-                            <div className="flex items-center gap-2">
-                                <Target className="w-4 h-4 text-zinc-300" />
-                                <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
-                                    Core Focus Areas ({about.focus.length})
-                                </h3>
-                            </div>
-                            <button
-                                onClick={addFocus}
-                                className="flex items-center gap-1 text-[10px] font-bold uppercase text-white bg-zinc-800 hover:bg-zinc-700 px-2.5 py-1 rounded"
-                            >
-                                <Plus className="w-3 h-3" /> Add Pillar
-                            </button>
-                        </div>
-
-                        <div className="flex flex-col gap-2.5">
-                            {about.focus.map((f, i) => (
-                                <div key={i} className="flex items-center gap-2">
-                                    <input
-                                        className={inputClass + " py-2 text-xs"}
-                                        value={f}
-                                        onChange={(e) => {
-                                            const next = [...about.focus];
-                                            next[i] = e.target.value;
-                                            setAbout({ ...about, focus: next });
-                                        }}
-                                        placeholder="Focus domain..."
-                                    />
-                                    <button
-                                        onClick={() => {
-                                            setAbout({
-                                                ...about,
-                                                focus: about.focus.filter((_, idx) => idx !== i),
-                                            });
-                                        }}
-                                        className="p-2 text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
-                                    >
-                                        <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
             )}

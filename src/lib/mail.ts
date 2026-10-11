@@ -148,3 +148,69 @@ export async function sendContactNotification({
     html: htmlContent,
   });
 }
+
+export async function sendInquiryReply({
+  to,
+  recipientName = "Client",
+  subject,
+  message,
+  originalMessage,
+}: {
+  to: string;
+  recipientName?: string;
+  subject: string;
+  message: string;
+  originalMessage?: string;
+}) {
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #09090b; color: #f4f4f5; padding: 24px; margin: 0; }
+          .card { background-color: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 32px; max-width: 600px; margin: 0 auto; }
+          .header { border-bottom: 1px solid #27272a; padding-bottom: 16px; margin-bottom: 24px; }
+          .title { font-size: 20px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: -0.02em; margin: 0; }
+          .sub { font-size: 11px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+          .greeting { font-size: 15px; color: #ffffff; margin-bottom: 16px; font-weight: 600; }
+          .reply-body { font-size: 14px; line-height: 1.7; color: #e4e4e7; white-space: pre-wrap; margin-bottom: 24px; }
+          .quote-box { background-color: #09090b; border-left: 3px solid #3f3f46; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-top: 20px; font-size: 12px; color: #a1a1aa; line-height: 1.6; }
+          .quote-title { font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+          .footer { font-size: 11px; color: #52525b; text-align: center; margin-top: 28px; text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid #27272a; padding-top: 16px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="header">
+            <h1 class="title">Mahdi Monir</h1>
+            <div class="sub">Full Stack & Systems Developer</div>
+          </div>
+          <div class="greeting">Hi ${recipientName},</div>
+          <div class="reply-body">${message}</div>
+          ${
+            originalMessage
+              ? `
+          <div class="quote-box">
+            <div class="quote-title">In reference to your message:</div>
+            <div style="white-space: pre-wrap;">${originalMessage}</div>
+          </div>
+          `
+              : ""
+          }
+          <div class="footer">Sent directly via Mahdi Monir Portfolio</div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return transporter.sendMail({
+    from: `"Mahdi Monir" <${smtpUser}>`,
+    to,
+    replyTo: smtpUser,
+    subject,
+    text: `Hi ${recipientName},\n\n${message}\n\n---\nOriginal message:\n${originalMessage || ""}`,
+    html: htmlContent,
+  });
+}
+

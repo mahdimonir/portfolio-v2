@@ -618,7 +618,7 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                                 <span className="text-zinc-500">IN MIND?</span>
                             </h2>
                             <p className="text-zinc-400 text-xs md:text-sm max-w-xl mt-4 leading-relaxed">
-                                Available for select full-stack development, software engineering, and contract work. Let's engineer
+                                Specializing in full-stack development, software engineering, and contract consulting. Let's engineer
                                 something extraordinary together.
                             </p>
                         </div>

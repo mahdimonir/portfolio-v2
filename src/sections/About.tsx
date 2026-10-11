@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import db from "@/lib/portfolio-db.json";
 
 const About = () => {
@@ -41,12 +42,19 @@ const About = () => {
 
         {/* Left Column: Context Label */}
         <motion.div
-          className="md:col-span-3 lg:col-span-3 pt-2"
+          className="md:col-span-3 lg:col-span-3 pt-2 flex flex-col gap-3"
           style={{ y: y1, opacity: opacity1 }}
         >
           <h2 className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest">
             {db.about.label}
           </h2>
+          <Link
+            href="/about"
+            className="group inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-black/60 hover:text-black transition-colors font-bold w-fit"
+          >
+            <span>Full Profile</span>
+            <span className="group-hover:translate-x-0.5 transition-transform">↗</span>
+          </Link>
         </motion.div>
 
         {/* Right Column: The Data List */}

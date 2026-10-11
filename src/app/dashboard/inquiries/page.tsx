@@ -19,6 +19,7 @@ import {
     CheckCheck,
     X,
     ArrowUpDown,
+    Loader2,
 } from "lucide-react";
 
 export interface ContactMessage {
@@ -40,6 +41,12 @@ export default function InquiriesDashboardPage() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(8);
     const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
+
+    // Reply Modal state
+    const [replyingMessage, setReplyingMessage] = useState<ContactMessage | null>(null);
+    const [replySubject, setReplySubject] = useState("");
+    const [replyMessage, setReplyMessage] = useState("");
+    const [isSendingReply, setIsSendingReply] = useState(false);
 
     const loadMessages = useCallback(async () => {
         setLoading(true);
@@ -124,6 +131,59 @@ export default function InquiriesDashboardPage() {
             }
         } catch {
             toast.error("Network error deleting inquiry");
+        }
+    };
+
+    const handleOpenReply = (m: ContactMessage) => {
+        setReplyingMessage(m);
+        setReplySubject(
+            m.subject
+                ? m.subject.toLowerCase().startsWith("re:")
+                    ? m.subject
+                    : `Re: ${m.subject}`
+                : "Re: Your Portfolio Inquiry"
+        );
+        setReplyMessage("");
+    };
+
+    const handleSendReply = async () => {
+        if (!replyingMessage) return;
+        if (!replyMessage.trim()) {
+            toast.error("Please enter a reply message.");
+            return;
+        }
+
+        setIsSendingReply(true);
+        try {
+            const res = await fetch("/api/contact/reply", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                    id: replyingMessage.id,
+                    to: replyingMessage.email,
+                    recipientName: replyingMessage.name,
+                    subject: replySubject.trim(),
+                    message: replyMessage.trim(),
+                    originalMessage: replyingMessage.message,
+                }),
+            });
+
+            if (res.ok) {
+                toast.success(`Reply sent successfully to ${replyingMessage.email}!`);
+                setMessages((prev) =>
+                    prev.map((msg) => (msg.id === replyingMessage.id ? { ...msg, read: true } : msg))
+                );
+                setReplyingMessage(null);
+                setReplyMessage("");
+            } else {
+                const err = await res.json().catch(() => ({}));
+                toast.error(err.error || "Failed to dispatch email reply.");
+            }
+        } catch {
+            toast.error("Network error sending reply.");
+        } finally {
+            setIsSendingReply(false);
         }
     };
 
@@ -400,12 +460,12 @@ export default function InquiriesDashboardPage() {
                                             </button>
                                         </div>
 
-                                        <a
-                                            href={`mailto:${m.email}?subject=Re: ${encodeURIComponent(m.subject || "Your Inquiry")}`}
+                                        <button
+                                            onClick={() => handleOpenReply(m)}
                                             className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-black bg-white hover:bg-zinc-200 px-4 py-2 rounded-lg transition-colors shadow-sm"
                                         >
                                             <Send className="w-3 h-3" /> Reply
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             );
@@ -477,6 +537,138 @@ export default function InquiriesDashboardPage() {
                                 <span>Next</span>
                                 <ChevronRight className="w-3.5 h-3.5" />
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Direct Email Reply Modal */}
+            {replyingMessage && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget && !isSendingReply) {
+                            setReplyingMessage(null);
+                        }
+                    }}
+                >
+                    <div className="relative w-full max-w-2xl bg-zinc-950 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+                        {/* Modal Header */}
+                        <div className="flex items-start justify-between gap-4 border-b border-zinc-800 pb-5">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
+                                    <Mail className="w-5 h-5 text-indigo-400" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-white tracking-tight">
+                                        Reply to Inquiry
+                                    </h3>
+                                    <p className="text-xs text-zinc-400 mt-0.5">
+                                        Sending directly from your verified portfolio mailbox
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => !isSendingReply && setReplyingMessage(null)}
+                                disabled={isSendingReply}
+                                className="p-2 text-zinc-400 hover:text-white rounded-xl hover:bg-zinc-900 transition-colors disabled:opacity-30"
+                                aria-label="Close"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Recipient info & original message */}
+                        <div className="space-y-3">
+                            <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-4 space-y-2">
+                                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                                    <span className="text-zinc-500 font-mono uppercase tracking-wider">Recipient:</span>
+                                    <span className="text-zinc-200 font-medium">
+                                        {replyingMessage.name} &lt;{replyingMessage.email}&gt;
+                                    </span>
+                                </div>
+                                <div className="border-t border-zinc-800/60 pt-2">
+                                    <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider block mb-1">
+                                        Original Message:
+                                    </span>
+                                    <p className="text-xs text-zinc-400 font-mono italic bg-black/40 border border-zinc-800/60 p-3 rounded-xl max-h-28 overflow-y-auto whitespace-pre-wrap">
+                                        {replyingMessage.message}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Subject */}
+                            <div>
+                                <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                                    Subject
+                                </label>
+                                <input
+                                    type="text"
+                                    value={replySubject}
+                                    onChange={(e) => setReplySubject(e.target.value)}
+                                    placeholder="Subject..."
+                                    disabled={isSendingReply}
+                                    className="w-full bg-zinc-900 border border-zinc-800 focus:border-zinc-500 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none transition-colors"
+                                />
+                            </div>
+
+                            {/* Message Body */}
+                            <div>
+                                <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                                    Your Reply
+                                </label>
+                                <textarea
+                                    rows={7}
+                                    value={replyMessage}
+                                    onChange={(e) => setReplyMessage(e.target.value)}
+                                    placeholder="Write your response here..."
+                                    disabled={isSendingReply}
+                                    className="w-full bg-zinc-900 border border-zinc-800 focus:border-zinc-500 rounded-xl p-4 text-sm text-white placeholder-zinc-500 focus:outline-none transition-colors resize-none leading-relaxed"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Modal Footer */}
+                        <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-zinc-800">
+                            <a
+                                href={`mailto:${replyingMessage.email}?subject=${encodeURIComponent(
+                                    replySubject
+                                )}&body=${encodeURIComponent(
+                                    `\n\n--- Original Message from ${replyingMessage.name} ---\n${replyingMessage.message}`
+                                )}`}
+                                className="text-xs text-zinc-500 hover:text-zinc-300 font-mono underline underline-offset-4 transition-colors text-center sm:text-left"
+                            >
+                                Or open in mail app ↗
+                            </a>
+
+                            <div className="flex items-center justify-end gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setReplyingMessage(null)}
+                                    disabled={isSendingReply}
+                                    className="px-4 py-2.5 rounded-xl border border-zinc-800 text-xs font-mono font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors disabled:opacity-40"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleSendReply}
+                                    disabled={isSendingReply || !replyMessage.trim()}
+                                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-xs uppercase tracking-wider hover:bg-zinc-200 transition-colors shadow-lg shadow-white/10 disabled:opacity-40 disabled:cursor-not-allowed"
+                                >
+                                    {isSendingReply ? (
+                                        <>
+                                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                            <span>Sending...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send className="w-3.5 h-3.5" />
+                                            <span>Send Reply</span>
+                                        </>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -75,7 +75,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (scope === "about") {
-      return NextResponse.json({ about: data.about });
+      return NextResponse.json({
+        about: data.about,
+        resumeUrl: data.resumeUrl || data.about?.resumeUrl || "/resume.pdf",
+      });
     }
 
     if (scope === "skills") {
@@ -204,7 +207,23 @@ export async function POST(request: NextRequest) {
 
     // 1. Update User table
     const user = await prisma.user.findFirst();
-    if (user && (body.name || body.role || body.availability || body.hero)) {
+    if (
+      user &&
+      (body.name ||
+        body.firstName ||
+        body.title ||
+        body.role ||
+        body.location ||
+        body.email ||
+        body.phone ||
+        body.timezone ||
+        body.availability ||
+        body.responseTime ||
+        body.hero ||
+        body.about ||
+        body.socials ||
+        body.quote)
+    ) {
       await prisma.user.update({
         where: { id: user.id },
         data: {
@@ -223,7 +242,11 @@ export async function POST(request: NextRequest) {
           heroSubheadline: body.hero?.subheadline || user.heroSubheadline,
           heroAvailability: body.hero?.availability || user.heroAvailability,
           aboutLabel: body.about?.label || user.aboutLabel,
-          focus: Array.isArray(body.about?.focus) ? body.about.focus : user.focus,
+          focus: Array.isArray(body.about?.specializations)
+            ? body.about.specializations.map((s: any) => JSON.stringify(s))
+            : Array.isArray(body.about?.focus)
+            ? body.about.focus
+            : user.focus,
           githubUrl: body.socials?.github || user.githubUrl,
           linkedinUrl: body.socials?.linkedin || user.linkedinUrl,
           twitterUrl: body.socials?.twitter ?? user.twitterUrl,
@@ -558,6 +581,8 @@ export async function POST(request: NextRequest) {
     try {
       invalidatePortfolioCache();
       revalidatePath("/", "layout");
+      revalidatePath("/about");
+      revalidatePath("/about", "page");
       revalidatePath("/projects");
       revalidatePath("/projects/[slug]", "page");
       if (Array.isArray(body.projects)) {

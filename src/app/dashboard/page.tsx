@@ -242,48 +242,6 @@ export default function DashboardOverviewPage() {
         }
     };
 
-    // Fast toggle availability via sub-20ms PATCH
-    const handleToggleAvailability = async () => {
-        if (!portfolio) return;
-        const isAvailable =
-            portfolio.availability.toLowerCase().includes("available") ||
-            portfolio.hero.availability.toLowerCase().includes("available");
-
-        const newAvail = isAvailable
-            ? "Currently booked for client contracts"
-            : "Available for freelance & contract work";
-        const newBadge = isAvailable ? "BOOKED / BUSY" : "AVAILABLE FOR WORK";
-
-        const updated = {
-            ...portfolio,
-            availability: newAvail,
-            hero: { ...portfolio.hero, availability: newBadge },
-        };
-
-        setPortfolio(updated);
-
-        try {
-            const res = await fetch("/api/portfolio", {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({
-                    availability: newAvail,
-                    hero: { availability: newBadge },
-                }),
-            });
-            if (res.ok) {
-                toast.success(`Availability updated: "${newBadge}"`);
-            } else {
-                toast.error("Failed to update availability");
-                loadOverviewData();
-            }
-        } catch {
-            toast.error("Failed to update availability");
-            loadOverviewData();
-        }
-    };
-
     // Fast toggle inquiry read state
     const handleToggleMessageRead = async (msg: ContactMessage) => {
         const newRead = !msg.read;
@@ -334,10 +292,6 @@ export default function DashboardOverviewPage() {
         return <DashboardOverviewSkeleton />;
     }
 
-    const isAvailableNow =
-        portfolio?.hero?.availability?.toLowerCase().includes("available") ||
-        portfolio?.availability?.toLowerCase().includes("available");
-
     return (
         <div className="w-full flex flex-col gap-6">
             {/* Top Identity Header */}
@@ -365,31 +319,6 @@ export default function DashboardOverviewPage() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
-                    {/* Live Availability Toggle Switch */}
-                    <button
-                        onClick={handleToggleAvailability}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all border ${
-                            isAvailableNow
-                                ? "bg-emerald-950/60 border-emerald-800/80 text-emerald-400 hover:bg-emerald-900/50"
-                                : "bg-amber-950/60 border-amber-800/80 text-amber-400 hover:bg-amber-900/50"
-                        }`}
-                        title="Click to toggle availability on live site"
-                    >
-                        <span className="relative flex h-2 w-2">
-                            <span
-                                className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                                    isAvailableNow ? "bg-emerald-400" : "bg-amber-400"
-                                }`}
-                            />
-                            <span
-                                className={`relative inline-flex rounded-full h-2 w-2 ${
-                                    isAvailableNow ? "bg-emerald-400" : "bg-amber-400"
-                                }`}
-                            />
-                        </span>
-                        <span>{portfolio?.hero?.availability || "AVAILABLE FOR WORK"}</span>
-                    </button>
-
                     <Link
                         href="/dashboard/projects"
                         className="flex items-center gap-1.5 bg-white text-black hover:bg-zinc-200 px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"

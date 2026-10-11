@@ -198,7 +198,7 @@ export default function ProfileDashboardPage() {
                         )}
                     </h1>
                     <p className="text-xs text-zinc-400 mt-1">
-                        Personal identity parameters, hero typography, public work availability, and social channels.
+                        Personal identity parameters, hero typography, contact information, and social channels.
                     </p>
                 </div>
 
@@ -321,12 +321,12 @@ export default function ProfileDashboardPage() {
                     </div>
                 </div>
 
-                {/* Contact & Availability Status Card */}
+                {/* Contact Channels Card */}
                 <div className={cardClass}>
                     <div className="flex items-center gap-2 pb-3 mb-5 border-b border-zinc-800">
                         <Mail className="w-4 h-4 text-zinc-300" />
                         <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
-                            Contact & Availability
+                            Direct Contact Channels
                         </h2>
                     </div>
 
@@ -361,18 +361,6 @@ export default function ProfileDashboardPage() {
                         </div>
 
                         <div className="sm:col-span-2">
-                            <label className={labelClass}>Contract / Job Availability Text</label>
-                            <input
-                                className={inputClass}
-                                value={profile.availability}
-                                onChange={(e) =>
-                                    setProfile({ ...profile, availability: e.target.value })
-                                }
-                                placeholder="Available for freelance & contract work"
-                            />
-                        </div>
-
-                        <div className="sm:col-span-2">
                             <label className={labelClass}>Expected Response Time</label>
                             <input
                                 className={inputClass}
@@ -382,22 +370,6 @@ export default function ProfileDashboardPage() {
                                 }
                                 placeholder="Usually replies within 24 hours"
                             />
-                        </div>
-                    </div>
-
-                    {/* Live Status Pill Preview */}
-                    <div className="mt-5 p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 flex items-center justify-between">
-                        <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500 font-mono">
-                            Site Badge Preview:
-                        </span>
-                        <div className="flex items-center gap-2">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                            </span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">
-                                {profile.hero?.availability || "AVAILABLE FOR WORK"}
-                            </span>
                         </div>
                     </div>
                 </div>

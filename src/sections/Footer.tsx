@@ -2,9 +2,10 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import db from "@/lib/portfolio-db.json";
+import { usePortfolioData } from "@/lib/PortfolioContext";
 
 const Footer = () => {
+  const data = usePortfolioData();
   const footerRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -49,13 +50,13 @@ const Footer = () => {
             Identification
           </h3>
           <p className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide leading-relaxed">
-            {db.name}
+            {data.name || "Moniruzzaman Mahdi"}
           </p>
           <p className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide leading-relaxed text-white/60">
-            {db.role}
+            {data.role || "Full Stack Developer"}
           </p>
           <p className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide leading-relaxed text-white/60">
-            {db.location}
+            {data.location || "Bangladesh"}
           </p>
         </motion.div>
 
@@ -66,7 +67,7 @@ const Footer = () => {
           </h3>
           <div className="flex flex-col gap-2">
             <a
-              href={db.socials.portfolio3d || "https://3d.mahdimonir.dev"}
+              href={data.socials?.portfolio3d || "https://3d.mahdimonir.dev"}
               target="_blank"
               rel="noopener noreferrer"
               className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
@@ -74,56 +75,71 @@ const Footer = () => {
               3D Portfolio ↗
             </a>
             <a
-              href={`mailto:${db.email}`}
+              href={`mailto:${data.email}`}
               className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
             >
               Email ↗
             </a>
-            <a
-              href={db.socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href={db.socials.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
-            >
-              GitHub ↗
-            </a>
+            {data.socials?.linkedin && (
+              <a
+                href={data.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
+              >
+                LinkedIn ↗
+              </a>
+            )}
+            {data.socials?.github && (
+              <a
+                href={data.socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
+              >
+                GitHub ↗
+              </a>
+            )}
+            {data.socials?.twitter && (
+              <a
+                href={data.socials.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 decoration-1 w-fit flex items-center gap-1"
+              >
+                Twitter ↗
+              </a>
+            )}
           </div>
         </motion.div>
 
-        {/* Column 3: AVAILABILITY */}
+        {/* Column 3: DIRECT CONTACT */}
         <motion.div variants={itemVariants} className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1">
             <h3 className="font-sans text-xs font-bold uppercase tracking-widest mb-4 text-white/80">
-              Availability
+              Direct Contact
             </h3>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-              </span>
-              <span className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide text-green-400">
-                {db.availability}
-              </span>
-            </div>
-            <p className="font-sans text-xs text-white/40 uppercase tracking-wide">
-              {db.responseTime}
-            </p>
-            <p className="font-sans text-xs text-white/30 uppercase tracking-wide mt-3">
-              {db.email}
-            </p>
+            <a
+              href={`mailto:${data.email}`}
+              className="font-sans text-xs md:text-sm font-medium uppercase tracking-wide hover:underline underline-offset-4 text-white"
+            >
+              {data.email}
+            </a>
+            {data.location && (
+              <p className="font-sans text-xs text-white/40 uppercase tracking-wide mt-1">
+                {data.location}
+              </p>
+            )}
+            {data.responseTime && (
+              <p className="font-sans text-xs text-white/30 uppercase tracking-wide mt-2">
+                {data.responseTime}
+              </p>
+            )}
           </div>
 
           <div className="mt-8 md:mt-0">
             <p className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-white/50">
-              © 2026 {db.firstName}
+              © 2026 {data.firstName || "MAHDI"}
             </p>
           </div>
         </motion.div>
@@ -135,7 +151,7 @@ const Footer = () => {
         className="w-full flex-1 flex flex-col justify-center items-center overflow-hidden select-none pb-4"
       >
         <h1 className="font-sans font-black text-[23vw] leading-[0.8] text-white uppercase tracking-tighter flex items-start">
-          {db.firstName}
+          {data.firstName || "MAHDI"}
           <span className="text-xl md:text-4xl lg:text-6xl font-medium mt-[2vw] ml-1 opacity-60">
             ®
           </span>

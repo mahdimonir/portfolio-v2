@@ -13,10 +13,12 @@ export interface PortfolioData {
   timezone: string;
   availability: string;
   responseTime: string;
+  resumeUrl?: string;
   socials: {
     github: string;
     linkedin: string;
     twitter: string;
+    portfolio3d?: string;
   };
   hero: {
     headline: string;
@@ -51,6 +53,18 @@ export interface PortfolioData {
       completed?: boolean;
     }>;
     focus: string[];
+    summary?: string;
+    avatarUrl?: string;
+    resumeUrl?: string;
+    ctaHeading?: string;
+    ctaDescription?: string;
+    specializations: Array<{
+      id?: string;
+      title: string;
+      description: string;
+      skills?: string[];
+      points?: string[];
+    }>;
   };
   projects: Array<{
     id: string;
@@ -112,7 +126,7 @@ const globalPortfolioCache = globalThis as unknown as {
   __lastPortfolioCacheTime?: number;
 };
 
-const CACHE_TTL_MS = 30 * 1000; // 30 seconds max TTL for lightning fast page loads
+const CACHE_TTL_MS = 2 * 1000; // 2 seconds TTL for real-time responsiveness
 
 export function invalidatePortfolioCache() {
   globalPortfolioCache.__cachedPortfolio = null;
@@ -222,6 +236,19 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       })),
     }));
 
+    // Load latest custom fields from portfolio-db.json safely
+    let localDbAbout: any = (fallbackDb as any).about || {};
+    let localDbResumeUrl = fallbackDb.resumeUrl;
+    try {
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      const filePath = path.join(process.cwd(), "src", "lib", "portfolio-db.json");
+      const raw = await fs.readFile(filePath, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (parsed.about) localDbAbout = parsed.about;
+      if (parsed.resumeUrl) localDbResumeUrl = parsed.resumeUrl;
+    } catch {}
+
     const assembled: PortfolioData = {
       name: user.fullName,
       firstName: user.firstName,
@@ -233,10 +260,12 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       timezone: user.timezone || "",
       availability: user.availability,
       responseTime: user.responseTime,
+      resumeUrl: localDbResumeUrl || "/resume.pdf",
       socials: {
         github: user.githubUrl,
         linkedin: user.linkedinUrl,
         twitter: user.twitterUrl || "",
+        portfolio3d: fallbackDb.portfolio3d || "https://3d.mahdimonir.dev",
       },
       hero: {
         headline: user.heroHeadline,
@@ -271,6 +300,14 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
           completed: c.completed,
         })),
         focus: user.focus,
+        summary: localDbAbout.summary || (fallbackDb.about as any).summary || user.heroSubheadline,
+        avatarUrl: localDbAbout.avatarUrl || "/Moniruzzaman_Mahdi.png",
+        resumeUrl: localDbResumeUrl || "/resume.pdf",
+        ctaHeading: localDbAbout.ctaHeading || "Have an architecture or system to build?",
+        ctaDescription:
+          localDbAbout.ctaDescription ||
+          "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering.",
+        specializations: parseSpecializations(user.focus, localDbAbout.specializations || (fallbackDb.about as any).specializations),
       },
       projects:
         formattedProjects.length > 0
@@ -293,6 +330,10 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
     console.error("Error reading normalized portfolio from DB, using fallback:", error);
     const fallbackResult: PortfolioData = {
       ...(fallbackDb as unknown as PortfolioData),
+      about: {
+        ...(fallbackDb.about as any),
+        specializations: (fallbackDb.about as any).specializations || [],
+      },
       projects: (fallbackDb.projects as unknown as PortfolioData["projects"]).map((p, idx) => ({
         ...p,
         id: String(idx + 1).padStart(2, "0"),
@@ -302,6 +343,79 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
     globalPortfolioCache.__lastPortfolioCacheTime = Date.now();
     return fallbackResult;
   }
+}
+
+function parseSpecializations(userFocus: string[], fallbackSpecs?: any[]): any[] {
+  const fallback = Array.isArray(fallbackSpecs) ? fallbackSpecs : [];
+  if (!Array.isArray(userFocus) || userFocus.length === 0) {
+    return fallback;
+  }
+
+  // If userFocus already has JSON-serialized specializations from dashboard:
+  const hasSerializedSpecs = userFocus.some(
+    (item) => typeof item === "string" && item.trim().startsWith("{")
+  );
+
+  if (hasSerializedSpecs) {
+    const parsed: any[] = [];
+    for (const item of userFocus) {
+      if (typeof item === "string" && item.trim().startsWith("{")) {
+        try {
+          const obj = JSON.parse(item);
+          if (obj && obj.title) {
+            parsed.push({
+              id: obj.id || `spec-${parsed.length + 1}`,
+              title: obj.title,
+              description: obj.description || "",
+              skills: Array.isArray(obj.skills) ? obj.skills : [],
+              points: Array.isArray(obj.points) ? obj.points : [],
+            });
+          }
+        } catch {}
+      }
+    }
+    if (parsed.length > 0) return parsed;
+  }
+
+  // Legacy fallback matching
+  const parsedItems: any[] = [];
+  for (const item of userFocus) {
+    const itemLower = typeof item === "string" ? item.toLowerCase() : "";
+    const matched = fallback.find((f) => {
+      const fLower = (f.title || "").toLowerCase();
+      return (
+        fLower === itemLower ||
+        fLower.includes(itemLower) ||
+        itemLower.includes(fLower) ||
+        (fLower.includes("mvp") && itemLower.includes("mvp")) ||
+        (fLower.includes("saas") && itemLower.includes("saas")) ||
+        (fLower.includes("api") && itemLower.includes("api")) ||
+        (fLower.includes("database") && itemLower.includes("database"))
+      );
+    });
+
+    if (matched) {
+      parsedItems.push(matched);
+    } else if (typeof item === "string" && item.trim()) {
+      parsedItems.push({
+        id: `spec-${parsedItems.length + 1}`,
+        title: item,
+        description: "Core architectural capability executed with strict type safety, modular service boundaries, and performance optimization.",
+        skills: ["TypeScript", "Next.js", "PostgreSQL", "Docker"],
+        points: ["Engineered for production reliability and predictable system behavior"],
+      });
+    }
+  }
+
+  if (fallback.length > 0) {
+    for (const fb of fallback) {
+      if (!parsedItems.some((p) => p.title.toLowerCase() === fb.title.toLowerCase())) {
+        parsedItems.push(fb);
+      }
+    }
+  }
+
+  return parsedItems.length > 0 ? parsedItems : fallback;
 }
 
 /**

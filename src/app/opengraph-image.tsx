@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import db from "@/lib/portfolio-db.json";
 
-export const alt = "Moniruzzaman Mahdi — Full Stack Developer";
+export const alt = "Mahdi (Moniruzzaman Mahdi / mahdimonir) — Full Stack Developer & Software Architect";
 export const size = {
     width: 1200,
     height: 630,

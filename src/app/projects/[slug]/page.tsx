@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const safeImage = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : `${baseUrl}/preview.png`;
 
   return {
-    title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
+    title: `${project.title} — Case Study | Mahdi (Moniruzzaman Mahdi)`,
     description: project.description,
     keywords: [
       project.title,
@@ -56,6 +56,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       "PERN Stack",
       "MERN Stack",
       "Case Study",
+      "Mahdi",
+      "Mahdi Monir",
+      "mahdimonir",
+      "Moniruzzaman",
       "Moniruzzaman Mahdi",
     ],
     alternates: {
@@ -64,8 +68,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       type: "article",
       url: projectUrl,
-      siteName: "Moniruzzaman Mahdi Portfolio",
-      title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
+      siteName: "Mahdi (Moniruzzaman Mahdi / mahdimonir) Portfolio",
+      title: `${project.title} — Case Study | Mahdi (Moniruzzaman Mahdi)`,
       description: project.description,
       images: [
         {
@@ -120,11 +124,13 @@ export default async function ProjectPage({ params }: PageProps) {
     author: {
       "@type": "Person",
       name: "Moniruzzaman Mahdi",
+      alternateName: ["Mahdi", "Mahdi Monir", "mahdimonir", "Moniruzzaman"],
       url: baseUrl,
     },
     creator: {
       "@type": "Person",
       name: "Moniruzzaman Mahdi",
+      alternateName: ["Mahdi", "Mahdi Monir", "mahdimonir", "Moniruzzaman"],
     },
     keywords: techNames,
   };

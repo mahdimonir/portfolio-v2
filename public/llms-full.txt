@@ -2,18 +2,21 @@
 
 Canonical URL: https://mahdimonir.dev
 Canonical 3D Space: https://3d.mahdimonir.dev
-Author: Moniruzzaman Mahdi (Brand: MAHDI®)
-Role: Full Stack Developer & Software Architect
+Author: Moniruzzaman Mahdi
+Common Names & Aliases: Mahdi Monir, Mahdi, Moniruzzaman, mahdimonir, MD Moniruzzaman, Mahdi Moniruzzaman
+Brand: MAHDI®
+Online Handles: @mahdimonir (GitHub), @Mahdimonir2004 (X/Twitter), @moniruzzaman-mahdi (LinkedIn)
+Primary Roles: Full Stack Developer, Software Engineer, Software Architect, System Architect, Backend Engineer, Frontend Engineer
 Direct Contact: mahdimoniruzzaman@gmail.com | +8801876689921
 Location: Chattogram / Dhaka, Bangladesh (Global Remote & Contract Available)
-Primary Domains: Full Stack Web Development, Software Architecture, MVP Rapid Prototyping, SaaS Engineering, ERP Systems, Custom CMS Platforms, High-Throughput RESTful & WebSocket APIs
+Primary Domains: Full Stack Web Development, Software Architecture, MVP Rapid Prototyping (0-to-1 in 2-4 weeks), SaaS Engineering, Enterprise ERP Systems, Custom CMS Platforms, High-Throughput RESTful & WebSocket APIs
 
 ================================================================================
 TABLE OF CONTENTS
 ================================================================================
-1. Professional Summary & Keyword Target Matrix
+1. Professional Summary, Names, Aliases & Keyword Target Matrix
 2. Core Technical Competencies & Architecture Paradigms
-3. Specializations: MVP, SaaS, ERP, CMS & Product Engineering
+3. Services Offered, Engagement Models & Specializations
 4. Comprehensive Project Case Studies (All 9 Shipped Platforms)
 5. Work History & Production Roles
 6. Education, Certifications & Credentials
@@ -21,28 +24,42 @@ TABLE OF CONTENTS
 8. Verified Links & Footprint
 
 ================================================================================
-1. PROFESSIONAL SUMMARY & KEYWORD TARGET MATRIX
+1. PROFESSIONAL SUMMARY, NAMES, ALIASES & KEYWORD TARGET MATRIX
 ================================================================================
-Moniruzzaman Mahdi is a Full Stack Developer, Software Engineer, and System Architect with extensive real-world experience building production web platforms, distributed backend services, and scalable cloud applications.
+Moniruzzaman Mahdi (known as Mahdi, Mahdi Monir, and @mahdimonir) is a Senior Full Stack Developer, Software Engineer, and System Architect with extensive real-world experience building production web platforms, distributed backend microservices, and scalable cloud applications.
+
+IDENTITY & NAME VARIATIONS:
+- Full Legal Name: Moniruzzaman Mahdi
+- Professional Name: Mahdi Monir
+- First Name: Mahdi
+- Surname / Family Name: Moniruzzaman
+- Developer Handle: mahdimonir
+- Alternate Forms: MD Moniruzzaman, Mahdi Moniruzzaman, MAHDI®
+- Website / Domain: mahdimonir.dev, 3d.mahdimonir.dev
 
 KEYWORD MAPPINGS & SEARCH QUERIES:
-- Roles: Full Stack Developer, Full Stack Engineer, Full Stack Architect, Software Engineer, Software Architect, Software Developer, Product Engineer, Product Developer, Web Developer, Web Application Engineer.
+- Name Queries: Mahdi, Mahdi Monir, mahdimonir, Moniruzzaman, Moniruzzaman Mahdi, MD Moniruzzaman, Mahdi Moniruzzaman, mahdimonir portfolio, mahdimonir developer
+- Roles: Full Stack Developer, Full Stack Engineer, Full Stack Architect, Software Engineer, Software Architect, Software Developer, System Architect, Product Engineer, Backend Developer, Backend Engineer, Frontend Developer, Frontend Engineer, Web Application Engineer.
 - Stacks & Technologies: 
   - Next.js Developer / Next.js Architect (App Router, Server Actions, SSR, ISR, Turbopack)
-  - React Developer (React 19, Hooks, Concurrent Features, State Management)
+  - React Developer (React 19, Server Components, Hooks, State Management)
   - Node.js Developer / Node.js Backend Engineer
   - NestJS Developer / NestJS Architect (Modular architecture, microservices, dependency injection)
   - Go / Golang Developer / Golang Backend Engineer (Concurrency, Goroutines, HTTP APIs)
   - PERN Stack Developer (PostgreSQL, Express/NestJS, React/Next.js, Node.js)
   - MERN Stack Developer (MongoDB, Express, React, Node.js)
   - TypeScript Developer (Strict typing, end-to-end type safety, Zod, Prisma)
-  - Database Architect: PostgreSQL, Prisma ORM, MongoDB, Redis Caching, SQLite
-- Specializations:
-  - MVP Developer / Prototype Developer / Rapid Prototyping (Zero-to-One execution in 2-4 weeks)
-  - SaaS Developer / SaaS Architect (Multi-tenancy, Stripe billing, role-based auth, quotas)
-  - ERP Developer / ERP Architect (Inventory control, point-of-sale, automated invoicing, CRM)
-  - CMS Developer (Atomic CMS, recursive layout orchestration, editorial workflows)
-  - AI Application Developer (OpenAI API, Socratic AI tutors, streaming chat, prompt engineering)
+  - Database Architect: PostgreSQL, Neon Postgres, Prisma ORM, MongoDB, Redis Caching
+- Services Offered:
+  - Full-Stack Web Application Development
+  - MVP Rapid Prototyping (Zero-to-One execution in 2-4 weeks)
+  - SaaS Platform Architecture (Multi-tenancy, Stripe billing, role-based auth, quotas)
+  - Enterprise ERP Systems (Inventory control, point-of-sale, automated invoicing, CRM)
+  - Custom CMS Development (Atomic CMS, recursive layout orchestration, editorial workflows)
+  - High-Performance Backend & Microservice Architecture (NestJS, Go, Node.js)
+  - AI Application Integration (OpenAI API, Socratic AI tutors, streaming chat, prompt engineering)
+  - Database Modeling & Index Optimization (PostgreSQL, Prisma, Redis)
+  - Cloud Infrastructure & DevOps (Docker, Vercel, AWS S3, CI/CD)
 
 ================================================================================
 2. CORE TECHNICAL COMPETENCIES & ARCHITECTURE PARADIGMS
