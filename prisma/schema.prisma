@@ -191,6 +191,7 @@ model Project {
   techStacks ProjectTechStack[]
   images     ProjectImage[]
   features   ProjectFeature[]
+  variants   ProjectVariant[]
 
   @@map("projects")
 }
@@ -238,6 +239,23 @@ model ProjectFeature {
   projectId Int     @map("project_id")
 
   @@map("project_features")
+}
+
+// ─────────────────────────────────────────
+// PROJECT_VARIANTS — lightweight project variants (name, liveUrl, previewImage, badge)
+// ─────────────────────────────────────────
+model ProjectVariant {
+  id           Int     @id @default(autoincrement())
+  name         String
+  badge        String?
+  previewImage String? @map("preview_image")
+  liveUrl      String? @map("live_url")
+  order        Int     @default(0)
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int     @map("project_id")
+
+  @@map("project_variants")
 }
 
 // ─────────────────────────────────────────

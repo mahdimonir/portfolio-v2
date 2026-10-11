@@ -82,6 +82,14 @@ export interface PortfolioData {
       category: string;
       iconUrl?: string | null;
     }>;
+    variants?: Array<{
+      id?: number | string;
+      name: string;
+      badge?: string | null;
+      previewImage?: string | null;
+      liveUrl?: string | null;
+      order?: number;
+    }>;
   }>;
   skills: Array<{
     category: string;
@@ -143,6 +151,7 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         category: true,
         images: { orderBy: { order: "asc" } },
         features: { orderBy: { order: "asc" } },
+        variants: { orderBy: { order: "asc" } },
         techStacks: {
           orderBy: { order: "asc" },
           include: { techStack: true },
@@ -187,6 +196,16 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         status: p.status,
         featured: p.featured,
         features: p.features.map((f) => f.text),
+        variants: Array.isArray(p.variants)
+          ? p.variants.map((v) => ({
+              id: v.id,
+              name: v.name,
+              badge: v.badge,
+              previewImage: v.previewImage,
+              liveUrl: v.liveUrl,
+              order: v.order,
+            }))
+          : [],
         tech: p.techStacks.map((pt) => ({
           name: pt.techStack.name,
           category: pt.techStack.role,

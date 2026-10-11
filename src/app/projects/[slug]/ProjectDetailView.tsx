@@ -29,6 +29,15 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 import db from "@/lib/portfolio-db.json";
 
+export interface ProjectVariantData {
+    id?: number | string;
+    name: string;
+    badge?: string | null;
+    previewImage?: string | null;
+    liveUrl?: string | null;
+    order?: number;
+}
+
 export interface ProjectData {
     id: string;
     slug: string;
@@ -53,6 +62,7 @@ export interface ProjectData {
     client?: string;
     status?: string;
     features?: string[];
+    variants?: ProjectVariantData[];
     tech?: {
         name: string;
         category?: string;
@@ -68,11 +78,38 @@ interface ProjectDetailViewProps {
 
 export default function ProjectDetailView({ project, prevProject, nextProject, position }: ProjectDetailViewProps) {
     const sanitizeImg = (imgUrl: string) => (!imgUrl || imgUrl.startsWith("REPLACE_WITH") ? "/preview.png" : imgUrl);
-    const rawImages = project.images && project.images.length > 0 ? project.images : [project.image];
+    
+    // Gather all screenshots, including variant preview images if distinct
+    const rawImages = project.images && project.images.length > 0 ? [...project.images] : [project.image];
+    if (Array.isArray(project.variants)) {
+        project.variants.forEach((v) => {
+            if (v.previewImage && !rawImages.includes(v.previewImage)) {
+                rawImages.push(v.previewImage);
+            }
+        });
+    }
     const allImages = rawImages.map(sanitizeImg);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [copied, setCopied] = useState(false);
+
+    // Platform editions / variants state
+    const hasVariants = Boolean(project.variants && project.variants.length > 0);
+    const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
+    const activeVariant = hasVariants && project.variants ? project.variants[selectedVariantIndex] : null;
+    const resolvedLiveUrl = (activeVariant?.liveUrl) || project.links.live;
+
+    const handleSelectVariant = (vIdx: number) => {
+        setSelectedVariantIndex(vIdx);
+        const v = project.variants?.[vIdx];
+        if (v?.previewImage) {
+            const sanitized = sanitizeImg(v.previewImage);
+            const imgIdx = allImages.indexOf(sanitized);
+            if (imgIdx !== -1) {
+                setActiveImageIndex(imgIdx);
+            }
+        }
+    };
 
     const handleCopyLink = () => {
         if (typeof window !== "undefined") {
@@ -133,9 +170,9 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                             <span>{copied ? "Copied" : "Share"}</span>
                         </button>
 
-                        {project.links.live && (
+                        {resolvedLiveUrl && (
                             <a
-                                href={project.links.live}
+                                href={resolvedLiveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-black hover:bg-zinc-200 transition-colors text-xs font-bold uppercase tracking-wider shadow-lg"
@@ -225,18 +262,18 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         transition={{ duration: 0.7, delay: 0.4 }}
                         className="flex flex-wrap items-center gap-4"
                     >
-                        {project.links.live && (
+                        {resolvedLiveUrl && (
                             <StarBorder
                                 as="a"
-                                href={project.links.live}
+                                href={resolvedLiveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                color="#f6d365, #fda085"
+                                color="#ffffff, #71717a"
                                 speed="3s"
                                 className="hover:scale-[1.02] transition-transform"
                             >
                                 <span className="inline-flex items-center gap-2">
-                                    <span>Launch Live Platform</span>
+                                    <span>Launch {activeVariant ? activeVariant.name : "Live Platform"}</span>
                                     <ExternalLink className="w-4 h-4" />
                                 </span>
                             </StarBorder>
@@ -307,22 +344,68 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         transition={{ duration: 0.8 }}
                         className="relative rounded-3xl md:rounded-[40px] overflow-hidden border border-white/15 bg-zinc-950 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.9)]"
                     >
-                        {/* Top Device Bar */}
-                        <div className="flex items-center justify-between px-6 py-4 bg-zinc-900/60 border-b border-white/10 backdrop-blur-md">
-                            <div className="flex items-center gap-2">
-                                <span className="w-3 h-3 rounded-full bg-zinc-700" />
-                                <span className="w-3 h-3 rounded-full bg-zinc-700" />
-                                <span className="w-3 h-3 rounded-full bg-zinc-700" />
+                        {/* Top Device Bar (Browser Window with native variant tabs) */}
+                        <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 bg-zinc-900/70 border-b border-white/10 backdrop-blur-md">
+                            {/* Window Dots & Embedded Browser Tabs */}
+                            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700/80" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700/80" />
+                                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700/80" />
+                                </div>
+
+                                {/* Native Browser Tabs for Project Variants */}
+                                {hasVariants && project.variants && project.variants.length > 1 && (
+                                    <div className="flex items-center gap-1 overflow-x-auto py-0.5">
+                                        {project.variants.map((v, vIdx) => {
+                                            const isSelected = selectedVariantIndex === vIdx;
+                                            return (
+                                                <button
+                                                    key={vIdx}
+                                                    type="button"
+                                                    onClick={() => handleSelectVariant(vIdx)}
+                                                    className={`px-3 py-1 rounded-md text-xs font-mono transition-all flex items-center gap-1.5 shrink-0 ${
+                                                        isSelected
+                                                            ? "bg-zinc-950 text-white border border-white/20 font-semibold shadow-sm"
+                                                            : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5 font-normal"
+                                                    }`}
+                                                >
+                                                    <Globe className={`w-3 h-3 ${isSelected ? "text-white" : "text-zinc-500"}`} />
+                                                    <span className="whitespace-nowrap">{v.name}</span>
+                                                    {v.badge && (
+                                                        <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono ${isSelected ? "bg-white/15 text-zinc-300" : "bg-zinc-800 text-zinc-400"}`}>
+                                                            {v.badge}
+                                                        </span>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="hidden sm:flex items-center gap-2 px-4 py-1 rounded-full bg-black/50 border border-white/10 text-xs font-mono text-zinc-400">
-                                <Globe className="w-3 h-3 text-cyan-400" />
-                                <span>{project.links.live || "production-view"}</span>
-                            </div>
+                            {/* Address URL Bar & Image Counter */}
+                            <div className="flex items-center gap-3 shrink-0">
+                                <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 border border-white/10 text-xs font-mono text-zinc-400 max-w-[260px]">
+                                    <Globe className="w-3 h-3 text-zinc-500 shrink-0" />
+                                    <span className="truncate">{resolvedLiveUrl || "production-view"}</span>
+                                    {resolvedLiveUrl && (
+                                        <a
+                                            href={resolvedLiveUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-zinc-500 hover:text-white transition-colors ml-0.5"
+                                            title="Open in new window"
+                                        >
+                                            <ExternalLink className="w-3 h-3" />
+                                        </a>
+                                    )}
+                                </div>
 
-                            <span className="text-xs font-mono text-zinc-400">
-                                {activeImageIndex + 1} / {allImages.length}
-                            </span>
+                                <span className="text-xs font-mono text-zinc-500">
+                                    {activeImageIndex + 1} / {allImages.length}
+                                </span>
+                            </div>
                         </div>
 
                         {/* Main Stage Image */}

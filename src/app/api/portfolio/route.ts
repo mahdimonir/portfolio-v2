@@ -430,6 +430,23 @@ export async function POST(request: NextRequest) {
             });
           }
         }
+
+        // Sync Variants
+        if (Array.isArray(p.variants)) {
+          await prisma.projectVariant.deleteMany({ where: { projectId: projectRecord.id } });
+          if (p.variants.length > 0) {
+            await prisma.projectVariant.createMany({
+              data: p.variants.map((v: any, vIdx: number) => ({
+                projectId: projectRecord.id,
+                name: v.name || `Variant ${vIdx + 1}`,
+                badge: v.badge || null,
+                previewImage: v.previewImage || null,
+                liveUrl: v.liveUrl || null,
+                order: v.order !== undefined ? v.order : vIdx,
+              })),
+            });
+          }
+        }
       }
 
       if (validSlugs.length > 0) {

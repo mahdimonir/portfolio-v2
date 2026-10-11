@@ -32,6 +32,7 @@ export async function GET(
         category: true,
         images: { orderBy: { order: "asc" } },
         features: { orderBy: { order: "asc" } },
+        variants: { orderBy: { order: "asc" } },
         techStacks: {
           orderBy: { order: "asc" },
           include: { techStack: true },
@@ -101,6 +102,7 @@ export async function PUT(
       images,
       features,
       tech,
+      variants,
     } = body;
 
     const resolvedLiveUrl = links?.live !== undefined ? links.live : liveUrl;
@@ -196,6 +198,39 @@ export async function PUT(
       }
     }
 
+    // Synchronize variants if array provided
+    if (Array.isArray(variants)) {
+      await prisma.projectVariant.deleteMany({ where: { projectId: existing.id } });
+      if (variants.length > 0) {
+        await prisma.projectVariant.createMany({
+          data: variants.map((v: any, index: number) => ({
+            projectId: existing.id,
+            name: v.name || `Variant ${index + 1}`,
+            badge: v.badge || null,
+            previewImage: v.previewImage || null,
+            liveUrl: v.liveUrl || null,
+            order: v.order !== undefined ? v.order : index,
+          })),
+        });
+
+        // Also ensure project.coverImage and project.liveUrl stay aligned with primary variant
+        const primaryVariant = variants[0];
+        const syncUpdates: Record<string, string | null> = {};
+        if (primaryVariant?.previewImage && !coverImage) {
+          syncUpdates.coverImage = primaryVariant.previewImage;
+        }
+        if (primaryVariant?.liveUrl !== undefined && resolvedLiveUrl === undefined) {
+          syncUpdates.liveUrl = primaryVariant.liveUrl;
+        }
+        if (Object.keys(syncUpdates).length > 0) {
+          await prisma.project.update({
+            where: { id: existing.id },
+            data: syncUpdates,
+          });
+        }
+      }
+    }
+
     // Sync to local JSON file for server-side static reads
     try {
       const fs = await import("fs/promises");
@@ -216,6 +251,7 @@ export async function PUT(
           if (Array.isArray(images)) parsed.projects[pIndex].images = images;
           if (Array.isArray(features)) parsed.projects[pIndex].features = features;
           if (Array.isArray(tech)) parsed.projects[pIndex].tech = tech;
+          if (Array.isArray(variants)) parsed.projects[pIndex].variants = variants;
           if (role !== undefined) parsed.projects[pIndex].role = role;
           if (duration !== undefined) parsed.projects[pIndex].duration = duration;
           if (client !== undefined) parsed.projects[pIndex].client = client;

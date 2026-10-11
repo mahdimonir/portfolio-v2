@@ -195,6 +195,16 @@
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
         }
+      ],
+      "variants": [
+        {
+          "id": 9,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791459461/portfolio-uploads/nap7wjjhnfpxneo8ou7i.png",
+          "liveUrl": null,
+          "order": 0
+        }
       ]
     },
     {
@@ -251,6 +261,24 @@
           "name": "TypeScript",
           "category": "Frontend Engineering",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+        }
+      ],
+      "variants": [
+        {
+          "id": 1,
+          "name": "Muouzik",
+          "badge": "West Africa / Francophone",
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791377422/portfolio-uploads/ueo8f2owql0tyumqbuaf.png",
+          "liveUrl": "https://muouzik.com",
+          "order": 0
+        },
+        {
+          "id": 2,
+          "name": "GensVictrix",
+          "badge": "Global Edition",
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791436545/portfolio-uploads/vutku3qe9062hnfcu08f.png",
+          "liveUrl": null,
+          "order": 1
         }
       ]
     },
@@ -325,6 +353,16 @@
           "category": "Databases & Storage",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg"
         }
+      ],
+      "variants": [
+        {
+          "id": 7,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791435531/portfolio-uploads/om7kpaxxjifvuea3r1rx.png",
+          "liveUrl": "https://roktolagbe-sigma.vercel.app",
+          "order": 0
+        }
       ]
     },
     {
@@ -392,6 +430,16 @@
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
         }
+      ],
+      "variants": [
+        {
+          "id": 10,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791440182/portfolio-uploads/wcqnketxhgqbzxxkbcce.png",
+          "liveUrl": "https://www.ranknexis.com",
+          "order": 0
+        }
       ]
     },
     {
@@ -448,6 +496,16 @@
           "name": "Vercel",
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ],
+      "variants": [
+        {
+          "id": 5,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791441162/portfolio-uploads/sbgxxqtjj7qw3b4ioj7j.png",
+          "liveUrl": "https://erp-fruitszone.vercel.app",
+          "order": 0
         }
       ]
     },
@@ -524,6 +582,16 @@
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
         }
+      ],
+      "variants": [
+        {
+          "id": 6,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1768443385/portfolio/projects/cnbypwofa342z949b91q.jpg",
+          "liveUrl": "https://west-bound-travels.vercel.app",
+          "order": 0
+        }
       ]
     },
     {
@@ -594,6 +662,16 @@
           "name": "Vercel",
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ],
+      "variants": [
+        {
+          "id": 8,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1764440216/portfolio/projects/viyjtx2aadhbgqutho8y.jpg",
+          "liveUrl": "https://newsx-orpin.vercel.app",
+          "order": 0
         }
       ]
     },
@@ -668,6 +746,16 @@
           "category": "Databases & Storage",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cloudflare/cloudflare-original.svg"
         }
+      ],
+      "variants": [
+        {
+          "id": 11,
+          "name": "Main Edition",
+          "badge": null,
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1775030058/portfolio/projects/pnf75dnbqntdrkiawxrf.png",
+          "liveUrl": "https://news-portal-lime.vercel.app",
+          "order": 0
+        }
       ]
     },
     {
@@ -678,15 +766,18 @@
       "stack": "Next.js • Clerk • MongoDB • Mongoose • Cloudinary • Tailwind CSS",
       "description": "Full-stack e-commerce storefront with Clerk authentication, persistent cart, order workflows, and admin CRUD controls.",
       "longDescription": "BD Martify is a modern e-commerce application demonstrating a robust full-stack implementation using the T3 Stack principles. The project leverages Next.js for a highly performant, responsive user experience optimized for both desktop and mobile devices. Clerk is utilized for secure, scalable user authentication and management, providing dedicated user and admin accounts.\n\nThe application features a comprehensive user interface where customers can browse products, utilize a persistent shopping cart, manage their orders, and update their profiles. The back-end is powered by Mongoose for seamless data management and storage in a MongoDB database, handling product data, orders, and user information efficiently. Cloudinary is integrated for image hosting and asset management.\n\nA dedicated admin panel facilitates complete control over the store's inventory, enabling administrators to perform C.R.U.D. operations on products and manage incoming orders.",
-      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1764431776/portfolio/projects/enf7a4yw8nkgriuuoddc.png",
+      "image": "https://res.cloudinary.com/devmahdi/image/upload/v1791712356/portfolio-uploads/drsvytt3bbzrlewzunwb.png",
       "images": [
-        "https://res.cloudinary.com/devmahdi/image/upload/v1764431776/portfolio/projects/enf7a4yw8nkgriuuoddc.png",
-        "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/zoyayzhqtjpq8wjcbqmu.png",
-        "https://res.cloudinary.com/devmahdi/image/upload/v1764431817/portfolio/projects/qsfb38ajzyefyownz5v7.png"
+        "https://res.cloudinary.com/devmahdi/image/upload/v1791712356/portfolio-uploads/drsvytt3bbzrlewzunwb.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1791712509/portfolio-uploads/t2ixnkn49bzpbsuydhhl.png",
+        "https://res.cloudinary.com/devmahdi/image/upload/v1791712510/portfolio-uploads/ljzqercniyyzac2vtrk2.png"
       ],
       "links": {
         "live": "https://bdmartify.vercel.app",
-        "code": "https://github.com/mahdimonir/bdmartify-nextjs"
+        "code": "https://github.com/mahdimonir/bdmartify-nextjs",
+        "api": "",
+        "play_store": "",
+        "app_store": ""
       },
       "cta": "View Project",
       "category": "Enterprise & Commerce",
@@ -738,6 +829,24 @@
           "name": "Vercel",
           "category": "DevOps & Cloud",
           "iconUrl": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg"
+        }
+      ],
+      "variants": [
+        {
+          "id": 20,
+          "name": "Orange Theme",
+          "badge": "Warm Dynamic Palette",
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791712356/portfolio-uploads/drsvytt3bbzrlewzunwb.png",
+          "liveUrl": "https://bdmartify.vercel.app",
+          "order": 0
+        },
+        {
+          "id": 21,
+          "name": "Blue Theme",
+          "badge": "Corporate Tech Palette",
+          "previewImage": "https://res.cloudinary.com/devmahdi/image/upload/v1791712510/portfolio-uploads/ljzqercniyyzac2vtrk2.png",
+          "liveUrl": "https://bdmartify.netlify.app",
+          "order": 1
         }
       ]
     }

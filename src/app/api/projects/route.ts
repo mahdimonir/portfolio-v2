@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
         category: true,
         images: { orderBy: { order: "asc" } },
         features: { orderBy: { order: "asc" } },
+        variants: { orderBy: { order: "asc" } },
         techStacks: {
           orderBy: { order: "asc" },
           include: { techStack: true },
@@ -74,25 +75,63 @@ export async function POST(request: NextRequest) {
       stack,
       description,
       longDescription,
-      coverImage,
+      coverImage: rawCoverImage,
       role,
       duration,
       client,
       status,
       cta,
-      liveUrl,
+      liveUrl: rawLiveUrl,
       codeUrl,
       order,
       featured,
       categoryId,
+      categorySlug,
+      categoryName,
       images = [],
       features = [],
+      tech = [],
       techStackIds = [],
+      variants = [],
     } = body;
 
-    if (!slug || !title || !description || !coverImage || !categoryId) {
+    // Resolve categoryId if categorySlug or categoryName provided instead
+    let resolvedCategoryId = Number(categoryId);
+    if (!resolvedCategoryId && (categorySlug || categoryName)) {
+      const foundCat = await prisma.category.findFirst({
+        where: {
+          OR: [
+            { slug: (categorySlug || "").toLowerCase().trim() },
+            { label: categoryName || "" },
+          ],
+        },
+      });
+      if (foundCat) resolvedCategoryId = foundCat.id;
+    }
+    if (!resolvedCategoryId) {
+      const firstCat = await prisma.category.findFirst();
+      if (firstCat) resolvedCategoryId = firstCat.id;
+    }
+
+    // Default variants array: every project has at least 1 variant
+    const resolvedVariants = Array.isArray(variants) && variants.length > 0
+      ? variants
+      : [
+          {
+            name: "Main Edition",
+            badge: null,
+            previewImage: rawCoverImage || (images[0] ?? null),
+            liveUrl: rawLiveUrl ?? null,
+            order: 0,
+          },
+        ];
+
+    const resolvedCoverImage = (rawCoverImage || resolvedVariants[0]?.previewImage || images[0] || "").trim();
+    const resolvedLiveUrl = rawLiveUrl ?? resolvedVariants[0]?.liveUrl ?? null;
+
+    if (!slug || !title || !description || !resolvedCategoryId) {
       return NextResponse.json(
-        { error: "Slug, title, description, coverImage, and categoryId are required" },
+        { error: "Slug, title, description, and category are required" },
         { status: 400 }
       );
     }
@@ -106,17 +145,17 @@ export async function POST(request: NextRequest) {
         stack: stack ?? "",
         description: description.trim(),
         longDescription: longDescription ?? null,
-        coverImage: coverImage.trim(),
+        coverImage: resolvedCoverImage,
         role: role ?? null,
         duration: duration ?? null,
         client: client ?? null,
         status: status ?? "Completed",
         cta: cta ?? "View Project",
-        liveUrl: liveUrl ?? null,
+        liveUrl: resolvedLiveUrl,
         codeUrl: codeUrl ?? null,
         order: order ?? 0,
         featured: Boolean(featured),
-        categoryId: Number(categoryId),
+        categoryId: resolvedCategoryId,
         images: {
           create: images.map((url: string, index: number) => ({
             url,
@@ -127,6 +166,15 @@ export async function POST(request: NextRequest) {
           create: features.map((text: string, index: number) => ({
             text,
             order: index,
+          })),
+        },
+        variants: {
+          create: resolvedVariants.map((v: any, index: number) => ({
+            name: v.name || `Edition ${index + 1}`,
+            badge: v.badge || null,
+            previewImage: v.previewImage || null,
+            liveUrl: v.liveUrl || null,
+            order: v.order !== undefined ? v.order : index,
           })),
         },
         techStacks: {
@@ -140,9 +188,55 @@ export async function POST(request: NextRequest) {
         category: true,
         images: true,
         features: true,
+        variants: { orderBy: { order: "asc" } },
         techStacks: { include: { techStack: true } },
       },
     });
+
+    // Also sync to local JSON fallback
+    try {
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      const filePath = path.join(process.cwd(), "src", "lib", "portfolio-db.json");
+      const raw = await fs.readFile(filePath, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.projects)) {
+        parsed.projects.unshift({
+          id: project.displayId,
+          slug: project.slug,
+          title: project.title,
+          tagline: project.tagline,
+          stack: project.stack,
+          description: project.description,
+          longDescription: project.longDescription,
+          image: project.coverImage,
+          images: images.length > 0 ? images : [project.coverImage],
+          links: {
+            live: project.liveUrl,
+            code: project.codeUrl,
+          },
+          cta: project.cta,
+          category: project.category?.label || "Full Stack",
+          role: project.role,
+          duration: project.duration,
+          client: project.client,
+          status: project.status,
+          featured: project.featured,
+          features,
+          tech: Array.isArray(tech) ? tech : [],
+          variants: resolvedVariants.map((v: any, idx: number) => ({
+            name: v.name,
+            badge: v.badge || null,
+            previewImage: v.previewImage || null,
+            liveUrl: v.liveUrl || null,
+            order: idx,
+          })),
+        });
+        await fs.writeFile(filePath, JSON.stringify(parsed, null, 2), "utf-8");
+      }
+    } catch (fsErr) {
+      console.warn("Fallback JSON write skipped:", fsErr);
+    }
 
     try {
       invalidatePortfolioCache();
