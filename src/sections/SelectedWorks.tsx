@@ -7,6 +7,7 @@ import { useLenis } from "lenis/react";
 import StarBorder from "@/components/StarBorder";
 import "@/sections/ScrollStack.css";
 import { usePortfolioData, PortfolioData } from "@/lib/PortfolioContext";
+import { optimizeImageUrl } from "@/lib/image-utils";
 
 interface ScrollStackCardProps {
   project: PortfolioData["projects"][0];
@@ -54,13 +55,28 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
           href={`/projects/${projectSlug}`}
           className="main-image-frame cursor-pointer block"
         >
-          <img
-            src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
-            className="main-image"
-            alt={`${project.title} — Software Architecture & Full-Stack Project by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
-            title={`${project.title} — Moniruzzaman Mahdi`}
-            onLoad={() => window.dispatchEvent(new Event("resize"))}
-          />
+          {(() => {
+            const rawImg = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png";
+            const avifSrc = optimizeImageUrl(rawImg, { width: 1100, format: "avif" });
+            const webpSrc = optimizeImageUrl(rawImg, { width: 1100, format: "webp" });
+            const fallbackSrc = optimizeImageUrl(rawImg, { width: 1100 });
+            return (
+              <picture className="w-full h-full block">
+                <source srcSet={avifSrc} type="image/avif" />
+                <source srcSet={webpSrc} type="image/webp" />
+                <img
+                  src={fallbackSrc}
+                  className="main-image"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  alt={`${project.title} — Software Architecture & Full-Stack Project by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
+                  title={`${project.title} — Moniruzzaman Mahdi`}
+                  onLoad={() => window.dispatchEvent(new Event("resize"))}
+                />
+              </picture>
+            );
+          })()}
         </Link>
         <div className="project-description">
           <p>{project.description}</p>

@@ -24,6 +24,7 @@ import {
 import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 import { PortfolioData } from "@/lib/portfolio-service";
+import { optimizeImageUrl } from "@/lib/image-utils";
 
 interface AboutViewProps {
     data: PortfolioData;
@@ -194,13 +195,29 @@ export default function AboutView({ data }: AboutViewProps) {
                             <div className="relative group w-full max-w-sm">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-white/10 rounded-2xl blur-lg opacity-40 group-hover:opacity-75 transition duration-500" />
                                 <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-white/15 bg-zinc-950 flex items-center justify-center">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={data.about?.avatarUrl || "/Moniruzzaman_Mahdi.png"}
-                                        alt="Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect Portrait"
-                                        title="Moniruzzaman Mahdi — Full Stack Developer & Software Architect"
-                                        className="w-full h-full object-cover object-top filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out"
-                                    />
+                                    {(() => {
+                                        const rawAvatar = data.about?.avatarUrl || "https://res.cloudinary.com/devmahdi/image/upload/v1791801694/portfolio-profile/Moniruzzaman_Mahdi.png";
+                                        const avifSrc = optimizeImageUrl(rawAvatar, { width: 800, format: "avif" });
+                                        const webpSrc = optimizeImageUrl(rawAvatar, { width: 800, format: "webp" });
+                                        const fallbackSrc = optimizeImageUrl(rawAvatar, { width: 800 });
+                                        return (
+                                            <picture className="w-full h-full block">
+                                                <source srcSet={avifSrc} type="image/avif" />
+                                                <source srcSet={webpSrc} type="image/webp" />
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                <img
+                                                    src={fallbackSrc}
+                                                    alt="Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect Portrait"
+                                                    title="Moniruzzaman Mahdi — Full Stack Developer & Software Architect"
+                                                    width={800}
+                                                    height={1000}
+                                                    fetchPriority="high"
+                                                    decoding="async"
+                                                    className="w-full h-full object-cover object-top filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out"
+                                                />
+                                            </picture>
+                                        );
+                                    })()}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                                     <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono text-zinc-300">
                                         <span className="uppercase tracking-widest font-bold">

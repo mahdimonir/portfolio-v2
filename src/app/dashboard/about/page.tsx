@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback, useRef, Suspense } from "react
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { DashboardFormSkeleton } from "@/components/dashboard/DashboardSkeletons";
+import { optimizeImageUrl } from "@/lib/image-utils";
 import {
     User,
     Mail,
@@ -784,8 +785,10 @@ function ProfileAboutInner() {
                                             <>
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 <img
-                                                    src={form.avatarUrl}
+                                                    src={optimizeImageUrl(form.avatarUrl, { width: 400 })}
                                                     alt="Portrait Preview"
+                                                    loading="lazy"
+                                                    decoding="async"
                                                     className="w-full h-full object-cover object-top rounded-lg"
                                                 />
                                                 <div className="absolute inset-0 bg-black/40 hover:bg-black/60 transition-colors flex flex-col items-center justify-center opacity-0 hover:opacity-100 p-3">

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { ProjectsCatalogSkeleton } from "@/components/dashboard/DashboardSkeletons";
+import { optimizeImageUrl } from "@/lib/image-utils";
 import {
     FolderKanban,
     Plus,
@@ -498,8 +499,10 @@ export default function ProjectsDashboardPage() {
                                             {p.image ? (
                                                 /* eslint-disable-next-line @next/next/no-img-element */
                                                 <img
-                                                    src={p.image}
+                                                    src={optimizeImageUrl(p.image, { width: 600, quality: "auto" })}
                                                     alt={p.title}
+                                                    loading="lazy"
+                                                    decoding="async"
                                                     className="w-full h-full object-cover object-top transition-transform duration-300 group-hover/img:scale-105"
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.display = "none";

@@ -326,7 +326,10 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
                 })),
                 focus: user.focus,
                 summary: localDbAbout.summary || (fallbackDb.about as any).summary || user.heroSubheadline,
-                avatarUrl: localDbAbout.avatarUrl || "/Moniruzzaman_Mahdi.png",
+                avatarUrl:
+                    localDbAbout.avatarUrl ||
+                    (fallbackDb.about as any).avatarUrl ||
+                    "https://res.cloudinary.com/devmahdi/image/upload/v1791801694/portfolio-profile/Moniruzzaman_Mahdi.png",
                 resumeUrl: localDbResumeUrl || localDbAbout?.resumeUrl || "/resume.pdf",
                 topBackLabel: localDbAbout.topBackLabel || "Back To Home",
                 topResumeLabel: localDbAbout.topResumeLabel || "Download Resume",

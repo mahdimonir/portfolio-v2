@@ -8,6 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 import { ProjectData } from "./[slug]/ProjectDetailView";
 import db from "@/lib/portfolio-db.json";
+import { optimizeImageUrl } from "@/lib/image-utils";
 
 interface ProjectsViewProps {
     projects: ProjectData[];
@@ -171,12 +172,27 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                     href={`/projects/${project.slug}`}
                                     className="block relative aspect-[16/9] w-full overflow-hidden bg-zinc-950 border-b border-white/10 group/img"
                                 >
-                                    <img
-                                        src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
-                                        alt={`${project.title} — Full-Stack Application by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
-                                        title={`${project.title} — Moniruzzaman Mahdi`}
-                                        className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 ease-out"
-                                    />
+                                    {(() => {
+                                        const rawImg = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png";
+                                        const avifSrc = optimizeImageUrl(rawImg, { width: 850, format: "avif" });
+                                        const webpSrc = optimizeImageUrl(rawImg, { width: 850, format: "webp" });
+                                        const fallbackSrc = optimizeImageUrl(rawImg, { width: 850 });
+                                        return (
+                                            <picture className="w-full h-full block">
+                                                <source srcSet={avifSrc} type="image/avif" />
+                                                <source srcSet={webpSrc} type="image/webp" />
+                                                <img
+                                                    src={fallbackSrc}
+                                                    alt={`${project.title} — Full-Stack Application by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
+                                                    title={`${project.title} — Moniruzzaman Mahdi`}
+                                                    loading={index < 2 ? "eager" : "lazy"}
+                                                    decoding="async"
+                                                    fetchPriority={index < 2 ? "high" : "low"}
+                                                    className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                                                />
+                                            </picture>
+                                        );
+                                    })()}
                                     <div className="absolute inset-0 bg-black/10 group-hover/img:bg-transparent transition-colors pointer-events-none" />
 
                                     {/* Clean Position badge */}

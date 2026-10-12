@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
+import { optimizeImageUrl } from "@/lib/image-utils";
 import {
     ArrowLeft,
     Save,
@@ -1077,8 +1078,10 @@ export default function ProjectEditor({ mode, slug }: ProjectEditorProps) {
                                             <div className="relative aspect-[16/9] w-full bg-black overflow-hidden flex items-center justify-center border-b border-zinc-800/80">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 <img
-                                                    src={imgUrl}
+                                                    src={optimizeImageUrl(imgUrl, { width: 500 })}
                                                     alt={`Asset ${imgIdx + 1}`}
+                                                    loading="lazy"
+                                                    decoding="async"
                                                     className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                                                     onError={(e) => {
                                                         (e.target as HTMLElement).style.opacity = "0.2";
@@ -1443,8 +1446,10 @@ export default function ProjectEditor({ mode, slug }: ProjectEditorProps) {
                                                         <div className="relative w-32 aspect-video rounded-lg overflow-hidden bg-black border border-zinc-700/80 shrink-0 shadow group">
                                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                                             <img
-                                                                src={v.previewImage}
+                                                                src={optimizeImageUrl(v.previewImage, { width: 300, crop: "fill" })}
                                                                 alt={v.name}
+                                                                loading="lazy"
+                                                                decoding="async"
                                                                 className="w-full h-full object-cover"
                                                                 onError={(e) => {
                                                                     (e.target as HTMLElement).style.opacity = "0.2";

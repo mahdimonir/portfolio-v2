@@ -119,7 +119,7 @@ const MenuItem: React.FC<MenuItemData & { speed: number; marqueeBgColor: string;
             <div className="marquee__part" key={i}>
               {items.map((skill, idx) => (
                 <div key={idx} className="marquee__icon-box">
-                  <img src={skill.url} alt={skill.name} className="marquee__icon" />
+                  <img src={skill.url} alt={skill.name} className="marquee__icon" loading="lazy" decoding="async" />
                   <span className="marquee__text">{skill.name}</span>
                 </div>
               ))}

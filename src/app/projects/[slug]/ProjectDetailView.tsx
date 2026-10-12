@@ -28,6 +28,7 @@ import StarBorder from "@/components/StarBorder";
 import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 import db from "@/lib/portfolio-db.json";
+import { optimizeImageUrl } from "@/lib/image-utils";
 
 export interface ProjectVariantData {
     id?: number | string;
@@ -227,28 +228,28 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                         className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-zinc-950/70 border border-white/10 backdrop-blur-md mb-12"
                     >
                         <div>
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1.5 flex items-center gap-1.5">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1.5 flex items-center gap-1.5">
                                 <User className="w-3 h-3 text-zinc-400" /> Role
                             </span>
                             <span className="text-sm font-semibold text-zinc-200">{project.role || "Full Stack Developer"}</span>
                         </div>
 
                         <div>
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1.5 flex items-center gap-1.5">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1.5 flex items-center gap-1.5">
                                 <Briefcase className="w-3 h-3 text-zinc-400" /> Client
                             </span>
                             <span className="text-sm font-semibold text-zinc-200">{project.client || "Client Project"}</span>
                         </div>
 
                         <div>
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1.5 flex items-center gap-1.5">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1.5 flex items-center gap-1.5">
                                 <Clock className="w-3 h-3 text-zinc-400" /> Timeline
                             </span>
                             <span className="text-sm font-semibold text-zinc-200">{project.duration || "Production Delivery"}</span>
                         </div>
 
                         <div>
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-1.5 flex items-center gap-1.5">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1.5 flex items-center gap-1.5">
                                 <Layers className="w-3 h-3 text-zinc-400" /> Category
                             </span>
                             <span className="text-sm font-semibold text-zinc-200">{project.category || "Full Stack Architecture"}</span>
@@ -413,9 +414,11 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                             <AnimatePresence mode="wait">
                                 <motion.img
                                     key={activeImageIndex}
-                                    src={allImages[activeImageIndex]}
+                                    src={optimizeImageUrl(allImages[activeImageIndex], { width: 1400 })}
                                     alt={`${project.title} screenshot ${activeImageIndex + 1} — Developed by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
                                     title={`${project.title} by Moniruzzaman Mahdi`}
+                                    fetchPriority="high"
+                                    decoding="async"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
@@ -460,9 +463,11 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                                     }`}
                                 >
                                     <img
-                                        src={imgUrl}
+                                        src={optimizeImageUrl(imgUrl, { width: 320, crop: "fill" })}
                                         alt={`${project.title} architecture preview ${index + 1} by Moniruzzaman Mahdi`}
                                         title={`${project.title} — Moniruzzaman Mahdi`}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover object-top"
                                     />
                                 </button>
