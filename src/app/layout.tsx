@@ -143,6 +143,12 @@ export const metadata: Metadata = {
     ],
     alternates: {
         canonical: "/",
+        types: {
+            "text/plain": [
+                { url: "/llms.txt", title: "LLM Dossier (Summary)" },
+                { url: "/llms-full.txt", title: "LLM Dossier (Full Specification)" },
+            ],
+        },
     },
     robots: {
         index: true,
