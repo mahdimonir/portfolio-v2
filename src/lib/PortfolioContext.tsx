@@ -2,8 +2,9 @@
 
 import React, { createContext, useContext } from "react";
 import defaultDb from "@/lib/portfolio-db.json";
+import type { PortfolioData as FullPortfolioData } from "@/lib/portfolio-service";
 
-export type PortfolioData = typeof defaultDb;
+export type PortfolioData = typeof defaultDb & Partial<FullPortfolioData>;
 
 const PortfolioContext = createContext<PortfolioData>(defaultDb);
 

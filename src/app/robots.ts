@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: ["/", "/about", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
-        disallow: ["/dashboard/", "/api/", "/login"],
+        disallow: ["/dashboard", "/dashboard/*", "/api", "/api/*", "/login"],
       },
       {
         userAgent: [
@@ -22,7 +22,7 @@ export default function robots(): MetadataRoute.Robots {
           "anthropic-ai",
         ],
         allow: ["/", "/about", "/projects", "/projects/*", "/llms.txt", "/llms-full.txt"],
-        disallow: ["/dashboard/", "/api/", "/login"],
+        disallow: ["/dashboard", "/dashboard/*", "/api", "/api/*", "/login"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

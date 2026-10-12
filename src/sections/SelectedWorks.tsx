@@ -10,7 +10,7 @@ import { usePortfolioData, PortfolioData } from "@/lib/PortfolioContext";
 import { optimizeImageUrl } from "@/lib/image-utils";
 
 interface ScrollStackCardProps {
-  project: PortfolioData["projects"][0];
+  project: any;
   index: number;
 }
 
