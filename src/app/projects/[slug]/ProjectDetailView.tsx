@@ -414,7 +414,8 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                                 <motion.img
                                     key={activeImageIndex}
                                     src={allImages[activeImageIndex]}
-                                    alt={`${project.title} screenshot ${activeImageIndex + 1}`}
+                                    alt={`${project.title} screenshot ${activeImageIndex + 1} — Developed by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
+                                    title={`${project.title} by Moniruzzaman Mahdi`}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
@@ -458,7 +459,12 @@ export default function ProjectDetailView({ project, prevProject, nextProject, p
                                             : "border-white/10 opacity-60 hover:opacity-100"
                                     }`}
                                 >
-                                    <img src={imgUrl} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover object-top" />
+                                    <img
+                                        src={imgUrl}
+                                        alt={`${project.title} architecture preview ${index + 1} by Moniruzzaman Mahdi`}
+                                        title={`${project.title} — Moniruzzaman Mahdi`}
+                                        className="w-full h-full object-cover object-top"
+                                    />
                                 </button>
                             ))}
                         </div>

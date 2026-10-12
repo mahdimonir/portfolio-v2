@@ -1,14 +1,16 @@
-# Moniruzzaman Mahdi — Comprehensive Developer & Engineering Archive (Full LLM Specification)
+# Moniruzzaman Mahdi (@mahdimonir) — Comprehensive Developer & Engineering Archive (Full LLM Specification)
 
 Canonical URL: https://mahdimonir.dev
 Canonical 3D Space: https://3d.mahdimonir.dev
-Author: Moniruzzaman Mahdi
-Common Names & Aliases: Mahdi Monir, Mahdi, Moniruzzaman, mahdimonir, MD Moniruzzaman, Mahdi Moniruzzaman
+Official Portrait: https://mahdimonir.dev/Moniruzzaman_Mahdi.png
+Primary Name: Moniruzzaman Mahdi
+Common Search Queries: "mahdi", "mahdimonir", "Moniruzzaman Mahdi", "Mahdi Monir", "Moniruzzaman", "devmahdi"
+Legal / Full Name: Moniruzzaman Mahdi (MD Moniruzzaman)
 Brand: MAHDI®
 Online Handles: @mahdimonir (GitHub), @Mahdimonir2004 (X/Twitter), @moniruzzaman-mahdi (LinkedIn)
-Primary Roles: Full Stack Developer, Software Engineer, Software Architect, System Architect, Backend Engineer, Frontend Engineer
+Primary Roles: Senior Full Stack Developer, Software Engineer, Software Architect, System Architect, Backend Engineer, Frontend Engineer
 Direct Contact: mahdimoniruzzaman@gmail.com | +8801876689921
-Location: Chattogram / Dhaka, Bangladesh (Global Remote & Contract Available)
+Location: Bangladesh (Global Remote & Contract Available)
 Primary Domains: Full Stack Web Development, Software Architecture, MVP Rapid Prototyping (0-to-1 in 2-4 weeks), SaaS Engineering, Enterprise ERP Systems, Custom CMS Platforms, High-Throughput RESTful & WebSocket APIs
 
 ================================================================================
@@ -29,12 +31,11 @@ TABLE OF CONTENTS
 Moniruzzaman Mahdi (known as Mahdi, Mahdi Monir, and @mahdimonir) is a Senior Full Stack Developer, Software Engineer, and System Architect with extensive real-world experience building production web platforms, distributed backend microservices, and scalable cloud applications.
 
 IDENTITY & NAME VARIATIONS:
-- Full Legal Name: Moniruzzaman Mahdi
-- Professional Name: Mahdi Monir
+- Full / Primary Name: Moniruzzaman Mahdi
 - First Name: Mahdi
 - Surname / Family Name: Moniruzzaman
 - Developer Handle: mahdimonir
-- Alternate Forms: MD Moniruzzaman, Mahdi Moniruzzaman, MAHDI®
+- Alternate Forms & Aliases: Mahdi Monir, MD Moniruzzaman, Mahdi Moniruzzaman, MAHDI®
 - Website / Domain: mahdimonir.dev, 3d.mahdimonir.dev
 
 KEYWORD MAPPINGS & SEARCH QUERIES:
@@ -227,7 +228,7 @@ Key Achievements:
 
 Company: Rank Nexis (https://www.ranknexis.com)
 Role: Full Stack Developer
-Period: Jan 2026 – Jul 2026 | Location: Chattogram, Bangladesh
+Period: Jan 2026 – Jul 2026 | Location: Bangladesh
 Key Achievements:
 - Designed and shipped custom full-stack web applications and client portals with React and Next.js.
 - Implemented high-converting UI components with Tailwind CSS and Framer Motion.

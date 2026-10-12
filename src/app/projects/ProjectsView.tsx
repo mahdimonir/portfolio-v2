@@ -173,7 +173,8 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                 >
                                     <img
                                         src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
-                                        alt={project.title}
+                                        alt={`${project.title} — Full-Stack Application by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
+                                        title={`${project.title} — Moniruzzaman Mahdi`}
                                         className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 ease-out"
                                     />
                                     <div className="absolute inset-0 bg-black/10 group-hover/img:bg-transparent transition-colors pointer-events-none" />

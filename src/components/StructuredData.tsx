@@ -12,17 +12,20 @@ export default function StructuredData() {
     familyName: "Mahdi",
     additionalName: "Monir",
     alternateName: [
+      "mahdi",
+      "mahdimonir",
       "Mahdi",
       "Mahdi Monir",
-      "mahdimonir",
       "Moniruzzaman",
-      "Moniruzzaman Mahdi",
       "MD Moniruzzaman",
       "Mahdi Moniruzzaman",
+      "devmahdi",
       "MAHDI®",
       "mahdimonir.dev",
     ],
     identifier: "mahdimonir",
+    disambiguatingDescription:
+      "Moniruzzaman Mahdi (known online as mahdimonir and Mahdi) is a Senior Full Stack Developer & Software Architect specializing in Next.js, React, Node.js, NestJS, Go (Golang), and PostgreSQL. Creator of mahdimonir.dev.",
     jobTitle: [
       "Senior Full Stack Developer",
       "Software Engineer",
@@ -39,9 +42,39 @@ export default function StructuredData() {
       "Custom CMS Specialist",
     ],
     description:
-      "Mahdi (Moniruzzaman Mahdi / @mahdimonir) is a Senior Full Stack Developer & Software Architect specializing in Next.js, React, Node.js, NestJS, Go (Golang), and PostgreSQL. Expert in rapid MVP prototyping (0-to-1 in 2-4 weeks), multi-tenant SaaS engineering, enterprise ERP systems, custom CMS platforms, and high-performance cloud API microservices.",
+      "Moniruzzaman Mahdi (@mahdimonir / Mahdi) is a Senior Full Stack Developer & Software Architect specializing in Next.js, React, Node.js, NestJS, Go (Golang), and PostgreSQL. Expert in rapid MVP prototyping (0-to-1 in 2-4 weeks), multi-tenant SaaS engineering, enterprise ERP systems, custom CMS platforms, and high-performance cloud API microservices.",
     url: baseUrl,
-    image: `${baseUrl}/opengraph-image`,
+    image: [
+      {
+        "@type": "ImageObject",
+        "@id": `${baseUrl}/#portrait`,
+        url: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        contentUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        caption: "Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect",
+        name: "Moniruzzaman Mahdi Portrait",
+        description: "Official portrait of Moniruzzaman Mahdi (mahdimonir / Mahdi), Senior Full Stack Developer & Software Architect",
+        author: `${baseUrl}/#person`,
+        creator: `${baseUrl}/#person`,
+        width: 1200,
+        height: 1500,
+      },
+      {
+        "@type": "ImageObject",
+        "@id": `${baseUrl}/#headshot`,
+        url: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        contentUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        caption: "Moniruzzaman Mahdi Photo",
+        name: "Moniruzzaman Mahdi Engineering Profile Photo",
+      },
+      {
+        "@type": "ImageObject",
+        "@id": `${baseUrl}/#ogbanner`,
+        url: `${baseUrl}/opengraph-image`,
+        contentUrl: `${baseUrl}/opengraph-image`,
+        caption: "Moniruzzaman Mahdi Portfolio OG Banner",
+        name: "Moniruzzaman Mahdi Developer Showcase",
+      },
+    ],
     email: "mailto:mahdimoniruzzaman@gmail.com",
     telephone: "+8801876689921",
     sameAs: [
@@ -255,14 +288,17 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${baseUrl}/#service`,
-    name: "Mahdi (Moniruzzaman Mahdi / mahdimonir) — Software Engineering & Architecture",
+    name: "Moniruzzaman Mahdi — Software Engineering & Architecture",
     alternateName: [
-      "Mahdi Monir Development Services",
+      "Moniruzzaman Mahdi",
+      "mahdimonir",
+      "Moniruzzaman Mahdi Development Services",
       "mahdimonir Studio",
+      "Mahdi Monir",
       "Moniruzzaman Mahdi Software Consulting",
     ],
     url: baseUrl,
-    image: `${baseUrl}/opengraph-image`,
+    image: `${baseUrl}/Moniruzzaman_Mahdi.png`,
     email: "mahdimoniruzzaman@gmail.com",
     telephone: "+8801876689921",
     provider: {
@@ -291,16 +327,18 @@ export default function StructuredData() {
     "@type": "WebSite",
     "@id": `${baseUrl}/#website`,
     url: baseUrl,
-    name: "Mahdi (Moniruzzaman Mahdi / mahdimonir) — Full Stack Developer & Software Architect",
+    name: "Moniruzzaman Mahdi",
     alternateName: [
+      "Moniruzzaman Mahdi Portfolio",
+      "mahdi",
       "mahdimonir",
-      "Mahdi Monir Portfolio",
-      "Moniruzzaman Mahdi Dev",
+      "Mahdi",
+      "Mahdi Monir",
       "mahdimonir.dev",
       "MAHDI®",
     ],
     description:
-      "Official portfolio, case studies, and engineering dossier of Mahdi (Moniruzzaman Mahdi / @mahdimonir) — Full Stack Developer & Software Architect specializing in Next.js, NestJS, Go, PostgreSQL, SaaS MVPs, ERP, and CMS platforms.",
+      "Official portfolio, case studies, and engineering dossier of Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect specializing in Next.js, NestJS, Go, PostgreSQL, SaaS MVPs, ERP, and CMS platforms.",
     publisher: {
       "@id": `${baseUrl}/#person`,
     },
@@ -312,10 +350,47 @@ export default function StructuredData() {
     "@type": "ProfilePage",
     "@id": `${baseUrl}/#profile`,
     url: baseUrl,
-    name: "Mahdi (Moniruzzaman Mahdi / mahdimonir) — Engineering Profile & Dossier",
+    name: "Moniruzzaman Mahdi — Engineering Profile & Dossier",
     mainEntity: {
       "@id": `${baseUrl}/#person`,
     },
+  };
+
+  const imageGallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "@id": `${baseUrl}/#images`,
+    name: "Moniruzzaman Mahdi Portfolio & Portrait Gallery",
+    description: "Visual assets, portraits, and flagship application architecture screenshots by Moniruzzaman Mahdi (@mahdimonir / Mahdi).",
+    author: {
+      "@id": `${baseUrl}/#person`,
+    },
+    image: [
+      {
+        "@type": "ImageObject",
+        name: "Moniruzzaman Mahdi Portrait",
+        caption: "Official portrait of Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect",
+        contentUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        thumbnailUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        creator: { "@id": `${baseUrl}/#person` },
+      },
+      {
+        "@type": "ImageObject",
+        name: "Moniruzzaman Mahdi (mahdimonir) Profile Photo",
+        caption: "Engineering portrait of Moniruzzaman Mahdi (mahdimonir)",
+        contentUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        thumbnailUrl: `${baseUrl}/Moniruzzaman_Mahdi.png`,
+        creator: { "@id": `${baseUrl}/#person` },
+      },
+      {
+        "@type": "ImageObject",
+        name: "Moniruzzaman Mahdi Full Stack Architecture Showcase Banner",
+        caption: "OpenGraph visual dossier for Moniruzzaman Mahdi portfolio",
+        contentUrl: `${baseUrl}/opengraph-image`,
+        thumbnailUrl: `${baseUrl}/opengraph-image`,
+        creator: { "@id": `${baseUrl}/#person` },
+      },
+    ],
   };
 
   return (
@@ -335,6 +410,10 @@ export default function StructuredData() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(imageGallerySchema) }}
       />
     </>
   );

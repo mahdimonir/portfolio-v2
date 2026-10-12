@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "404 — Page Not Found | Moniruzzaman Mahdi",
+  title: "404 — Page Not Found",
   robots: {
     index: false,
     follow: false,

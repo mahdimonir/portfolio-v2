@@ -183,7 +183,7 @@ export async function sendInquiryReply({
       <body>
         <div class="card">
           <div class="header">
-            <h1 class="title">Mahdi Monir</h1>
+            <h1 class="title">Moniruzzaman Mahdi</h1>
             <div class="sub">Full Stack & Systems Developer</div>
           </div>
           <div class="greeting">Hi ${recipientName},</div>
@@ -198,14 +198,14 @@ export async function sendInquiryReply({
           `
               : ""
           }
-          <div class="footer">Sent directly via Mahdi Monir Portfolio</div>
+          <div class="footer">Sent directly via Moniruzzaman Mahdi Portfolio</div>
         </div>
       </body>
     </html>
   `;
 
   return transporter.sendMail({
-    from: `"Mahdi Monir" <${smtpUser}>`,
+    from: `"Moniruzzaman Mahdi" <${smtpUser}>`,
     to,
     replyTo: smtpUser,
     subject,

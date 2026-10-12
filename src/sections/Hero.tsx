@@ -194,6 +194,7 @@ export default function Hero() {
                     {/* 1st Line: MAHDI */}
                     <h1 className="font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[8.5rem] xl:text-[10.5rem] leading-[0.84] tracking-tighter text-white uppercase text-left select-none">
                         {data.hero?.headline || data.firstName || "MAHDI"}
+                        <span className="sr-only"> (Moniruzzaman Mahdi / @mahdimonir)</span>
                     </h1>
                 </motion.div>
 

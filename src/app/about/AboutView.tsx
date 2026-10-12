@@ -43,9 +43,7 @@ export default function AboutView({ data }: AboutViewProps) {
 
     // Dynamic flagship systems from database
     const flagshipProjects = (
-        data.projects?.filter((p) => p.featured).length > 0
-            ? data.projects.filter((p) => p.featured)
-            : data.projects || []
+        data.projects?.filter((p) => p.featured).length > 0 ? data.projects.filter((p) => p.featured) : data.projects || []
     ).slice(0, 4);
 
     return (
@@ -131,7 +129,7 @@ export default function AboutView({ data }: AboutViewProps) {
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
                                         <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                                        <span>{data.location || "Chattogram, Bangladesh"}</span>
+                                        <span>{data.location || "Bangladesh"}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
@@ -199,7 +197,8 @@ export default function AboutView({ data }: AboutViewProps) {
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={data.about?.avatarUrl || "/Moniruzzaman_Mahdi.png"}
-                                        alt={data.name || "Moniruzzaman Mahdi"}
+                                        alt="Moniruzzaman Mahdi (@mahdimonir / Mahdi) — Full Stack Developer & Software Architect Portrait"
+                                        title="Moniruzzaman Mahdi — Full Stack Developer & Software Architect"
                                         className="w-full h-full object-cover object-top filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700 ease-out"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
@@ -207,9 +206,7 @@ export default function AboutView({ data }: AboutViewProps) {
                                         <span className="uppercase tracking-widest font-bold">
                                             {data.about?.portraitTag || "ENGINEERING DOSSIER"}
                                         </span>
-                                        <span className="text-cyan-400">
-                                            {data.about?.portraitStatus || "STATUS: ACTIVE"}
-                                        </span>
+                                        <span className="text-cyan-400">{data.about?.portraitStatus || "STATUS: ACTIVE"}</span>
                                     </div>
                                 </div>
                             </div>
@@ -365,9 +362,7 @@ export default function AboutView({ data }: AboutViewProps) {
                                     </div>
 
                                     <div className="pt-6 mt-4 border-t border-white/5 flex items-center justify-between gap-2">
-                                        <span className="font-mono text-[11px] text-cyan-400/90 truncate">
-                                            {project.stack}
-                                        </span>
+                                        <span className="font-mono text-[11px] text-cyan-400/90 truncate">{project.stack}</span>
                                         <Link
                                             href={`/projects/${project.slug}`}
                                             className="font-mono text-[11px] text-zinc-400 hover:text-white uppercase tracking-wider shrink-0 transition-colors"
@@ -459,7 +454,8 @@ export default function AboutView({ data }: AboutViewProps) {
                                 : (data.about?.focus || []).map((title, i) => ({
                                       id: `spec-${i + 1}`,
                                       title,
-                                      description: "Core architectural capability executed with strict type safety and modular service boundaries.",
+                                      description:
+                                          "Core architectural capability executed with strict type safety and modular service boundaries.",
                                       skills: ["TypeScript", "Next.js", "PostgreSQL"],
                                       points: ["Engineered for production resilience and scale"],
                                   }))
@@ -480,9 +476,7 @@ export default function AboutView({ data }: AboutViewProps) {
                                             {spec.title}
                                         </h4>
 
-                                        <p className="font-sans text-xs sm:text-sm text-zinc-300 leading-relaxed">
-                                            {spec.description}
-                                        </p>
+                                        <p className="font-sans text-xs sm:text-sm text-zinc-300 leading-relaxed">{spec.description}</p>
 
                                         {/* Architecture Points / Deliverables */}
                                         {spec.points && spec.points.length > 0 && (
@@ -559,16 +553,10 @@ export default function AboutView({ data }: AboutViewProps) {
                                     {data.about?.education?.map((edu, idx) => (
                                         <div key={edu.institution + idx} className="space-y-1 border-b border-white/5 pb-4">
                                             <div className="flex items-baseline justify-between gap-2">
-                                                <h5 className="font-sans text-base font-bold text-white">
-                                                    {edu.institution}
-                                                </h5>
-                                                <span className="font-mono text-[11px] text-zinc-500 whitespace-nowrap">
-                                                    {edu.period}
-                                                </span>
+                                                <h5 className="font-sans text-base font-bold text-white">{edu.institution}</h5>
+                                                <span className="font-mono text-[11px] text-zinc-500 whitespace-nowrap">{edu.period}</span>
                                             </div>
-                                            <p className="font-sans text-sm text-zinc-400">
-                                                {edu.degree}
-                                            </p>
+                                            <p className="font-sans text-sm text-zinc-400">{edu.degree}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -603,9 +591,7 @@ export default function AboutView({ data }: AboutViewProps) {
                                                     {course.period}
                                                 </span>
                                             </div>
-                                            <p className="font-sans text-sm text-zinc-400">
-                                                {course.institution}
-                                            </p>
+                                            <p className="font-sans text-sm text-zinc-400">{course.institution}</p>
                                         </div>
                                     ))}
                                 </div>

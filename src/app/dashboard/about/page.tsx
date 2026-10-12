@@ -119,7 +119,7 @@ const DEFAULT_DATA: ProfileAboutCleanData = {
     avatarUrl: "/Moniruzzaman_Mahdi.png",
     resumeUrl: "/Moniruzzaman_Mahdi_Full_Stack_Developer.pdf",
     websiteUrl: "https://mahdimonir.dev",
-    location: "Chattogram, Bangladesh",
+    location: "Bangladesh",
     email: "mahdimonir2004@gmail.com",
     phone: "+880 1836-848889",
     timezone: "GMT+6",
@@ -146,9 +146,7 @@ function ProfileAboutInner() {
     const [form, setForm] = useState<ProfileAboutCleanData>(DEFAULT_DATA);
     const [savedForm, setSavedForm] = useState<ProfileAboutCleanData>(DEFAULT_DATA);
     const [activeTab, setActiveTab] = useState<TabKey>(
-        tabParam && ["profile", "services", "experience", "credentials"].includes(tabParam)
-            ? tabParam
-            : "profile"
+        tabParam && ["profile", "services", "experience", "credentials"].includes(tabParam) ? tabParam : "profile",
     );
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -194,7 +192,7 @@ function ProfileAboutInner() {
                         data.deletedOld
                             ? "Portrait uploaded & previous photo deleted from Cloudinary!"
                             : "Portrait photo uploaded to Cloudinary!",
-                        { id: toastId }
+                        { id: toastId },
                     );
                 } else {
                     toast.error("Cloudinary did not return a valid URL", { id: toastId });
@@ -271,7 +269,7 @@ function ProfileAboutInner() {
                         data.deletedOld
                             ? "Resume PDF uploaded & previous document deleted from Cloudinary!"
                             : "Resume PDF uploaded to Cloudinary!",
-                        { id: toastId }
+                        { id: toastId },
                     );
                 } else {
                     toast.error("Cloudinary did not return a file URL", { id: toastId });
@@ -321,9 +319,7 @@ function ProfileAboutInner() {
             const res = await fetch("/api/portfolio");
             const data = await res.json();
             if (data) {
-                const rawSpecs = Array.isArray(data.about?.specializations)
-                    ? data.about.specializations
-                    : [];
+                const rawSpecs = Array.isArray(data.about?.specializations) ? data.about.specializations : [];
 
                 const normalized: ProfileAboutCleanData = {
                     name: data.name || DEFAULT_DATA.name,
@@ -332,10 +328,7 @@ function ProfileAboutInner() {
                     role: data.role || DEFAULT_DATA.role,
                     summary: data.about?.summary || DEFAULT_DATA.summary,
                     avatarUrl: data.about?.avatarUrl || DEFAULT_DATA.avatarUrl,
-                    resumeUrl:
-                        data.resumeUrl ||
-                        data.about?.resumeUrl ||
-                        DEFAULT_DATA.resumeUrl,
+                    resumeUrl: data.resumeUrl || data.about?.resumeUrl || DEFAULT_DATA.resumeUrl,
                     websiteUrl: data.about?.websiteUrl || DEFAULT_DATA.websiteUrl,
                     location: data.location || DEFAULT_DATA.location,
                     email: data.email || DEFAULT_DATA.email,
@@ -520,8 +513,7 @@ function ProfileAboutInner() {
 
     const inputClass =
         "w-full bg-zinc-900 border border-zinc-700/70 rounded-lg px-3.5 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400 transition-all";
-    const labelClass =
-        "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
+    const labelClass = "text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center justify-between";
 
     if (loading) {
         return <DashboardFormSkeleton title="Profile & About" />;
@@ -545,7 +537,8 @@ function ProfileAboutInner() {
                         )}
                     </h1>
                     <p className="text-xs text-zinc-400 mt-1">
-                        Clean management for your executive identity, editorial portrait, resume, services/specializations, and career milestones.
+                        Clean management for your executive identity, editorial portrait, resume, services/specializations, and career
+                        milestones.
                     </p>
                 </div>
 
@@ -563,9 +556,7 @@ function ProfileAboutInner() {
                         onClick={handleSave}
                         disabled={saving || !isDirty}
                         className={`flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-sm ${
-                            !isDirty
-                                ? "bg-zinc-800 text-zinc-500 cursor-default"
-                                : "bg-white text-black hover:bg-zinc-200"
+                            !isDirty ? "bg-zinc-800 text-zinc-500 cursor-default" : "bg-white text-black hover:bg-zinc-200"
                         }`}
                     >
                         {saving ? (
@@ -644,9 +635,7 @@ function ProfileAboutInner() {
                                 <User className="w-4 h-4 text-cyan-400" />
                                 <span>Executive Identity &amp; Roles</span>
                             </h2>
-                            <span className="text-[11px] font-mono text-zinc-500">
-                                Global branding across navigation, hero, and about
-                            </span>
+                            <span className="text-[11px] font-mono text-zinc-500">Global branding across navigation, hero, and about</span>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -671,9 +660,7 @@ function ProfileAboutInner() {
                                     onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                                     placeholder="MAHDI"
                                 />
-                                <p className="text-[11px] text-zinc-500 mt-1.5">
-                                    Used for corner brand logos (MAHDI®).
-                                </p>
+                                <p className="text-[11px] text-zinc-500 mt-1.5">Used for corner brand logos (MAHDI®).</p>
                             </div>
 
                             <div>
@@ -726,9 +713,7 @@ function ProfileAboutInner() {
                                 <ImageIcon className="w-4 h-4 text-cyan-400" />
                                 <span>Cloudinary Assets: Portrait Photo &amp; Resume PDF</span>
                             </h2>
-                            <span className="text-[11px] font-mono text-zinc-500">
-                                Directly uploaded and hosted on Cloudinary CDN
-                            </span>
+                            <span className="text-[11px] font-mono text-zinc-500">Directly uploaded and hosted on Cloudinary CDN</span>
                         </div>
 
                         {/* Hidden file inputs */}
@@ -808,20 +793,14 @@ function ProfileAboutInner() {
                                                     <span className="text-[11px] font-bold text-white uppercase tracking-wider">
                                                         Change Photo
                                                     </span>
-                                                    <span className="text-[9px] text-zinc-300">
-                                                        Drop image to upload
-                                                    </span>
+                                                    <span className="text-[9px] text-zinc-300">Drop image to upload</span>
                                                 </div>
                                             </>
                                         ) : (
                                             <div className="flex flex-col items-center justify-center p-4">
                                                 <UploadCloud className="w-8 h-8 text-zinc-500 mb-2" />
-                                                <span className="text-xs font-bold text-zinc-300">
-                                                    Upload Portrait
-                                                </span>
-                                                <span className="text-[10px] text-zinc-500 mt-1">
-                                                    Drag &amp; drop or click
-                                                </span>
+                                                <span className="text-xs font-bold text-zinc-300">Upload Portrait</span>
+                                                <span className="text-[10px] text-zinc-500 mt-1">Drag &amp; drop or click</span>
                                             </div>
                                         )}
                                     </div>
@@ -925,9 +904,7 @@ function ProfileAboutInner() {
                                         <span className="text-xs font-bold text-white uppercase tracking-wider truncate max-w-[160px]">
                                             {form.resumeUrl ? form.resumeUrl.split("/").pop() : "Resume PDF"}
                                         </span>
-                                        <span className="text-[10px] text-zinc-400 mt-1">
-                                            Click or drop new PDF to upload
-                                        </span>
+                                        <span className="text-[10px] text-zinc-400 mt-1">Click or drop new PDF to upload</span>
 
                                         {form.resumeUrl && (
                                             <a
@@ -1059,7 +1036,7 @@ function ProfileAboutInner() {
                                     className={inputClass}
                                     value={form.location}
                                     onChange={(e) => setForm({ ...form, location: e.target.value })}
-                                    placeholder="Chattogram, Bangladesh"
+                                    placeholder="Bangladesh"
                                 />
                             </div>
 
@@ -1118,9 +1095,7 @@ function ProfileAboutInner() {
                                 <input
                                     className={inputClass + " font-mono text-xs"}
                                     value={form.socials.github}
-                                    onChange={(e) =>
-                                        setForm({ ...form, socials: { ...form.socials, github: e.target.value } })
-                                    }
+                                    onChange={(e) => setForm({ ...form, socials: { ...form.socials, github: e.target.value } })}
                                     placeholder="https://github.com/mahdimonir"
                                 />
                             </div>
@@ -1134,9 +1109,7 @@ function ProfileAboutInner() {
                                 <input
                                     className={inputClass + " font-mono text-xs"}
                                     value={form.socials.linkedin}
-                                    onChange={(e) =>
-                                        setForm({ ...form, socials: { ...form.socials, linkedin: e.target.value } })
-                                    }
+                                    onChange={(e) => setForm({ ...form, socials: { ...form.socials, linkedin: e.target.value } })}
                                     placeholder="https://www.linkedin.com/in/moniruzzaman-mahdi/"
                                 />
                             </div>
@@ -1150,9 +1123,7 @@ function ProfileAboutInner() {
                                 <input
                                     className={inputClass + " font-mono text-xs"}
                                     value={form.socials.twitter}
-                                    onChange={(e) =>
-                                        setForm({ ...form, socials: { ...form.socials, twitter: e.target.value } })
-                                    }
+                                    onChange={(e) => setForm({ ...form, socials: { ...form.socials, twitter: e.target.value } })}
                                     placeholder="https://x.com/Mahdimonir2004"
                                 />
                             </div>
@@ -1166,9 +1137,7 @@ function ProfileAboutInner() {
                                 <input
                                     className={inputClass + " font-mono text-xs"}
                                     value={form.socials.portfolio3d || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, socials: { ...form.socials, portfolio3d: e.target.value } })
-                                    }
+                                    onChange={(e) => setForm({ ...form, socials: { ...form.socials, portfolio3d: e.target.value } })}
                                     placeholder="https://3d.mahdimonir.dev"
                                 />
                             </div>
@@ -1209,18 +1178,14 @@ function ProfileAboutInner() {
                                         <span className="font-mono text-xs text-cyan-400 font-bold uppercase tracking-widest">
                                             SPEC // 0{i + 1}
                                         </span>
-                                        <h3 className="font-bold text-white text-base">
-                                            {spec.title || "Untitled Specialization"}
-                                        </h3>
+                                        <h3 className="font-bold text-white text-base">{spec.title || "Untitled Specialization"}</h3>
                                     </div>
                                     <button
                                         onClick={() => {
                                             if (confirm(`Remove specialization: ${spec.title}?`)) {
                                                 setForm({
                                                     ...form,
-                                                    specializations: form.specializations.filter(
-                                                        (_, idx) => idx !== i
-                                                    ),
+                                                    specializations: form.specializations.filter((_, idx) => idx !== i),
                                                 });
                                             }
                                         }}
@@ -1249,9 +1214,7 @@ function ProfileAboutInner() {
                                     <div>
                                         <label className={labelClass}>
                                             <span>Core Tech &amp; Tools (comma separated)</span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                {(spec.skills || []).length} tags
-                                            </span>
+                                            <span className="text-[10px] text-zinc-500">{(spec.skills || []).length} tags</span>
                                         </label>
                                         <input
                                             className={inputClass + " font-mono text-xs"}
@@ -1288,18 +1251,13 @@ function ProfileAboutInner() {
                                     <div className="flex items-center justify-between">
                                         <label className={labelClass}>
                                             <span>Key Architecture Deliverables &amp; Points</span>
-                                            <span className="text-[10px] text-zinc-500">
-                                                {(spec.points || []).length} items
-                                            </span>
+                                            <span className="text-[10px] text-zinc-500">{(spec.points || []).length} items</span>
                                         </label>
                                         <button
                                             type="button"
                                             onClick={() => {
                                                 const next = [...form.specializations];
-                                                next[i].points = [
-                                                    ...(next[i].points || []),
-                                                    "New deliverable or architectural highlight",
-                                                ];
+                                                next[i].points = [...(next[i].points || []), "New deliverable or architectural highlight"];
                                                 setForm({ ...form, specializations: next });
                                             }}
                                             className="text-[10px] font-bold text-cyan-400 hover:text-white uppercase tracking-wider flex items-center gap-1"
@@ -1350,9 +1308,7 @@ function ProfileAboutInner() {
                             <h2 className="text-base font-bold uppercase tracking-wider text-white">
                                 Work Experience Timeline ({form.experience.length})
                             </h2>
-                            <p className="text-xs text-zinc-400">
-                                Chronological history rendered under Section 01 on /about.
-                            </p>
+                            <p className="text-xs text-zinc-400">Chronological history rendered under Section 01 on /about.</p>
                         </div>
                         <button
                             onClick={addExperience}
@@ -1370,12 +1326,8 @@ function ProfileAboutInner() {
                             >
                                 <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
                                     <div className="flex items-center gap-3">
-                                        <span className="font-mono text-xs text-zinc-500 font-bold">
-                                            #{i + 1}
-                                        </span>
-                                        <h3 className="font-bold text-white text-sm">
-                                            {exp.company || "Untitled Company"}
-                                        </h3>
+                                        <span className="font-mono text-xs text-zinc-500 font-bold">#{i + 1}</span>
+                                        <h3 className="font-bold text-white text-sm">{exp.company || "Untitled Company"}</h3>
                                         {exp.current && (
                                             <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">
                                                 Current Role
@@ -1562,9 +1514,7 @@ function ProfileAboutInner() {
                                 <h2 className="text-base font-bold uppercase tracking-wider text-white">
                                     Formal Degrees ({form.education.length})
                                 </h2>
-                                <p className="text-xs text-zinc-400">
-                                    Academic credentials rendered under Section 05 on /about.
-                                </p>
+                                <p className="text-xs text-zinc-400">Academic credentials rendered under Section 05 on /about.</p>
                             </div>
                             <button
                                 onClick={addEducation}
@@ -1582,12 +1532,8 @@ function ProfileAboutInner() {
                                 >
                                     <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
                                         <div className="flex items-center gap-3">
-                                            <span className="font-mono text-xs text-zinc-500 font-bold">
-                                                #{i + 1}
-                                            </span>
-                                            <h3 className="font-bold text-white text-sm">
-                                                {edu.institution || "Institution"}
-                                            </h3>
+                                            <span className="font-mono text-xs text-zinc-500 font-bold">#{i + 1}</span>
+                                            <h3 className="font-bold text-white text-sm">{edu.institution || "Institution"}</h3>
                                             {edu.current && (
                                                 <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded">
                                                     On-Going
@@ -1680,9 +1626,7 @@ function ProfileAboutInner() {
                                 <h2 className="text-base font-bold uppercase tracking-wider text-white">
                                     Verified Courses &amp; Certifications ({form.courses.length})
                                 </h2>
-                                <p className="text-xs text-zinc-400">
-                                    Industry certifications with verification URLs rendered on /about.
-                                </p>
+                                <p className="text-xs text-zinc-400">Industry certifications with verification URLs rendered on /about.</p>
                             </div>
                             <button
                                 onClick={addCourse}
@@ -1700,12 +1644,8 @@ function ProfileAboutInner() {
                                 >
                                     <div className="flex items-center justify-between border-b border-zinc-800/70 pb-3">
                                         <div className="flex items-center gap-3">
-                                            <span className="font-mono text-xs text-zinc-500 font-bold">
-                                                #{i + 1}
-                                            </span>
-                                            <h3 className="font-bold text-white text-sm">
-                                                {crs.title || "Untitled Course"}
-                                            </h3>
+                                            <span className="font-mono text-xs text-zinc-500 font-bold">#{i + 1}</span>
+                                            <h3 className="font-bold text-white text-sm">{crs.title || "Untitled Course"}</h3>
                                         </div>
                                         <button
                                             onClick={() => {

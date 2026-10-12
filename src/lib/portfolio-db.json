@@ -95,7 +95,7 @@
                 "company": "Rank Nexis",
                 "role": "Full Stack Developer",
                 "period": "Jan 2026 – Jul 2026",
-                "location": "Chattogram, Bangladesh",
+                "location": "Bangladesh",
                 "current": false,
                 "companyUrl": "https://www.ranknexis.com",
                 "companyLogo": "https://www.ranknexis.com/logo-d.png",
@@ -157,14 +157,7 @@
                 "id": "spec-1",
                 "title": "Scalable Multi-Tenant SaaS Architecture",
                 "description": "Architecting secure, isolated multi-tenant systems from day zero. Designing role-based access control (RBAC), database schemas with tenant partitioning, and high-throughput background processing.",
-                "skills": [
-                    "NestJS",
-                    "Next.js",
-                    "PostgreSQL",
-                    "Prisma",
-                    "Redis",
-                    "Cloudinary"
-                ],
+                "skills": ["NestJS", "Next.js", "PostgreSQL", "Prisma", "Redis", "Cloudinary"],
                 "points": [
                     "Tenant workspace isolation & granular RBAC permission matrices",
                     "Idempotent billing & subscription pipelines (Stripe, Mobile Money)",
@@ -175,14 +168,7 @@
                 "id": "spec-2",
                 "title": "Rapid Zero-to-One MVP Prototyping",
                 "description": "Engineering production-ready commercial MVPs within 2 to 4 weeks. Translating abstract business logic into high-velocity React/Next.js frontends and clean RESTful backend architectures.",
-                "skills": [
-                    "Next.js 16",
-                    "React 19",
-                    "Tailwind CSS",
-                    "TypeScript",
-                    "Express.js",
-                    "Vercel"
-                ],
+                "skills": ["Next.js 16", "React 19", "Tailwind CSS", "TypeScript", "Express.js", "Vercel"],
                 "points": [
                     "End-to-end full-stack delivery from concept to production deployment",
                     "Responsive, mobile-first design systems and micro-animations",
@@ -193,14 +179,7 @@
                 "id": "spec-3",
                 "title": "High-Throughput APIs & Microservices",
                 "description": "Building resilient backend services engineered for low latency and high concurrency. Leveraging Go (Golang) and NestJS with modular service boundaries, caching, and database query optimization.",
-                "skills": [
-                    "Go (Golang)",
-                    "NestJS",
-                    "Node.js",
-                    "REST APIs",
-                    "WebSockets",
-                    "Docker"
-                ],
+                "skills": ["Go (Golang)", "NestJS", "Node.js", "REST APIs", "WebSockets", "Docker"],
                 "points": [
                     "Concurrent-safe request handling and connection pool tuning",
                     "Strict OpenAPI / Swagger contracts and type-safe payload validation",
@@ -211,13 +190,7 @@
                 "id": "spec-4",
                 "title": "Relational Database Design & Performance",
                 "description": "Designing normalized relational schemas and optimized queries using PostgreSQL and Prisma ORM. Handling indexing strategies, migration workflows, and complex transactional operations.",
-                "skills": [
-                    "PostgreSQL",
-                    "Neon Postgres",
-                    "Prisma ORM",
-                    "MongoDB",
-                    "Redis"
-                ],
+                "skills": ["PostgreSQL", "Neon Postgres", "Prisma ORM", "MongoDB", "Redis"],
                 "points": [
                     "Complex relational schema design, foreign key constraints, and cascading integrity",
                     "Query profiling, index optimization, and connection pool management",

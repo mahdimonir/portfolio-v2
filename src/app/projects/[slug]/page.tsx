@@ -6,176 +6,167 @@ import ProjectDetailView, { ProjectData } from "./ProjectDetailView";
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  try {
-    const projects = await getProjects();
-    return projects.map((p) => ({
-      slug: p.slug,
-    }));
-  } catch {
-    return [];
-  }
+    try {
+        const projects = await getProjects();
+        return projects.map((p) => ({
+            slug: p.slug,
+        }));
+    } catch {
+        return [];
+    }
 }
 
 interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+    params: Promise<{
+        slug: string;
+    }>;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mahdimonir.dev";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+    const { slug } = await params;
+    const project = await getProjectBySlug(slug);
 
-  if (!project) {
+    if (!project) {
+        return {
+            title: "Project Not Found | Moniruzzaman Mahdi",
+        };
+    }
+
+    const projectUrl = `${baseUrl}/projects/${project.slug}`;
+    const techNames = Array.isArray(project.tech) ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name)) : [];
+
+    const safeImage = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : `${baseUrl}/preview.png`;
+
     return {
-      title: "Project Not Found | Moniruzzaman Mahdi",
-    };
-  }
-
-  const projectUrl = `${baseUrl}/projects/${project.slug}`;
-  const techNames = Array.isArray(project.tech)
-    ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name))
-    : [];
-
-  const safeImage = project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : `${baseUrl}/preview.png`;
-
-  return {
-    title: `${project.title} — Case Study | Mahdi (Moniruzzaman Mahdi)`,
-    description: project.description,
-    keywords: [
-      project.title,
-      project.category || "Full Stack",
-      ...techNames,
-      "Full Stack Development",
-      "Software Architecture",
-      "SaaS MVP",
-      "ERP System",
-      "Custom CMS",
-      "PERN Stack",
-      "MERN Stack",
-      "Case Study",
-      "Mahdi",
-      "Mahdi Monir",
-      "mahdimonir",
-      "Moniruzzaman",
-      "Moniruzzaman Mahdi",
-    ],
-    alternates: {
-      canonical: `/projects/${project.slug}`,
-    },
-    openGraph: {
-      type: "article",
-      url: projectUrl,
-      siteName: "Mahdi (Moniruzzaman Mahdi / mahdimonir) Portfolio",
-      title: `${project.title} — Case Study | Mahdi (Moniruzzaman Mahdi)`,
-      description: project.description,
-      images: [
-        {
-          url: safeImage,
-          width: 1200,
-          height: 630,
-          alt: `${project.title} project screenshot and case study`,
+        title: `${project.title} — Case Study`,
+        description: project.description,
+        keywords: [
+            project.title,
+            project.category || "Full Stack",
+            ...techNames,
+            "Full Stack Development",
+            "Software Architecture",
+            "SaaS MVP",
+            "ERP System",
+            "Custom CMS",
+            "PERN Stack",
+            "MERN Stack",
+            "Case Study",
+            "mahdi",
+            "mahdimonir",
+            "Mahdi Monir",
+            "Moniruzzaman Mahdi",
+        ],
+        alternates: {
+            canonical: `/projects/${project.slug}`,
         },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@Mahdimonir2004",
-      creator: "@Mahdimonir2004",
-      title: `${project.title} — Case Study | Moniruzzaman Mahdi`,
-      description: project.description,
-      images: [safeImage],
-    },
-  };
+        openGraph: {
+            type: "article",
+            url: projectUrl,
+            siteName: "Moniruzzaman Mahdi",
+            title: `${project.title} — Case Study — Moniruzzaman Mahdi`,
+            description: project.description,
+            images: [
+                {
+                    url: safeImage,
+                    width: 1200,
+                    height: 630,
+                    alt: `${project.title} — Production application architecture and case study by Moniruzzaman Mahdi (@mahdimonir)`,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            site: "@Mahdimonir2004",
+            creator: "@Mahdimonir2004",
+            title: `${project.title} — Case Study — Moniruzzaman Mahdi`,
+            description: project.description,
+            images: [safeImage],
+        },
+    };
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const { slug } = await params;
-  const projects = await getProjects();
-  const currentIndex = projects.findIndex(
-    (p) => p.slug.toLowerCase() === slug.toLowerCase()
-  );
+    const { slug } = await params;
+    const projects = await getProjects();
+    const currentIndex = projects.findIndex((p) => p.slug.toLowerCase() === slug.toLowerCase());
 
-  if (currentIndex === -1) {
-    notFound();
-  }
+    if (currentIndex === -1) {
+        notFound();
+    }
 
-  const project = projects[currentIndex] as unknown as ProjectData;
-  const prevProject = (currentIndex > 0 ? projects[currentIndex - 1] : null) as unknown as ProjectData | null;
-  const nextProject = (currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null) as unknown as ProjectData | null;
+    const project = projects[currentIndex] as unknown as ProjectData;
+    const prevProject = (currentIndex > 0 ? projects[currentIndex - 1] : null) as unknown as ProjectData | null;
+    const nextProject = (currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null) as unknown as ProjectData | null;
 
-  const projectUrl = `${baseUrl}/projects/${project.slug}`;
-  const techNames = Array.isArray(project.tech)
-    ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name)).join(", ")
-    : project.stack;
+    const projectUrl = `${baseUrl}/projects/${project.slug}`;
+    const techNames = Array.isArray(project.tech)
+        ? project.tech.map((t: any) => (typeof t === "string" ? t : t.name)).join(", ")
+        : project.stack;
 
-  const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: project.title,
-    headline: project.tagline || project.title,
-    description: project.description,
-    applicationCategory: "WebApplication",
-    operatingSystem: "Web",
-    image: project.image,
-    url: projectUrl,
-    author: {
-      "@type": "Person",
-      name: "Moniruzzaman Mahdi",
-      alternateName: ["Mahdi", "Mahdi Monir", "mahdimonir", "Moniruzzaman"],
-      url: baseUrl,
-    },
-    creator: {
-      "@type": "Person",
-      name: "Moniruzzaman Mahdi",
-      alternateName: ["Mahdi", "Mahdi Monir", "mahdimonir", "Moniruzzaman"],
-    },
-    keywords: techNames,
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: baseUrl,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Projects",
-        item: `${baseUrl}/projects`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
+    const softwareSchema = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
         name: project.title,
-        item: projectUrl,
-      },
-    ],
-  };
+        headline: project.tagline || project.title,
+        description: project.description,
+        applicationCategory: "WebApplication",
+        operatingSystem: "Web",
+        image: {
+            "@type": "ImageObject",
+            contentUrl: project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : `${baseUrl}/preview.png`,
+            name: `${project.title} by Moniruzzaman Mahdi`,
+            caption: `${project.title} screenshot by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`,
+            author: "Moniruzzaman Mahdi",
+        },
+        url: projectUrl,
+        author: {
+            "@type": "Person",
+            name: "Moniruzzaman Mahdi",
+            alternateName: ["mahdi", "mahdimonir", "Mahdi", "Mahdi Monir"],
+            url: baseUrl,
+        },
+        creator: {
+            "@type": "Person",
+            name: "Moniruzzaman Mahdi",
+            alternateName: ["mahdi", "mahdimonir", "Mahdi", "Mahdi Monir"],
+            url: baseUrl,
+        },
+        keywords: techNames,
+    };
 
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <ProjectDetailView
-        project={project}
-        prevProject={prevProject}
-        nextProject={nextProject}
-        position={currentIndex + 1}
-      />
-    </>
-  );
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: baseUrl,
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Projects",
+                item: `${baseUrl}/projects`,
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: project.title,
+                item: projectUrl,
+            },
+        ],
+    };
+
+    return (
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <ProjectDetailView project={project} prevProject={prevProject} nextProject={nextProject} position={currentIndex + 1} />
+        </>
+    );
 }

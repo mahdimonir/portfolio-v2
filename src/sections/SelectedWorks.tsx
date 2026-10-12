@@ -57,7 +57,8 @@ const ScrollStackCard = ({ project, index }: ScrollStackCardProps) => {
           <img
             src={project.image && !project.image.startsWith("REPLACE_WITH") ? project.image : "/preview.png"}
             className="main-image"
-            alt={project.title}
+            alt={`${project.title} — Software Architecture & Full-Stack Project by Moniruzzaman Mahdi (@mahdimonir / Mahdi)`}
+            title={`${project.title} — Moniruzzaman Mahdi`}
             onLoad={() => window.dispatchEvent(new Event("resize"))}
           />
         </Link>

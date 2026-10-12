@@ -201,7 +201,7 @@ const Navigation = () => {
                             exit={{ opacity: 0, transition: { duration: 0.6 } }}
                             className="text-xs text-white/20 font-mono tracking-widest mt-8 md:mt-0 md:self-end"
                         >
-                            © 2026 {db.firstName}
+                            © 2026 {db.name || "Moniruzzaman Mahdi"}
                         </motion.p>
                     </motion.div>
                 )}
