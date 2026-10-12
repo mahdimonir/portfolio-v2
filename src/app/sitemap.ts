@@ -46,6 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             images: [
                 `${baseUrl}/Moniruzzaman_Mahdi.png`,
                 `${baseUrl}/mahdimonir.png`,
+                `${baseUrl}/mahdi.png`,
                 `${baseUrl}/preview.png`,
                 `${baseUrl}/opengraph-image`,
             ],
@@ -58,6 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             images: [
                 `${baseUrl}/Moniruzzaman_Mahdi.png`,
                 `${baseUrl}/mahdimonir.png`,
+                `${baseUrl}/mahdi.png`,
                 `${baseUrl}/preview.png`,
                 `${baseUrl}/opengraph-image`,
             ],
