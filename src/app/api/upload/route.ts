@@ -40,10 +40,29 @@ export async function POST(request: NextRequest) {
 
     const cloudinary = getCloudinary();
 
+    const folder = (formData.get("folder") as string) || "portfolio-uploads";
+
     const uploadResponse = await cloudinary.uploader.upload(dataUri, {
-      folder: "portfolio-uploads",
+      folder,
       resource_type: "auto",
+      use_filename: true,
+      unique_filename: true,
     });
+
+    // If an oldUrl / replaceUrl was provided, delete the previous Cloudinary asset
+    const oldUrl =
+      (formData.get("oldUrl") as string | null) ||
+      (formData.get("replaceUrl") as string | null) ||
+      (formData.get("previousUrl") as string | null);
+
+    let deletedOldResult: any = null;
+    if (oldUrl && typeof oldUrl === "string" && oldUrl.includes("cloudinary.com")) {
+      try {
+        deletedOldResult = await deleteFromCloudinary(oldUrl);
+      } catch (delErr) {
+        console.warn("Failed to delete previous Cloudinary asset:", delErr);
+      }
+    }
 
     return NextResponse.json({
       success: true,
@@ -52,6 +71,7 @@ export async function POST(request: NextRequest) {
       width: uploadResponse.width,
       height: uploadResponse.height,
       format: uploadResponse.format,
+      deletedOld: deletedOldResult,
     });
   } catch (error: any) {
     console.error("Cloudinary upload error:", error);

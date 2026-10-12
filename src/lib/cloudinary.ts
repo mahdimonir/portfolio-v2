@@ -54,7 +54,10 @@ export async function deleteFromCloudinary(urlOrPublicId: string) {
 
   const c = getCloudinary();
   try {
-    const res = await c.uploader.destroy(publicId, { invalidate: true });
+    let res = await c.uploader.destroy(publicId, { invalidate: true, resource_type: "image" });
+    if (res && res.result === "not found") {
+      res = await c.uploader.destroy(publicId, { invalidate: true, resource_type: "raw" });
+    }
     return res;
   } catch (err) {
     console.error("Cloudinary delete error:", err);

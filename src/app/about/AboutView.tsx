@@ -72,7 +72,7 @@ export default function AboutView({ data }: AboutViewProps) {
                         className="group inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1.5 transition-transform" />
-                        <span>Back To Home</span>
+                        <span>{data.about?.topBackLabel || "Back To Home"}</span>
                     </Link>
 
                     <div className="flex items-center gap-3 sm:gap-4">
@@ -85,14 +85,14 @@ export default function AboutView({ data }: AboutViewProps) {
                             title="Download Official Resume PDF"
                         >
                             <Download className="w-3.5 h-3.5 text-cyan-400 group-hover:text-black transition-colors" />
-                            <span>Download Resume</span>
+                            <span>{data.about?.topResumeLabel || "Download Resume"}</span>
                         </a>
 
                         <Link
                             href="/#contact"
                             className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 bg-white text-black hover:bg-zinc-200 text-xs font-mono font-bold uppercase tracking-[0.18em] transition-colors"
                         >
-                            <span>Initiate Contact</span>
+                            <span>{data.about?.topContactLabel || "Initiate Contact"}</span>
                         </Link>
                     </div>
                 </div>
@@ -179,12 +179,12 @@ export default function AboutView({ data }: AboutViewProps) {
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                                         <a
-                                            href="https://mahdimonir.dev"
+                                            href={data.about?.websiteUrl || "https://mahdimonir.dev"}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="hover:text-white transition-colors"
                                         >
-                                            mahdimonir.dev
+                                            {(data.about?.websiteUrl || "mahdimonir.dev").replace(/^https?:\/\//, "")}
                                         </a>
                                     </div>
                                 </div>
@@ -204,8 +204,12 @@ export default function AboutView({ data }: AboutViewProps) {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                                     <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[11px] font-mono text-zinc-300">
-                                        <span className="uppercase tracking-widest font-bold">ENGINEERING DOSSIER</span>
-                                        <span className="text-cyan-400">STATUS: ACTIVE</span>
+                                        <span className="uppercase tracking-widest font-bold">
+                                            {data.about?.portraitTag || "ENGINEERING DOSSIER"}
+                                        </span>
+                                        <span className="text-cyan-400">
+                                            {data.about?.portraitStatus || "STATUS: ACTIVE"}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -219,13 +223,14 @@ export default function AboutView({ data }: AboutViewProps) {
                         {/* Left Column Label */}
                         <div className="md:col-span-4 lg:col-span-3 space-y-2">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500 block">
-                                01 // CAREER
+                                {data.about?.experienceBadge || "01 // CAREER"}
                             </span>
                             <h3 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                                Work Experience
+                                {data.about?.experienceHeading || "Work Experience"}
                             </h3>
                             <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                                Production track record across software engineering, client platforms, and high-concurrency systems.
+                                {data.about?.experienceDescription ||
+                                    "Production track record across software engineering, client platforms, and high-concurrency systems."}
                             </p>
                         </div>
 
@@ -303,20 +308,23 @@ export default function AboutView({ data }: AboutViewProps) {
                         {/* Left Column Label */}
                         <div className="md:col-span-4 lg:col-span-3 space-y-2">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500 block">
-                                02 // SYSTEMS
+                                {data.about?.projectsBadge || "02 // SYSTEMS"}
                             </span>
                             <h3 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                                Flagship Systems
+                                {data.about?.projectsHeading || "Flagship Systems"}
                             </h3>
                             <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                                Production web platforms, SaaS multi-tenancy, and high-performance engines built end-to-end.
+                                {data.about?.projectsDescription ||
+                                    "Production web platforms, SaaS multi-tenancy, and high-performance engines built end-to-end."}
                             </p>
                             <div className="pt-3">
                                 <Link
                                     href="/projects"
                                     className="font-mono text-xs uppercase tracking-widest text-zinc-400 hover:text-white inline-flex items-center gap-1 transition-colors"
                                 >
-                                    <span>Archive ({data.projects?.length || 0})</span>
+                                    <span>
+                                        {data.about?.projectsArchiveLabel || "Archive"} ({data.projects?.length || 0})
+                                    </span>
                                     <span>↗</span>
                                 </Link>
                             </div>
@@ -379,13 +387,14 @@ export default function AboutView({ data }: AboutViewProps) {
                         {/* Left Column Label */}
                         <div className="md:col-span-4 lg:col-span-3 space-y-2">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500 block">
-                                03 // CAPABILITIES
+                                {data.about?.skillsBadge || "03 // CAPABILITIES"}
                             </span>
                             <h3 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                                Technical Stack
+                                {data.about?.skillsHeading || "Technical Stack"}
                             </h3>
                             <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                                Languages, backend frameworks, relational databases, cloud infrastructure, and tool ecosystem.
+                                {data.about?.skillsDescription ||
+                                    "Languages, backend frameworks, relational databases, cloud infrastructure, and tool ecosystem."}
                             </p>
                         </div>
 
@@ -432,13 +441,14 @@ export default function AboutView({ data }: AboutViewProps) {
                         {/* Left Column Label */}
                         <div className="md:col-span-4 lg:col-span-3 space-y-2">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block">
-                                04 // SPECIALIZATIONS
+                                {data.about?.specializationsBadge || "04 // SPECIALIZATIONS"}
                             </span>
                             <h3 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                                Engineering Specializations
+                                {data.about?.specializationsHeading || "Engineering Specializations"}
                             </h3>
                             <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                                In-depth architectural competencies, multi-tenant engineering, rapid zero-to-one MVP delivery, and high-concurrency data systems.
+                                {data.about?.specializationsDescription ||
+                                    "In-depth architectural competencies, multi-tenant engineering, rapid zero-to-one MVP delivery, and high-concurrency data systems."}
                             </p>
                         </div>
 
@@ -525,13 +535,14 @@ export default function AboutView({ data }: AboutViewProps) {
                         {/* Left Column Label */}
                         <div className="md:col-span-4 lg:col-span-3 space-y-2">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500 block">
-                                05 // CREDENTIALS
+                                {data.about?.credentialsBadge || "05 // CREDENTIALS"}
                             </span>
                             <h3 className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                                Education &amp; Certifications
+                                {data.about?.credentialsHeading || "Education & Certifications"}
                             </h3>
                             <p className="font-sans text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                                Formal academic background, verified industry courses, and cohort training.
+                                {data.about?.credentialsDescription ||
+                                    "Formal academic background, verified industry courses, and cohort training."}
                             </p>
                         </div>
 
@@ -541,7 +552,7 @@ export default function AboutView({ data }: AboutViewProps) {
                             <div className="space-y-6">
                                 <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-white font-bold flex items-center gap-2">
                                     <GraduationCap className="w-4 h-4 text-cyan-400" />
-                                    <span>Formal Education</span>
+                                    <span>{data.about?.educationHeading || "Formal Education"}</span>
                                 </h4>
 
                                 <div className="space-y-5">
@@ -567,7 +578,7 @@ export default function AboutView({ data }: AboutViewProps) {
                             <div className="space-y-6">
                                 <h4 className="font-mono text-xs uppercase tracking-[0.2em] text-white font-bold flex items-center gap-2">
                                     <Award className="w-4 h-4 text-cyan-400" />
-                                    <span>Certifications &amp; Cohorts</span>
+                                    <span>{data.about?.coursesHeading || "Certifications & Cohorts"}</span>
                                 </h4>
 
                                 <div className="space-y-5">
@@ -608,13 +619,14 @@ export default function AboutView({ data }: AboutViewProps) {
                     <div className="p-8 sm:p-12 md:p-16 border border-white/15 bg-zinc-950 flex flex-col md:flex-row md:items-center justify-between gap-8">
                         <div className="space-y-3 max-w-xl">
                             <span className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400 block font-bold">
-                                // LET&apos;S COLLABORATE
+                                {data.about?.ctaLabel || "// LET'S COLLABORATE"}
                             </span>
                             <h3 className="font-sans font-black text-3xl sm:text-4xl md:text-5xl uppercase tracking-tighter text-white leading-tight">
                                 {data.about?.ctaHeading || "Have an architecture or system to build?"}
                             </h3>
                             <p className="font-sans text-sm text-zinc-400 leading-relaxed">
-                                {data.about?.ctaDescription || "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering."}
+                                {data.about?.ctaDescription ||
+                                    "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering."}
                             </p>
                         </div>
 
@@ -627,13 +639,13 @@ export default function AboutView({ data }: AboutViewProps) {
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/20 bg-white/5 hover:bg-white hover:text-black font-mono font-bold text-xs uppercase tracking-[0.18em] transition-all duration-300"
                             >
                                 <Download className="w-4 h-4 text-cyan-400 hover:text-black transition-colors" />
-                                <span>Download PDF Resume</span>
+                                <span>{data.about?.ctaResumeButtonText || "Download PDF Resume"}</span>
                             </a>
                             <Link
                                 href="/#contact"
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-black hover:bg-zinc-200 font-mono font-bold text-xs uppercase tracking-[0.18em] transition-colors shadow-lg"
                             >
-                                <span>Initiate Contact</span>
+                                <span>{data.about?.ctaContactButtonText || "Initiate Contact"}</span>
                                 <ArrowUpRight className="w-4 h-4" />
                             </Link>
                         </div>

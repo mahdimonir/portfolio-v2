@@ -3,10 +3,12 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import db from "@/lib/portfolio-db.json";
+import { usePortfolioData } from "@/lib/PortfolioContext";
+import dbFallback from "@/lib/portfolio-db.json";
 
 const About = () => {
   const [vh, setVh] = useState(800);
+  const data = usePortfolioData();
 
   useEffect(() => {
     const updateVh = () => setVh(window.innerHeight);
@@ -29,28 +31,74 @@ const About = () => {
   const y4 = useTransform(scrollY, [vh * 0.28, vh * 0.65], [80, 0]);
   const opacity4 = useTransform(scrollY, [vh * 0.28, vh * 0.58], [0, 1]);
 
-  // Latest education entry (BSc, On Going)
-  const latestEdu = db.about.education[0];
+  // Dynamic portfolio data with safe fallbacks
+  const educations = data?.about?.education?.length
+    ? data.about.education
+    : dbFallback.about.education;
+  const latestEdu = educations[0] || {
+    institution: "National University",
+    degree: "Bachelor of Science",
+    period: "2024 – On Going",
+  };
+
+  const experiences = data?.about?.experience?.length
+    ? data.about.experience
+    : dbFallback.about.experience;
+
   // Latest (current) job
-  const currentJob = db.about.experience.find((e) => e.current && e.companyUrl);
+  const currentJob =
+    experiences.find((e: any) => e.current) ||
+    experiences[0] || {
+      company: "Kodevio Limited",
+      role: "Full Stack Developer",
+      period: "Aug 2026 – Present",
+    };
+
   // Most recent past job
-  const recentJob = db.about.experience.find((e) => !e.current && e.companyUrl);
+  const recentJob =
+    experiences.find((e: any) => !e.current && e.company !== currentJob.company) ||
+    experiences[1];
+
+  const focusList: string[] = (
+    data?.about?.focus?.length
+      ? data.about.focus
+      : data?.about?.specializations?.length
+      ? data.about.specializations.map((s: any) => s.title)
+      : dbFallback.about.focus
+  )
+    .map((item: any) => {
+      if (typeof item === "string" && item.trim().startsWith("{")) {
+        try {
+          const parsed = JSON.parse(item);
+          return parsed.title || item;
+        } catch {
+          return item;
+        }
+      }
+      if (typeof item === "object" && item !== null) {
+        return item.title || "";
+      }
+      return String(item || "");
+    })
+    .filter(Boolean);
+
+  const sectionLabel = data?.about?.label || dbFallback.about.label || "Background & Data";
 
   return (
-    <section className="h-screen w-full bg-white text-black font-sans px-6 md:px-12 lg:px-16 overflow-hidden flex items-center justify-center relative">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-y-8 md:gap-x-12 w-full max-w-[1600px] mx-auto">
+    <section className="h-screen w-full bg-white text-black font-sans px-6 md:px-12 lg:px-16 overflow-hidden flex items-center justify-center relative pointer-events-auto">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-y-8 md:gap-x-12 w-full max-w-[1600px] mx-auto pointer-events-auto">
 
         {/* Left Column: Context Label */}
         <motion.div
-          className="md:col-span-3 lg:col-span-3 pt-2 flex flex-col gap-3"
+          className="md:col-span-3 lg:col-span-3 pt-2 flex flex-col gap-3 relative z-30 pointer-events-auto"
           style={{ y: y1, opacity: opacity1 }}
         >
           <h2 className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest">
-            {db.about.label}
+            {sectionLabel}
           </h2>
           <Link
             href="/about"
-            className="group inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-black/60 hover:text-black transition-colors font-bold w-fit"
+            className="group inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-black/70 hover:text-black transition-colors font-bold w-fit cursor-pointer pointer-events-auto relative z-40 py-1"
           >
             <span>Full Profile</span>
             <span className="group-hover:translate-x-0.5 transition-transform">↗</span>
@@ -126,7 +174,7 @@ const About = () => {
               03. Focus
             </h3>
             <ul className="flex flex-col">
-              {db.about.focus.map((item) => (
+              {focusList.map((item: string) => (
                 <li key={item} className="font-sans text-xl md:text-2xl lg:text-3xl font-bold leading-tight tracking-tight">
                   {item}
                 </li>

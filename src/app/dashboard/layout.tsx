@@ -19,6 +19,7 @@ import {
     PanelLeftClose,
     PanelLeftOpen,
     ChevronRight,
+    Sliders,
 } from "lucide-react";
 import { DashboardLoadingProvider, useDashboardLoading } from "@/context/DashboardLoadingContext";
 
@@ -165,8 +166,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         },
         {
             href: "/dashboard/about",
-            label: "About & Career",
-            icon: <FileText className="w-4 h-4" />,
+            label: "Profile & About",
+            icon: <User className="w-4 h-4" />,
         },
         {
             href: "/dashboard/skills",
@@ -174,14 +175,9 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             icon: <Cpu className="w-4 h-4" />,
         },
         {
-            href: "/dashboard/profile",
-            label: "Profile & Hero",
-            icon: <User className="w-4 h-4" />,
-        },
-        {
-            href: "/dashboard/quote",
-            label: "Quote & Philosophy",
-            icon: <Quote className="w-4 h-4" />,
+            href: "/dashboard/sections",
+            label: "CMS & Sections UI",
+            icon: <Sliders className="w-4 h-4" />,
         },
         {
             href: "/dashboard/inquiries",

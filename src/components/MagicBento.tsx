@@ -7,7 +7,7 @@ const MagicBento = () => {
 
   const { projectsCount, yearsExperience, engineeringHours } = useMemo(() => {
     // 1. Projects count from actual database projects
-    const pCount = Array.isArray(data?.projects) ? data.projects.length : 10;
+    const pCount = Array.isArray(data?.projects) && data.projects.length > 0 ? data.projects.length : 12;
 
     // 2. Years experience calculated from real career history in DB
     let earliestYear = 2023;
@@ -23,10 +23,10 @@ const MagicBento = () => {
       });
     }
     const currentYear = new Date().getFullYear();
-    const calculatedYears = Math.max(2, currentYear - earliestYear);
+    const calculatedYears = Math.max(3, currentYear - earliestYear);
 
     // 3. Engineering Hours: based on project count and engineering track record
-    const calculatedHours = Math.max(600, pCount * 90 + calculatedYears * 250);
+    const calculatedHours = Math.max(1200, pCount * 90 + calculatedYears * 250);
 
     const stats = (data as unknown as { stats?: { projects?: number; years?: number; hours?: number } })?.stats;
 
@@ -85,41 +85,53 @@ const MagicBento = () => {
   );
 };
 
-const SwissItem = ({ value, suffix, label, description }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
+interface SwissItemProps {
+  value: number;
+  suffix: string;
+  label: string;
+  description: string;
+}
+
+const SwissItem = ({ value, suffix, label, description }: SwissItemProps) => {
+  const [count, setCount] = useState(value);
+  const ref = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    if (value && !hasAnimated.current) {
+      setCount(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (!value) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
-          animate();
+          const duration = 1200;
+          const startTime = performance.now();
+
+          const update = (time: number) => {
+            const progress = Math.min((time - startTime) / duration, 1);
+            setCount(Math.floor(progress * value));
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            } else {
+              setCount(value);
+            }
+          };
+
+          requestAnimationFrame(update);
         }
       },
-      { threshold: 0.4 } // Swiss: intentional visibility
+      { threshold: 0.15 }
     );
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
-
-  const animate = () => {
-    const duration = 1200;
-    const startTime = performance.now();
-
-    const update = (time) => {
-      const progress = Math.min((time - startTime) / duration, 1);
-      setCount(Math.floor(progress * value));
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      }
-    };
-
-    requestAnimationFrame(update);
-  };
+  }, [value]);
 
   return (
     <div ref={ref} className="flex flex-col items-start">
@@ -131,7 +143,7 @@ const SwissItem = ({ value, suffix, label, description }) => {
 
       {/* Number */}
       <h3 className="mb-6 font-sans text-8xl md:text-9xl font-bold tracking-tight leading-none">
-        {count.toLocaleString()}
+        {(count ?? value).toLocaleString()}
         {suffix}
       </h3>
 

@@ -56,8 +56,35 @@ export interface PortfolioData {
     summary?: string;
     avatarUrl?: string;
     resumeUrl?: string;
+    topBackLabel?: string;
+    topResumeLabel?: string;
+    topContactLabel?: string;
+    portraitTag?: string;
+    portraitStatus?: string;
+    websiteUrl?: string;
+    experienceBadge?: string;
+    experienceHeading?: string;
+    experienceDescription?: string;
+    projectsBadge?: string;
+    projectsHeading?: string;
+    projectsDescription?: string;
+    projectsArchiveLabel?: string;
+    skillsBadge?: string;
+    skillsHeading?: string;
+    skillsDescription?: string;
+    specializationsBadge?: string;
+    specializationsHeading?: string;
+    specializationsDescription?: string;
+    credentialsBadge?: string;
+    credentialsHeading?: string;
+    credentialsDescription?: string;
+    educationHeading?: string;
+    coursesHeading?: string;
+    ctaLabel?: string;
     ctaHeading?: string;
     ctaDescription?: string;
+    ctaResumeButtonText?: string;
+    ctaContactButtonText?: string;
     specializations: Array<{
       id?: string;
       title: string;
@@ -247,6 +274,7 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       const parsed = JSON.parse(raw);
       if (parsed.about) localDbAbout = parsed.about;
       if (parsed.resumeUrl) localDbResumeUrl = parsed.resumeUrl;
+      else if (parsed.about?.resumeUrl) localDbResumeUrl = parsed.about.resumeUrl;
     } catch {}
 
     const assembled: PortfolioData = {
@@ -260,7 +288,7 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
       timezone: user.timezone || "",
       availability: user.availability,
       responseTime: user.responseTime,
-      resumeUrl: localDbResumeUrl || "/resume.pdf",
+      resumeUrl: localDbResumeUrl || localDbAbout?.resumeUrl || "/resume.pdf",
       socials: {
         github: user.githubUrl,
         linkedin: user.linkedinUrl,
@@ -302,11 +330,48 @@ export async function getNormalizedPortfolio(): Promise<PortfolioData> {
         focus: user.focus,
         summary: localDbAbout.summary || (fallbackDb.about as any).summary || user.heroSubheadline,
         avatarUrl: localDbAbout.avatarUrl || "/Moniruzzaman_Mahdi.png",
-        resumeUrl: localDbResumeUrl || "/resume.pdf",
+        resumeUrl: localDbResumeUrl || localDbAbout?.resumeUrl || "/resume.pdf",
+        topBackLabel: localDbAbout.topBackLabel || "Back To Home",
+        topResumeLabel: localDbAbout.topResumeLabel || "Download Resume",
+        topContactLabel: localDbAbout.topContactLabel || "Initiate Contact",
+        portraitTag: localDbAbout.portraitTag || "ENGINEERING DOSSIER",
+        portraitStatus: localDbAbout.portraitStatus || "STATUS: ACTIVE",
+        websiteUrl: localDbAbout.websiteUrl || "https://mahdimonir.dev",
+        experienceBadge: localDbAbout.experienceBadge || "01 // CAREER",
+        experienceHeading: localDbAbout.experienceHeading || "Work Experience",
+        experienceDescription:
+          localDbAbout.experienceDescription ||
+          "Production track record across software engineering, client platforms, and high-concurrency systems.",
+        projectsBadge: localDbAbout.projectsBadge || "02 // SYSTEMS",
+        projectsHeading: localDbAbout.projectsHeading || "Flagship Systems",
+        projectsDescription:
+          localDbAbout.projectsDescription ||
+          "Production web platforms, SaaS multi-tenancy, and high-performance engines built end-to-end.",
+        projectsArchiveLabel: localDbAbout.projectsArchiveLabel || "Archive",
+        skillsBadge: localDbAbout.skillsBadge || "03 // CAPABILITIES",
+        skillsHeading: localDbAbout.skillsHeading || "Technical Stack",
+        skillsDescription:
+          localDbAbout.skillsDescription ||
+          "Languages, backend frameworks, relational databases, cloud infrastructure, and tool ecosystem.",
+        specializationsBadge: localDbAbout.specializationsBadge || "04 // SPECIALIZATIONS",
+        specializationsHeading: localDbAbout.specializationsHeading || "Engineering Specializations",
+        specializationsDescription:
+          localDbAbout.specializationsDescription ||
+          "In-depth architectural competencies, multi-tenant engineering, rapid zero-to-one MVP delivery, and high-concurrency data systems.",
+        credentialsBadge: localDbAbout.credentialsBadge || "05 // CREDENTIALS",
+        credentialsHeading: localDbAbout.credentialsHeading || "Education & Certifications",
+        credentialsDescription:
+          localDbAbout.credentialsDescription ||
+          "Formal academic background, verified industry courses, and cohort training.",
+        educationHeading: localDbAbout.educationHeading || "Formal Education",
+        coursesHeading: localDbAbout.coursesHeading || "Certifications & Cohorts",
+        ctaLabel: localDbAbout.ctaLabel || "// LET'S COLLABORATE",
         ctaHeading: localDbAbout.ctaHeading || "Have an architecture or system to build?",
         ctaDescription:
           localDbAbout.ctaDescription ||
           "Available for high-impact full-stack roles, system architecture consulting, and rapid MVP engineering.",
+        ctaResumeButtonText: localDbAbout.ctaResumeButtonText || "Download PDF Resume",
+        ctaContactButtonText: localDbAbout.ctaContactButtonText || "Initiate Contact",
         specializations: parseSpecializations(user.focus, localDbAbout.specializations || (fallbackDb.about as any).specializations),
       },
       projects:
